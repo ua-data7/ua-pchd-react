@@ -217,3 +217,8 @@ h6 {
 .pc-color-text-white {
 	color: #ffffff;
 }
+
+.centered {
+display: flex;
+justify-content: center;
+}
