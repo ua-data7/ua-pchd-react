@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Button, Jumbotron } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
 
+import Start from './formSections/Start'
+
 class VaccineInterestForm extends Component {
   
   constructor(props) {
@@ -11,6 +13,11 @@ class VaccineInterestForm extends Component {
       language: null,
     }
 
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({[event.target.name]: event.target.value});
   }
 
   render() {
@@ -25,7 +32,20 @@ class VaccineInterestForm extends Component {
                 onClick={() => this.props.changeLanguage('es')}>
           Español
         </Button>
-        <h2>{t('Welcome to React')}</h2>
+        <h4>
+          {t('form_title')}
+        </h4>
+        
+        <p>
+          {t('form_instructions')}
+        </p>
+
+        <p>
+          {t('form_disclaimer')}
+        </p>
+
+        <Start handleChange={this.handleChange}></Start>
+
       </>
 
     );
