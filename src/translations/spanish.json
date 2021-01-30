@@ -5,5 +5,6 @@
     "first_name": "Nombre",
     "last_name": "Apellido",
     "dob": "Fecha de nacimiento",
-    "sex": "Sexo"
+    "sex": "Sexo",
+    "address_instructions": "Por favor ingrese su dirección debajo. Debe completar la informatión  de ciudad, estado, y código postal en los espacios designados. En el área de Dirección Local, incluya solo el número de la casa y el nombre de la calle."
 }

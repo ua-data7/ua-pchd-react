@@ -68,6 +68,14 @@ class App extends Component {
           {step === 'landing' &&  this.renderLanding()}
           {step === 'form' &&  this.renderForm()}
         </div>
+
+        <footer className='mt-auto py-3 pc-color-gray-lightest'>
+          <div class="row">
+            <div class="container centered">
+              2021 Pima County
+            </div>
+          </div>
+        </footer>
       </>
     );
   }

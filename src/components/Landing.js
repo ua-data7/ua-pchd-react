@@ -25,7 +25,7 @@ class Landing extends Component {
 
     return (
       <>  
-        <Jumbotron className="pc-color-gray-lightest">
+        {/* <Jumbotron className="pc-color-gray-lightest"> */}
           <h4 className="pc-color-text-primary-darker">
             Pima County Vaccine Interest Form
           </h4>
@@ -36,8 +36,6 @@ class Landing extends Component {
           <p>      
             Completar este formulario solo registrará su interés en recibir la vacuna para COVID-19. <b>No tiene cita para la vacuna en este momento.</b> Una vez que se verifique su elegibilidad, recibirá un correo electrónico del Condado de Pima con más detalles sobre cómo programar su cita por medio de myChart para recibir la vacuna.
           </p>
-
-
 
           <ReCAPTCHA
             sitekey="6LdEm0EaAAAAAD5G7tbDWA0woDjFqlSvqyN2TUqL"
@@ -51,7 +49,7 @@ class Landing extends Component {
             Continue
           </Button>
 
-        </Jumbotron>
+        {/* </Jumbotron> */}
       </>
 
     );

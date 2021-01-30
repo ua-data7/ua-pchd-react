@@ -1,4 +1,10 @@
 .App {
     padding-top: 30px;
+    padding-bottom: 30px;
 }
   
+.centered {
+    display: flex;
+    justify-content: center;
+}
+    

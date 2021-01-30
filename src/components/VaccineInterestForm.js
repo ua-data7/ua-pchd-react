@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Jumbotron } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
 
 import Start from './formSections/Start'
@@ -44,7 +44,10 @@ class VaccineInterestForm extends Component {
           {t('form_disclaimer')}
         </p>
 
-        <Start handleChange={this.handleChange}></Start>
+        <Form className="pt-4">
+          <Start handleChange={this.handleChange}></Start>
+        </Form>
+        
 
       </>
 

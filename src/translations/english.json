@@ -5,7 +5,8 @@
     "first_name": "First Name",
     "last_name": "Last Name",
     "dob": "Date of Birth",
-    "sex": "Legal Sex"
+    "sex": "Legal Sex",
+    "address_instructions": "Please enter your address below. You must fill the in the city, state, and zip code fields. Please enter only the street address in the Local Address field."
 }
   
 
