@@ -2,12 +2,15 @@ import React, { Component } from "react";
 import { Button, Form, Col, Alert, InputGroup } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
 import { stateOptions, monthOptions, vaccineTypeOptions, vaccineLocationOptions } from "./Choices";
+
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-import { CalendarEvent } from 'react-bootstrap-icons';
+
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { CalendarEvent } from 'react-bootstrap-icons';
+
 import { Formik } from 'formik';
 
 class Start extends Component {
@@ -16,51 +19,59 @@ class Start extends Component {
     super(props);
 
     this.state = {
+    
     }
-
   }
 
   toggleSSN() {
     var x = document.getElementById("ssn");
-  if (x.type === "password") {
-    x.type = "text";
-  } else {
-    x.type = "password";
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
   }
-  }
+
   render() {
     const { t } = this.props;
-    
-    const CustomDatepickerInput = ({ value, onClick }) => (
-      <InputGroup className="mb-3">
+
+
+    const CustomDatepickerInput = React.forwardRef((props, ref) => {
+      return (
+        <InputGroup className="mb-3">
         <InputGroup.Prepend>
           <InputGroup.Text id="basic-addon1">
-          <CalendarEvent onClick={onClick}></CalendarEvent>
+          <CalendarEvent onClick={props.onClick}></CalendarEvent>
           </InputGroup.Text>
           
         </InputGroup.Prepend>
         <Form.Control
-          value={value} onClick={onClick} placeholder="Select Date"
+          value={props.value} onClick={props.onClick} onChange={this.props.handleChange} placeholder="Select Date"
         />
       </InputGroup>
-
-    );
+      );
+    });
+  
    
     return (
       <>
         <Form.Row>
-          <Form.Group as={Col} md="4" xs="12">
+          <Form.Group as={Col} md="4" sm="6" xs="12">
             <Form.Label>
               {t('first_name')} <span className="pc-color-text-secondary-dark">*</span>
             </Form.Label>
-            <Form.Control placeholder={t('first_name')}/>
+            <Form.Control placeholder={t('first_name')}
+                          name="first_name"
+                          onChange={this.props.handleChange}/>
           </Form.Group>
 
-          <Form.Group as={Col} md="4" xs="12">
+          <Form.Group as={Col} md="4" sm="6" xs="12">
             <Form.Label>
               {t('last_name')} <span className="pc-color-text-secondary-dark">*</span>
             </Form.Label>
-            <Form.Control placeholder={t('last_name')}/>
+            <Form.Control placeholder={t('last_name')}
+                          name="last_name"
+                          onChange={this.props.handleChange}/>
           </Form.Group>
         </Form.Row>
         
@@ -69,14 +80,18 @@ class Start extends Component {
         </Form.Label>
         
         <Form.Row>   
-            <Col md="2" xs="6">
-              <Form.Control as="select" custom placeholder="Month" defaultValue="">
+            <Col lg="4" md="4" sm="6" xs="6">
+              <Form.Control as="select"
+                            custom
+                            placeholder="Month"
+                            defaultValue=""
+                            onChange={this.props.updateBirthday}>
                 <option value="" disabled>Month</option>
                 {monthOptions.map((option) => <option key={option.value} value={option.value}>{option.display}</option>)}
               </Form.Control>
             </Col>
 
-            <Col md="1" xs="3">
+            <Col lg="2" md="2" sm="3" xs="3">
               <Form.Control type="number"
                             min="1"
                             max="31"
@@ -84,7 +99,7 @@ class Start extends Component {
               </Form.Control>
             </Col>
 
-            <Col md="1" xs="3">
+            <Col lg="2" md="2" sm="3" xs="3">
               <Form.Control type="number"
                             min="1900"
                             max="2021"
@@ -98,7 +113,7 @@ class Start extends Component {
             </Form.Group>
         </Form.Row>
 
-        <Form.Row>
+        <Form.Row className="mt-2">
           <Form.Group as={Col}>
             <Form.Label>
               {t('sex')} <span className="pc-color-text-secondary-dark">*</span>
@@ -124,7 +139,7 @@ class Start extends Component {
         </Form.Row>
 
         <Form.Row>
-          <Form.Group as={Col} md="4">
+          <Form.Group as={Col} lg="4" md="6">
             <Form.Label>{t('email')}</Form.Label>
             <Form.Control type="email" placeholder="Enter email"/>
             <Form.Text className="text-muted">
@@ -148,14 +163,14 @@ class Start extends Component {
         </Form.Group>
 
         <Form.Row>
-            <Form.Group as={Col}>
+            <Form.Group as={Col} md="6" xs="12">
               <Form.Label>
                 City <span className="pc-color-text-secondary-dark">*</span>
               </Form.Label>
               <Form.Control />
             </Form.Group>
 
-            <Form.Group as={Col}>
+            <Form.Group as={Col} md="3" xs="6">
               <Form.Label>
                 State <span className="pc-color-text-secondary-dark">*</span>
               </Form.Label>
@@ -164,7 +179,7 @@ class Start extends Component {
               </Form.Control>
             </Form.Group>
 
-            <Form.Group as={Col}>
+            <Form.Group as={Col} md="3" xs="6">
             <Form.Label>
               Zip <span className="pc-color-text-secondary-dark">*</span>
             </Form.Label>
@@ -172,7 +187,7 @@ class Start extends Component {
             </Form.Group>
         </Form.Row>
 
-        <Form.Row>
+        <Form.Row className="mt-3">
           <Form.Group as={Col}>
             <Form.Label>
               {t('home_phone')} <span className="pc-color-text-secondary-dark">*</span>
@@ -208,7 +223,7 @@ class Start extends Component {
           </Form.Group>
         </Form.Row>
 
-        <Form.Row>
+        <Form.Row className="mt-3">
           <Form.Group as={Col} md="4">
             <Form.Label>
               Last 4 digits of SSN (Optional)
@@ -218,7 +233,7 @@ class Start extends Component {
           </Form.Group>
         </Form.Row>
 
-        <Form.Row>
+        <Form.Row className="mt-3">
           <Form.Group as={Col}>
             <Form.Label>
             Have you already received your first COVID-19 vaccine dose? <span className="pc-color-text-secondary-dark">*</span>
@@ -252,6 +267,7 @@ class Start extends Component {
             <div className="mb-3">
               {vaccineTypeOptions.map((option) => 
                 <Form.Check
+                  key={option.display}
                   name="vaccine_type"
                   id={option.display}
                   type="radio"
@@ -270,21 +286,13 @@ class Start extends Component {
           <Form.Group>
 
             <DatePicker
-              selected={this.props.exempt_end_date}
-              onChange={date => this.props.setEndDate(date)}
-              // minDate={new Date()}
+              selected={this.props.vaccine_date}
+              onChange={date => this.props.setDate('vaccine_date', date)}
+              maxDate={new Date()}
               placeholderText="Click to select"
               customInput={<CustomDatepickerInput />}
             />
   
-            {/* <SingleDatePicker
-              date={this.state.date} // momentPropTypes.momentObj or null
-              onDateChange={date => this.setState({ date })} // PropTypes.func.isRequired
-              focused={this.state.focused} // PropTypes.bool
-              onFocusChange={({ focused }) => this.setState({ focused })} // PropTypes.func.isRequired
-              id="your_unique_id" // PropTypes.string.isRequired,
-              showDefaultInputIcon={true}
-            /> */}
           </Form.Group>
         </Form.Row>
 
@@ -296,6 +304,7 @@ class Start extends Component {
             <div className="mb-3">
               {vaccineLocationOptions.map((option) => 
                 <Form.Check
+                  key={option.display}
                   name="vaccine_type"
                   id={option.display}
                   type="radio"
@@ -306,11 +315,13 @@ class Start extends Component {
             </div>
           </Form.Group>
         </Form.Row>
-        
-        
+
         <Button variant="primary" type="submit" className="mt-5">
-            Submit
+            Next
         </Button>
+        
+        
+        
       </>
 
     );

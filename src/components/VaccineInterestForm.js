@@ -14,10 +14,20 @@ class VaccineInterestForm extends Component {
     }
 
     this.handleChange = this.handleChange.bind(this);
+    this.setDate = this.setDate.bind(this);
+    this.handleVaccineInterestSubmit = this.handleVaccineInterestSubmit.bind(this);
   }
 
   handleChange(event) {
-    this.setState({[event.target.name]: event.target.value});
+    this.setState({[event.target.name]: event.target.value}, console.log(this.state));
+  }
+
+  handleVaccineInterestSubmit() {
+
+  }
+
+  setDate(field_name, date) {
+    this.setState({[field_name]: date});
   }
 
   render() {
@@ -44,8 +54,15 @@ class VaccineInterestForm extends Component {
           {t('form_disclaimer')}
         </p>
 
-        <Form className="pt-4" noValidate>
-          <Start handleChange={this.handleChange}></Start>
+        <Form className="pt-4" noValidate onSubmit={this.handleVaccineInterestSubmit}>
+          <Start handleChange={this.handleChange}
+                 setDate={this.setDate}
+                 vaccine_date={this.state.vaccine_date}>
+          </Start>
+
+          {/* <Button variant="primary" type="submit" className="mt-5">
+            Submit
+          </Button> */}
         </Form>
         
 
