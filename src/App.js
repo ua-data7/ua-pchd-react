@@ -70,8 +70,8 @@ class App extends Component {
         </div>
 
         <footer className='mt-auto py-3 pc-color-gray-lightest'>
-          <div class="row">
-            <div class="container centered">
+          <div className="row">
+            <div className="container centered">
               2021 Pima County
             </div>
           </div>

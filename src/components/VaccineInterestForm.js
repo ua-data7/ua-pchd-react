@@ -44,7 +44,7 @@ class VaccineInterestForm extends Component {
           {t('form_disclaimer')}
         </p>
 
-        <Form className="pt-4">
+        <Form className="pt-4" noValidate>
           <Start handleChange={this.handleChange}></Start>
         </Form>
         
