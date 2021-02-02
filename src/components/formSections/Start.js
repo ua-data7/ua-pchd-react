@@ -23,15 +23,6 @@ class Start extends Component {
     }
   }
 
-  toggleSSN() {
-    var x = document.getElementById("ssn");
-    if (x.type === "password") {
-      x.type = "text";
-    } else {
-      x.type = "password";
-    }
-  }
-
   render() {
     const { t } = this.props;
 
@@ -62,7 +53,14 @@ class Start extends Component {
             </Form.Label>
             <Form.Control placeholder={t('first_name')}
                           name="first_name"
-                          onChange={this.props.handleChange}/>
+                          onChange={this.props.handleChange}
+                          value={this.props.values.first_name}
+                          // isValid={this.props.touched.first_name && !this.props.errors.first_name}
+                          onBlur={this.props.handleBlur}
+                          isInvalid={this.props.touched.first_name && this.props.errors.first_name}/>
+            <Form.Control.Feedback type="invalid">
+              {this.props.errors.first_name}
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group as={Col} md="4" sm="6" xs="12">
@@ -71,7 +69,14 @@ class Start extends Component {
             </Form.Label>
             <Form.Control placeholder={t('last_name')}
                           name="last_name"
-                          onChange={this.props.handleChange}/>
+                          onChange={this.props.handleChange}
+                          value={this.props.values.last_name}
+                          // isValid={this.props.touched.last_name && !this.props.errors.last_name}
+                          onBlur={this.props.handleBlur}
+                          isInvalid={this.props.touched.last_name && this.props.errors.last_name}/>
+            <Form.Control.Feedback type="invalid">
+              {this.props.errors.last_name}
+            </Form.Control.Feedback>
           </Form.Group>
         </Form.Row>
         
@@ -85,18 +90,32 @@ class Start extends Component {
                             custom
                             placeholder="Month"
                             defaultValue=""
-                            onChange={this.props.updateBirthday}>
+                            name="dob_month"
+                            onChange={this.props.handleChange}
+                            onBlur={this.props.handleBlur}
+                            isInvalid={this.props.touched.dob_month && this.props.errors.dob_month}
+                            >
                 <option value="" disabled>Month</option>
                 {monthOptions.map((option) => <option key={option.value} value={option.value}>{option.display}</option>)}
               </Form.Control>
+              <Form.Control.Feedback type="invalid">
+                {this.props.errors.dob_month}
+              </Form.Control.Feedback>
             </Col>
 
             <Col lg="2" md="2" sm="3" xs="3">
               <Form.Control type="number"
                             min="1"
                             max="31"
-                            placeholder="Date">
+                            placeholder="Date"
+                            name="dob_date"
+                            onChange={this.props.handleChange}
+                            onBlur={this.props.handleBlur}
+                            isInvalid={this.props.touched.dob_date && this.props.errors.dob_date}>
               </Form.Control>
+              <Form.Control.Feedback type="invalid">
+                {this.props.errors.dob_date}
+              </Form.Control.Feedback>
             </Col>
 
             <Col lg="2" md="2" sm="3" xs="3">
@@ -224,16 +243,6 @@ class Start extends Component {
         </Form.Row>
 
         <Form.Row className="mt-3">
-          <Form.Group as={Col} md="4">
-            <Form.Label>
-              Last 4 digits of SSN (Optional)
-            </Form.Label>
-            <Form.Control type="password" id="ssn" minLength="4" maxLength="4" pattern="[1-9]{4}"/>
-            <input type="checkbox" onClick={this.toggleSSN}/> Show SSN
-          </Form.Group>
-        </Form.Row>
-
-        <Form.Row className="mt-3">
           <Form.Group as={Col}>
             <Form.Label>
             Have you already received your first COVID-19 vaccine dose? <span className="pc-color-text-secondary-dark">*</span>
@@ -316,9 +325,7 @@ class Start extends Component {
           </Form.Group>
         </Form.Row>
 
-        <Button variant="primary" type="submit" className="mt-5">
-            Next
-        </Button>
+        
         
         
         
