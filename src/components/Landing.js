@@ -12,11 +12,18 @@ class Landing extends Component {
     }
 
     this.onCaptchaUpdate = this.onCaptchaUpdate.bind(this);
+    this.startForm = this.startForm.bind(this);
   }
 
   onCaptchaUpdate(value) {
     this.setState({captcha: value});
     console.log(value)
+  }
+
+  startForm(language) {
+    console.log(this.props)
+    this.props.changeLanguage(language);
+    this.props.updateStep('form');
   }
 
   render() {
@@ -37,7 +44,16 @@ class Landing extends Component {
             Completar este formulario solo registrará su interés en recibir la vacuna para COVID-19. <b>No tiene cita para la vacuna en este momento.</b> Una vez que se verifique su elegibilidad, recibirá un correo electrónico del Condado de Pima con más detalles sobre cómo programar su cita por medio de myChart para recibir la vacuna.
           </p>
 
-          <ReCAPTCHA
+          <Button className="pc-color-primary-alt-darker"
+                onClick={() => this.startForm('en')}>
+            English
+          </Button>
+          <Button className="pc-color-primary-alt-darkest ml-2"
+                  onClick={() => this.startForm('es')}>
+            Español
+          </Button>
+
+          {/* <ReCAPTCHA
             sitekey="6LdEm0EaAAAAAD5G7tbDWA0woDjFqlSvqyN2TUqL"
             onChange={this.onCaptchaUpdate}
           />
@@ -47,7 +63,7 @@ class Landing extends Component {
                   onClick={() => this.props.updateStep('form')}
           >
             Continue
-          </Button>
+          </Button> */}
 
         {/* </Jumbotron> */}
       </>

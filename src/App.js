@@ -19,7 +19,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      step: 'form',
+      step: 'landing',
     }
 
     this.updateStep = this.updateStep.bind(this);
@@ -37,7 +37,7 @@ class App extends Component {
 
   renderLanding() {
     return (
-      <Landing updateStep={this.updateStep}></Landing>
+      <Landing updateStep={this.updateStep} changeLanguage={this.changeLanguage}></Landing>
     );
   }
 
