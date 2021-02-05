@@ -8,6 +8,7 @@ import "./css/pc-main-bs-override.css";
 import pimaCountyLogo from './img/health-department-logo-fade.png';
 import Landing from "./components/Landing";
 import VaccineInterestForm from "./components/VaccineInterestForm";
+import Screening from "./components/formSections/Screening";
 
 import i18n from './i18n';
 // import Routes from "./Routes";
@@ -19,7 +20,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      step: 'landing',
+      step: 'screening',
     }
 
     this.updateStep = this.updateStep.bind(this);
@@ -33,6 +34,8 @@ class App extends Component {
     this.setState({
       step: value,
     })
+
+    console.log(value)
   }
 
   renderLanding() {
@@ -42,9 +45,14 @@ class App extends Component {
   }
 
   renderForm() {
-    // const VaccineTranslated = withTranslation()(VaccineInterestForm);
     return (
-      <VaccineInterestForm changeLanguage={this.changeLanguage}></VaccineInterestForm>
+      <VaccineInterestForm updateStep={this.updateStep} changeLanguage={this.changeLanguage}></VaccineInterestForm>
+    );
+  }
+
+  renderScreening() {
+    return (
+      <Screening changeLanguage={this.changeLanguage}></Screening>
     );
   }
 
@@ -67,6 +75,7 @@ class App extends Component {
         <div className="App container mb-8">
           {step === 'landing' &&  this.renderLanding()}
           {step === 'form' &&  this.renderForm()}
+          {step === 'screening' &&  this.renderScreening()}
         </div>
 
         <footer className='mt-auto py-3 pc-color-gray-lightest'>

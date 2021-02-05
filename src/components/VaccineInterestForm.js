@@ -27,6 +27,7 @@ class VaccineInterestForm extends Component {
 
   handleVaccineInterestSubmit(e) {
     console.log(e);
+    this.props.updateStep('screening');
   }
 
   setDate(field_name, date) {
@@ -41,9 +42,9 @@ class VaccineInterestForm extends Component {
     const vaccineInterestSchema = yup.object({
       first_name: yup.string().required('First name is required.'),
       last_name: yup.string().required('Last name is required.'),
-      dob_month: yup.string().required('Required.'),
-      dob_date: yup.number('Required.').required('Required.').nullable(true).integer().min(1).max(31),
-      dob_year: yup.number('Required.').required('Required.').integer().min(1900).max(2021),
+      // dob_month: yup.string().required('Required.'),
+      // dob_date: yup.number('Required.').required('Required.').nullable(true).integer().min(1).max(31),
+      // dob_year: yup.number('Required.').required('Required.').integer().min(1900).max(2021),
       // sex: yup.string().required(),
       // email: yup.string().email().required(),
       // street_address: yup.string().required(),
@@ -107,7 +108,7 @@ class VaccineInterestForm extends Component {
               </Start>
 
               <Button variant="primary" type="submit" className="mt-5">
-                Submit
+                Next
               </Button>
             </Form>
           )}

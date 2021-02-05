@@ -168,7 +168,7 @@ class Start extends Component {
         </Form.Row>
         
 
-        <h5>Address</h5>
+        <h5>{t('address_header')}</h5>
 
         <Alert variant="info" className="mt-4">
           {t('address_instructions')}
@@ -176,7 +176,7 @@ class Start extends Component {
 
         <Form.Group>
             <Form.Label>
-              Address <span className="pc-color-text-secondary-dark">*</span>
+              {t('local_street_address')} <span className="pc-color-text-secondary-dark">*</span>
             </Form.Label>
             <Form.Control placeholder="1234 Main St" />
         </Form.Group>
@@ -184,14 +184,14 @@ class Start extends Component {
         <Form.Row>
             <Form.Group as={Col} md="6" xs="12">
               <Form.Label>
-                City <span className="pc-color-text-secondary-dark">*</span>
+                {t('city')} <span className="pc-color-text-secondary-dark">*</span>
               </Form.Label>
               <Form.Control />
             </Form.Group>
 
             <Form.Group as={Col} md="3" xs="6">
               <Form.Label>
-                State <span className="pc-color-text-secondary-dark">*</span>
+                {t('state')} <span className="pc-color-text-secondary-dark">*</span>
               </Form.Label>
               <Form.Control as="select" placeholder="Select state">
                 {stateOptions.map((option) => <option key={option} value={option}>{option}</option>)}
@@ -200,7 +200,7 @@ class Start extends Component {
 
             <Form.Group as={Col} md="3" xs="6">
             <Form.Label>
-              Zip <span className="pc-color-text-secondary-dark">*</span>
+              {t('zip_code')} <span className="pc-color-text-secondary-dark">*</span>
             </Form.Label>
             <Form.Control />
             </Form.Group>
@@ -219,7 +219,7 @@ class Start extends Component {
               disableDropdown={true}
             />
             <Form.Text muted>
-              {t('home_number_help_text')}
+              {t('home_phone_help_text')}
             </Form.Text>
           </Form.Group>
         </Form.Row>
@@ -237,7 +237,7 @@ class Start extends Component {
               disableDropdown={true}
             />
             <Form.Text muted>
-              {t('cell_number_help_text')}
+              {t('cell_phone_help_text')}
             </Form.Text>
           </Form.Group>
         </Form.Row>
@@ -245,10 +245,10 @@ class Start extends Component {
         <Form.Row className="mt-3">
           <Form.Group as={Col}>
             <Form.Label>
-            Have you already received your first COVID-19 vaccine dose? <span className="pc-color-text-secondary-dark">*</span>
+            {t('already_recieved')} <span className="pc-color-text-secondary-dark">*</span>
             </Form.Label>
-            <Form.Text>Select <b>Yes</b> if you have already gotten your first dose and need to schedule a second dose.</Form.Text>
-            <Form.Text>Select <b>No</b> if you have an appointment but have not yet received the vaccine, or if you have not otherwise received a dose of the COVID-19 vaccine. </Form.Text>
+            <Form.Text>{t('already_received_yes_help_text')}</Form.Text>
+            <Form.Text>{t('already_received_no_help_text')}</Form.Text>
             <div className="mb-3 mt-3">
               <Form.Check
                 name="sex"
@@ -271,7 +271,7 @@ class Start extends Component {
         <Form.Row>
           <Form.Group as={Col}>
             <Form.Label>
-              Which vaccine did you receive? <span className="pc-color-text-secondary-dark">*</span>
+              {t('which_received')} <span className="pc-color-text-secondary-dark">*</span>
             </Form.Label>
             <div className="mb-3">
               {vaccineTypeOptions.map((option) => 
@@ -289,11 +289,10 @@ class Start extends Component {
         </Form.Row>
         
         <Form.Label>
-            Date you received your first dose (please double check the date entered is correct):
-          </Form.Label>
+          {t('date_received')}
+        </Form.Label>
         <Form.Row>
           <Form.Group>
-
             <DatePicker
               selected={this.props.vaccine_date}
               onChange={date => this.props.setDate('vaccine_date', date)}
@@ -308,7 +307,7 @@ class Start extends Component {
         <Form.Row>
           <Form.Group as={Col}>
             <Form.Label>
-              Where did you receive your first COVID vaccine? <span className="pc-color-text-secondary-dark">*</span>
+              {t('where_received')} <span className="pc-color-text-secondary-dark">*</span>
             </Form.Label>
             <div className="mb-3">
               {vaccineLocationOptions.map((option) => 
