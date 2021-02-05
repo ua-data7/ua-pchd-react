@@ -168,7 +168,7 @@ class Start extends Component {
         </Form.Row>
         
 
-        <h5>{t('address_header')}</h5>
+        <h5>{t('address_instructions')}</h5>
 
         <Alert variant="info" className="mt-4">
           {t('address_instructions')}

@@ -9,6 +9,9 @@ import pimaCountyLogo from './img/health-department-logo-fade.png';
 import Landing from "./components/Landing";
 import VaccineInterestForm from "./components/VaccineInterestForm";
 import Screening from "./components/formSections/Screening";
+import Educator from "./components/formSections/Educator";
+import ChildcareProvider from "./components/formSections/ChildcareProvider";
+import ProtectiveServices from "./components/formSections/ProtectiveServices";
 
 import i18n from './i18n';
 // import Routes from "./Routes";
@@ -20,14 +23,17 @@ class App extends Component {
     super(props);
 
     this.state = {
-      step: 'screening',
+      step: 'protectiveServices',
+      language: 'en',
     }
 
     this.updateStep = this.updateStep.bind(this);
+    this.changeLanguage = this.changeLanguage.bind(this);
   }
 
   changeLanguage(language) {
     i18n.changeLanguage(language);
+    this.setState({language: language})
   }
 
   updateStep(value) {
@@ -56,6 +62,30 @@ class App extends Component {
     );
   }
 
+  renderEducator() {
+    return (
+      <Educator changeLanguage={this.changeLanguage}
+                 language={this.state.language}>            
+      </Educator>
+    );
+  }
+
+  renderChildcare() {
+    return (
+      <ChildcareProvider changeLanguage={this.changeLanguage}
+                 language={this.state.language}>            
+      </ChildcareProvider>
+    );
+  }
+
+  renderProtectiveServices() {
+    return (
+      <ProtectiveServices changeLanguage={this.changeLanguage}
+                 language={this.state.language}>            
+      </ProtectiveServices>
+    );
+  }
+
   render() {
 
     const {step} = this.state;
@@ -76,6 +106,9 @@ class App extends Component {
           {step === 'landing' &&  this.renderLanding()}
           {step === 'form' &&  this.renderForm()}
           {step === 'screening' &&  this.renderScreening()}
+          {step === 'educator' &&  this.renderEducator()}
+          {step === 'childcare' &&  this.renderChildcare()}
+          {step === 'protectiveServices' &&  this.renderProtectiveServices()}
         </div>
 
         <footer className='mt-auto py-3 pc-color-gray-lightest'>
