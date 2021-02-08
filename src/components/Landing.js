@@ -21,9 +21,7 @@ class Landing extends Component {
   }
 
   startForm(language) {
-    console.log(this.props)
-    this.props.changeLanguage(language);
-    this.props.updateStep('form');
+    this.props.startForm(language);
   }
 
   render() {
@@ -32,7 +30,7 @@ class Landing extends Component {
 
     return (
       <>  
-        {/* <Jumbotron className="pc-color-gray-lightest"> */}
+        <Jumbotron className="pc-color-gray-lightest">
           <h4 className="pc-color-text-primary-darker">
             Pima County Vaccine Interest Form
           </h4>
@@ -65,7 +63,7 @@ class Landing extends Component {
             Continue
           </Button> */}
 
-        {/* </Jumbotron> */}
+        </Jumbotron>
       </>
 
     );

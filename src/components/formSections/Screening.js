@@ -20,18 +20,6 @@ class Screening extends Component {
    
     return (
       <>
-        <Button className="pc-color-primary-alt-darker"
-                onClick={() => this.props.changeLanguage('en')}>
-          English
-        </Button>
-        <Button className="pc-color-primary-alt-darkest ml-2"
-                onClick={() => this.props.changeLanguage('es')}>
-          Español
-        </Button>
-        <h4>
-          {t('form_title')}
-        </h4>
-
         <Form.Row className="mt-5">
           <Form.Group as={Col}>
             <Form.Label>

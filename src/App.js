@@ -1,3 +1,4 @@
+import i18n from './i18n';
 import React, { Component } from "react";
 import { Navbar, Button, Jumbotron } from "react-bootstrap";
 
@@ -6,16 +7,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./css/pc-main-bs-override.css";
 
 import pimaCountyLogo from './img/health-department-logo-fade.png';
-import Landing from "./components/Landing";
 import VaccineInterestForm from "./components/VaccineInterestForm";
-import Screening from "./components/formSections/Screening";
-import Educator from "./components/formSections/Educator";
-import ChildcareProvider from "./components/formSections/ChildcareProvider";
-import ProtectiveServices from "./components/formSections/ProtectiveServices";
-import EssentialServices from "./components/formSections/EssentialServices";
-import Healthcare from "./components/formSections/Healthcare";
+import Landing from "./components/Landing";
 
-import i18n from './i18n';
+
 // import Routes from "./Routes";
 // import ScrollToTop from './components/ScrollToTop'
 
@@ -25,11 +20,11 @@ class App extends Component {
     super(props);
 
     this.state = {
-      step: 'healthcare',
+      step: 'landing',
       language: 'en',
     }
 
-    this.updateStep = this.updateStep.bind(this);
+    this.startForm = this.startForm.bind(this);
     this.changeLanguage = this.changeLanguage.bind(this);
   }
 
@@ -38,17 +33,16 @@ class App extends Component {
     this.setState({language: language})
   }
 
-  updateStep(value) {
+  startForm(language) {
+    this.changeLanguage(language);
     this.setState({
-      step: value,
-    })
-
-    console.log(value)
+      step: 'form',
+    });
   }
 
   renderLanding() {
     return (
-      <Landing updateStep={this.updateStep}
+      <Landing startForm={this.startForm}
                changeLanguage={this.changeLanguage}>
       </Landing>
     );
@@ -59,52 +53,6 @@ class App extends Component {
       <VaccineInterestForm updateStep={this.updateStep}
                            changeLanguage={this.changeLanguage}>
       </VaccineInterestForm>
-    );
-  }
-
-  renderScreening() {
-    return (
-      <Screening changeLanguage={this.changeLanguage}></Screening>
-    );
-  }
-
-  renderEducator() {
-    return (
-      <Educator changeLanguage={this.changeLanguage}
-                 language={this.state.language}>            
-      </Educator>
-    );
-  }
-
-  renderChildcare() {
-    return (
-      <ChildcareProvider changeLanguage={this.changeLanguage}
-                 language={this.state.language}>            
-      </ChildcareProvider>
-    );
-  }
-
-  renderProtectiveServices() {
-    return (
-      <ProtectiveServices changeLanguage={this.changeLanguage}
-                 language={this.state.language}>            
-      </ProtectiveServices>
-    );
-  }
-
-  renderEssentialServices() {
-    return (
-      <EssentialServices changeLanguage={this.changeLanguage}
-                 language={this.state.language}>            
-      </EssentialServices>
-    );
-  }
-
-  renderHealthcare() {
-    return (
-      <Healthcare changeLanguage={this.changeLanguage}
-                 language={this.state.language}>            
-      </Healthcare>
     );
   }
 
@@ -125,14 +73,10 @@ class App extends Component {
         </Navbar>
 
         <div className="App container mb-8">
+
           {step === 'landing' &&  this.renderLanding()}
           {step === 'form' &&  this.renderForm()}
-          {step === 'screening' &&  this.renderScreening()}
-          {step === 'educator' &&  this.renderEducator()}
-          {step === 'childcare' &&  this.renderChildcare()}
-          {step === 'protectiveServices' &&  this.renderProtectiveServices()}
-          {step === 'essentialServices' &&  this.renderEssentialServices()}
-          {step === 'healthcare' &&  this.renderHealthcare()}
+
         </div>
 
         <footer className='mt-auto py-3 pc-color-gray-lightest'>
