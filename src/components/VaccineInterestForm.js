@@ -30,6 +30,13 @@ class VaccineInterestForm extends Component {
     this.updateStep = this.updateStep.bind(this);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.step !== prevState.step) {
+      window.scrollTo(0, 0);
+    }
+  }
+
+
   updateStep(value) {
     this.setState({
       step: value,
@@ -124,7 +131,7 @@ class VaccineInterestForm extends Component {
                 onClick={() => this.props.changeLanguage('es')}>
           Español
         </Button>
-        
+
         <h4>
           {t('form_title')}
         </h4>

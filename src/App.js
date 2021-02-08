@@ -1,6 +1,6 @@
 import i18n from './i18n';
 import React, { Component } from "react";
-import { Navbar, Button, Jumbotron } from "react-bootstrap";
+import { Navbar } from "react-bootstrap";
 
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,9 +10,6 @@ import pimaCountyLogo from './img/health-department-logo-fade.png';
 import VaccineInterestForm from "./components/VaccineInterestForm";
 import Landing from "./components/Landing";
 
-
-// import Routes from "./Routes";
-// import ScrollToTop from './components/ScrollToTop'
 
 class App extends Component {
   
@@ -73,10 +70,8 @@ class App extends Component {
         </Navbar>
 
         <div className="App container mb-8">
-
           {step === 'landing' &&  this.renderLanding()}
           {step === 'form' &&  this.renderForm()}
-
         </div>
 
         <footer className='mt-auto py-3 pc-color-gray-lightest'>
