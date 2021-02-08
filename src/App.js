@@ -12,6 +12,8 @@ import Screening from "./components/formSections/Screening";
 import Educator from "./components/formSections/Educator";
 import ChildcareProvider from "./components/formSections/ChildcareProvider";
 import ProtectiveServices from "./components/formSections/ProtectiveServices";
+import EssentialServices from "./components/formSections/EssentialServices";
+import Healthcare from "./components/formSections/Healthcare";
 
 import i18n from './i18n';
 // import Routes from "./Routes";
@@ -23,7 +25,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      step: 'protectiveServices',
+      step: 'healthcare',
       language: 'en',
     }
 
@@ -46,13 +48,17 @@ class App extends Component {
 
   renderLanding() {
     return (
-      <Landing updateStep={this.updateStep} changeLanguage={this.changeLanguage}></Landing>
+      <Landing updateStep={this.updateStep}
+               changeLanguage={this.changeLanguage}>
+      </Landing>
     );
   }
 
   renderForm() {
     return (
-      <VaccineInterestForm updateStep={this.updateStep} changeLanguage={this.changeLanguage}></VaccineInterestForm>
+      <VaccineInterestForm updateStep={this.updateStep}
+                           changeLanguage={this.changeLanguage}>
+      </VaccineInterestForm>
     );
   }
 
@@ -86,6 +92,22 @@ class App extends Component {
     );
   }
 
+  renderEssentialServices() {
+    return (
+      <EssentialServices changeLanguage={this.changeLanguage}
+                 language={this.state.language}>            
+      </EssentialServices>
+    );
+  }
+
+  renderHealthcare() {
+    return (
+      <Healthcare changeLanguage={this.changeLanguage}
+                 language={this.state.language}>            
+      </Healthcare>
+    );
+  }
+
   render() {
 
     const {step} = this.state;
@@ -109,6 +131,8 @@ class App extends Component {
           {step === 'educator' &&  this.renderEducator()}
           {step === 'childcare' &&  this.renderChildcare()}
           {step === 'protectiveServices' &&  this.renderProtectiveServices()}
+          {step === 'essentialServices' &&  this.renderEssentialServices()}
+          {step === 'healthcare' &&  this.renderHealthcare()}
         </div>
 
         <footer className='mt-auto py-3 pc-color-gray-lightest'>
