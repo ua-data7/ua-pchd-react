@@ -47,7 +47,7 @@ class App extends Component {
 
   renderForm() {
     return (
-      <VaccineInterestForm changeLanguage={this.changeLanguage}>
+      <VaccineInterestForm changeLanguage={this.changeLanguage} language={this.state.language}>
       </VaccineInterestForm>
     );
   }

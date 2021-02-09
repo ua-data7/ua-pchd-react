@@ -38,6 +38,50 @@ export const vaccineLocationOptions = [
   { value: 'Location not listed in Pima County' , display: 'Location not listed in Pima County'},
 ];
 
+export const occupationScreeningOptions = [
+  {  
+    value: 'childcare',
+    english: 'Childcareeeee (licensed childcare provider)',
+    spanish: 'Childcare (licensed childcare provider)'
+  },
+  {  
+    value: 'education',
+    english: 'Education',
+    spanish: 'Education'
+  }, 
+  {  
+    value: 'ems',
+    english: 'Emergency Medical Services',
+    spanish: 'Emergency Medical Services'
+  }, 
+  {  
+    value: 'essential_services',
+    english: 'Essential services/Critical Industry worker',
+    spanish: 'Essential services/Critical Industry worker'
+  }, 
+  {  
+    value: 'healthcare_worker',
+    english: 'Healthcare Worker (including long term care facility staff)',
+    spanish: 'Healthcare Worker (including long term care facility staff)'
+  }, 
+  {  
+    value: 'healthcare_support',
+    english: 'Healthcare Support (including long term care facility staff)',
+    spanish: 'Healthcare Support (including long term care facility staff)'
+  },
+  {  
+    value: 'protective_services',
+    english: 'Protective Service (Law Enforcement, 9-1-1, Corrections, firefighters, emergency response staff)',
+    spanish: 'Protective Service (Law Enforcement, 9-1-1, Corrections, firefighters, emergency response staff)'
+  }, 
+  {  
+    value: 'none',
+    english: 'None of the above',
+    spanish: 'None of the above'
+  }, 
+  
+];
+
 
 export const educatorEmployerOptions = [
   { value: 'Ajo Unified', english: 'Ajo Unified', spanish: 'Ajo Unified'},

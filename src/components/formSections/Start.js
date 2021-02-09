@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import { Button, Form, Col, Alert, InputGroup } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
 import { stateOptions, monthOptions, vaccineTypeOptions, vaccineLocationOptions } from "./Choices";
-import FormikErrorFocus from "../FormikErrorFocus";
 
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
 import { Formik, useField, useFormikContext } from 'formik';
 import * as yup from 'yup';
+import FormikErrorFocus from "../FormikErrorFocus";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -104,7 +104,6 @@ class Start extends Component {
 
 
     const CustomDatepickerInput = React.forwardRef((props, ref) => {
-      console.log(props)
       return (
         <InputGroup className="mb-3">
           <InputGroup.Prepend>
@@ -133,12 +132,6 @@ class Start extends Component {
       <Formik
         validationSchema={vaccineInterestSchema}
         onSubmit={this.props.handleStartSubmit}
-        // onSubmit={(e) => {
-        //   // delete unused fields
-        //   props.setValues(cleanUpMyValues(props.values))
-        //   // submit
-        //   props.handleSubmit(e)
-        // }}
         initialValues={{
           first_name: "",
           last_name: "",
