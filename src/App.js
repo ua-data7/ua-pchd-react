@@ -2,9 +2,9 @@ import i18n from './i18n';
 import React, { Component } from "react";
 import { Navbar } from "react-bootstrap";
 
-import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./css/pc-main-bs-override.css";
+import "./App.css";
 
 import pimaCountyLogo from './img/health-department-logo-fade.png';
 import VaccineInterestForm from "./components/VaccineInterestForm";
@@ -47,8 +47,7 @@ class App extends Component {
 
   renderForm() {
     return (
-      <VaccineInterestForm updateStep={this.updateStep}
-                           changeLanguage={this.changeLanguage}>
+      <VaccineInterestForm changeLanguage={this.changeLanguage}>
       </VaccineInterestForm>
     );
   }

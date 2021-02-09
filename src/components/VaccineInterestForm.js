@@ -1,10 +1,6 @@
 import React, { Component } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
-
-import { Formik } from 'formik';
-import * as yup from 'yup';
-
 
 import Start from './formSections/Start';
 import Screening from "./formSections/Screening";
@@ -22,12 +18,11 @@ class VaccineInterestForm extends Component {
 
     this.state = {
       step: 'start',
-      language: 'en',
     }
 
     this.setDate = this.setDate.bind(this);
-    this.handleStartSubmit = this.handleStartSubmit.bind(this);
     this.updateStep = this.updateStep.bind(this);
+    this.handleStartSubmit = this.handleStartSubmit.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -36,13 +31,10 @@ class VaccineInterestForm extends Component {
     }
   }
 
-
   updateStep(value) {
     this.setState({
       step: value,
-    })
-
-    console.log(value)
+    });
   }
 
   handleStartSubmit(e) {
@@ -54,16 +46,10 @@ class VaccineInterestForm extends Component {
     this.setState({[field_name]: date});
   }
 
-  updateStep(value) {
-    this.setState({
-      step: value,
-    })
-  }
-
   renderStart() {
     return (
-      <Start changeLanguage={this.changeLanguage}
-             language={this.state.language}
+      <Start changeLanguage={this.props.changeLanguage}
+             language={this.props.language}
              setDate={this.setDate}
              vaccine_date={this.state.vaccine_date}
              handleStartSubmit={this.handleStartSubmit}>            
@@ -80,7 +66,7 @@ class VaccineInterestForm extends Component {
   renderEducator() {
     return (
       <Educator changeLanguage={this.changeLanguage}
-                 language={this.state.language}>            
+                language={this.state.language}>            
       </Educator>
     );
   }
@@ -88,7 +74,7 @@ class VaccineInterestForm extends Component {
   renderChildcare() {
     return (
       <ChildcareProvider changeLanguage={this.changeLanguage}
-                 language={this.state.language}>            
+                         language={this.state.language}>            
       </ChildcareProvider>
     );
   }
@@ -96,7 +82,7 @@ class VaccineInterestForm extends Component {
   renderProtectiveServices() {
     return (
       <ProtectiveServices changeLanguage={this.changeLanguage}
-                 language={this.state.language}>            
+                          language={this.state.language}>            
       </ProtectiveServices>
     );
   }
@@ -104,7 +90,7 @@ class VaccineInterestForm extends Component {
   renderEssentialServices() {
     return (
       <EssentialServices changeLanguage={this.changeLanguage}
-                 language={this.state.language}>            
+                         language={this.state.language}>            
       </EssentialServices>
     );
   }
@@ -112,12 +98,13 @@ class VaccineInterestForm extends Component {
   renderHealthcare() {
     return (
       <Healthcare changeLanguage={this.changeLanguage}
-                 language={this.state.language}>            
+                  language={this.state.language}>            
       </Healthcare>
     );
   }
 
   render() {
+    
     const { t } = this.props;
     const { step } = this.state;
 
@@ -146,7 +133,6 @@ class VaccineInterestForm extends Component {
         {step === 'healthcare' &&  this.renderHealthcare()}
 
       </>
-
     );
   }
 }
