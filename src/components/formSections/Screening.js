@@ -2,11 +2,9 @@ import React, { Component } from "react";
 import { Button, Form, Col } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
 
-import { Formik, useField, useFormikContext } from 'formik';
+import { Formik } from 'formik';
 import * as yup from 'yup';
 import FormikErrorFocus from "../FormikErrorFocus";
-
-import { occupationScreeningOptions } from "./Choices";
 
 class Screening extends Component {
 
@@ -26,14 +24,23 @@ class Screening extends Component {
       occupation_screening: yup
         .string()
         .required('Required.'),
+      congregate_housing_status: yup
+        .string()
+        .required('Required.'),
+      accchs_status: yup
+        .string()
+        .required('Required.'),
     });
    
     return (
       <Formik
         validationSchema={schema}
-        onSubmit={this.props.handleStartSubmit}
+        onSubmit={this.props.handleScreeningSubmit}
         initialValues={{
           occupation_screening: "",
+          congregate_housing_status: "",
+          accchs_status: "",
+          health_conditions: null
         }}
       >
         {({
@@ -47,26 +54,28 @@ class Screening extends Component {
           errors,
         }) => (
 
-          <Form className="pt-4" noValidate onSubmit={handleSubmit}>
+          <Form noValidate onSubmit={handleSubmit}>
+            {/* <p>All questions with * are required.</p> */}
             <Form.Row className="mt-5">
               <Form.Group as={Col}>
                 <Form.Label>
                   {t('occupation_screening')} <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <div className="mb-3">
-                  {occupationScreeningOptions.map((option, index) => 
+                  {Object.keys(this.props.choices.occupations).map((key, index) => 
                     <Form.Check type="radio"
-                                id={'occupation_screening_' + option.value}>
+                                id={'occupation_screening_' + key}
+                                key={key}>
                       <Form.Check.Input 
                                 type="radio" 
                                 name="occupation_screening"
-                                value={option.value}
+                                value={key}
                                 isInvalid={touched.occupation_screening && !!errors.occupation_screening}
                                 onChange={handleChange}/>
                       <Form.Check.Label>
-                        {this.props.language === 'es' ? option.spanish : option.english }
-                      </Form.Check.Label>
-                      { index === occupationScreeningOptions.length - 1 && 
+                        { this.props.language === 'es' ? this.props.choices.occupations[key].esp : this.props.choices.occupations[key].eng}
+                      </Form.Check.Label> 
+                      { index === Object.keys(this.props.choices.occupations).length - 1 && 
                         <Form.Control.Feedback type="invalid">
                           {errors.occupation_screening}
                         </Form.Control.Feedback>
@@ -83,20 +92,26 @@ class Screening extends Component {
                 {t('congregate_housing_status')} <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <div className="mb-3">
-                  <Form.Check
-                    name="congregate_housing_status"
-                    id="Yes"
-                    type="radio"
-                    label={t('yes_no_answer_1')}
-                    value="Yes"
-                  />
-                  <Form.Check
-                    name="congregate_housing_status"
-                    id="No"
-                    type="radio"
-                    label={t('yes_no_answer_0')}
-                    value="No"
-                  />
+                  {Object.keys(this.props.choices.congregate).map((key, index) => 
+                    <Form.Check type="radio"
+                                id={'congregate_housing_status_' + key}
+                                key={key}>
+                      <Form.Check.Input 
+                                type="radio" 
+                                name="congregate_housing_status"
+                                value={key}
+                                isInvalid={touched.congregate_housing_status && !!errors.congregate_housing_status}
+                                onChange={handleChange}/>
+                      <Form.Check.Label>
+                        { this.props.language === 'es' ? this.props.choices.congregate[key].esp : this.props.choices.congregate[key].eng}
+                      </Form.Check.Label> 
+                      { index === Object.keys(this.props.choices.congregate).length - 1 && 
+                        <Form.Control.Feedback type="invalid">
+                          {errors.congregate_housing_status}
+                        </Form.Control.Feedback>
+                      } 
+                    </Form.Check>            
+                  )}
                 </div>  
               </Form.Group>
             </Form.Row>
@@ -107,20 +122,26 @@ class Screening extends Component {
                 {t('accchs_status')} <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <div className="mb-3">
-                  <Form.Check
-                    name="accchs_status"
-                    id="Yes"
-                    type="radio"
-                    label={t('yes_no_answer_1')}
-                    value="Yes"
-                  />
-                  <Form.Check
-                    name="accchs_status"
-                    id="No"
-                    type="radio"
-                    label={t('yes_no_answer_0')}
-                    value="No"
-                  />
+                  {Object.keys(this.props.choices.ahcccs).map((key, index) => 
+                    <Form.Check type="radio"
+                                id={'accchs_status_' + key}
+                                key={key}>
+                      <Form.Check.Input 
+                                type="radio" 
+                                name="accchs_status"
+                                value={key}
+                                isInvalid={touched.accchs_status && !!errors.accchs_status}
+                                onChange={handleChange}/>
+                      <Form.Check.Label>
+                        { this.props.language === 'es' ? this.props.choices.ahcccs[key].esp : this.props.choices.ahcccs[key].eng}
+                      </Form.Check.Label> 
+                      { index === Object.keys(this.props.choices.ahcccs).length - 1 && 
+                        <Form.Control.Feedback type="invalid">
+                          {errors.accchs_status}
+                        </Form.Control.Feedback>
+                      } 
+                    </Form.Check>            
+                  )}
                 </div>  
               </Form.Group>
             </Form.Row>
@@ -130,18 +151,29 @@ class Screening extends Component {
                 <Form.Label>
                   {t('health_conditions')} <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
-                {/* <div className="mb-3">
-                  {vaccineTypeOptions.map((option) => 
-                    <Form.Check
-                      key={option.display}
-                      name="vaccine_type"
-                      id={option.display}
-                      type="radio"
-                      label={option.display}
-                      value={option.display}
-                    />            
+                <div className="mt-3">
+                  {Object.keys(this.props.choices.health_conditions).map((key, index) => 
+                    <Form.Check type="checkbox"
+                                id={'health_conditions_' + key}
+                                key={key}
+                                className="mb-2">
+                      <Form.Check.Input 
+                                type="checkbox" 
+                                name="health_conditions"
+                                value={key}
+                                isInvalid={touched.health_conditions && !!errors.health_conditions}
+                                onChange={handleChange}/>
+                      <Form.Check.Label>
+                        { this.props.language === 'es' ? this.props.choices.health_conditions[key].esp : this.props.choices.health_conditions[key].eng}
+                      </Form.Check.Label> 
+                      { index === Object.keys(this.props.choices.health_conditions).length - 1 && 
+                        <Form.Control.Feedback type="invalid">
+                          {errors.health_conditions}
+                        </Form.Control.Feedback>
+                      } 
+                    </Form.Check>            
                   )}
-                </div> */}
+                </div>
               </Form.Group>
             </Form.Row>
 

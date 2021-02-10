@@ -266,26 +266,26 @@ class Start extends Component {
                   {t('sex')} <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <div className="mb-3">
-                  <Form.Check
-                    id="sex_male"
-                    name="sex"
-                    type="radio"
-                    label={t('sex_answer_1')}
-                    value="Male"
-                    isInvalid={touched.sex && !!errors.sex}
-                    onChange={handleChange}
-                  />
-
-                  <Form.Check
-                    id="sex_female"
-                    name="sex"
-                    type="radio"
-                    label={t('sex_answer_2')}
-                    value="Female"
-                    isInvalid={touched.sex && !!errors.sex}
-                    onChange={handleChange}
-                    feedback={errors.sex}
-                  />
+                  {Object.keys(this.props.choices.sex).map((key, index) => 
+                    <Form.Check type="radio"
+                                id={'sex_' + key}
+                                key={key}>
+                      <Form.Check.Input 
+                                type="radio" 
+                                name="sex"
+                                value={key}
+                                isInvalid={touched.sex && !!errors.sex}
+                                onChange={handleChange}/>
+                      <Form.Check.Label>
+                        { this.props.language === 'es' ? this.props.choices.sex[key].esp : this.props.choices.sex[key].eng}
+                      </Form.Check.Label>
+                      { index === Object.keys(this.props.choices.sex).length - 1 && 
+                        <Form.Control.Feedback type="invalid">
+                          {errors.sex}
+                        </Form.Control.Feedback>
+                      } 
+                    </Form.Check>            
+                  )}
                 </div>
               </Form.Group>
             </Form.Row>
@@ -531,19 +531,20 @@ class Start extends Component {
                       {t('where_received')} <span className="pc-color-text-secondary-dark">*</span>
                     </Form.Label>
                     <div className="mb-3">
-                      {vaccineLocationOptions.map((option, index) => 
+                      {Object.keys(this.props.choices.locations).map((key, index) => 
                         <Form.Check type="radio"
-                                    id={option.display}>
+                                    id={'first_dose_loc_' + key}
+                                    key={key}>
                           <Form.Check.Input 
                                     type="radio" 
                                     name="first_dose_loc"
-                                    value={option.value}
+                                    value={key}
                                     isInvalid={touched.first_dose_loc && !!errors.first_dose_loc}
                                     onChange={handleChange}/>
                           <Form.Check.Label>
-                            {option.display}
-                          </Form.Check.Label>
-                          { index === vaccineLocationOptions.length - 1 && 
+                            { this.props.language === 'es' ? this.props.choices.locations[key].esp : this.props.choices.locations[key].eng}
+                          </Form.Check.Label> 
+                          { index === Object.keys(this.props.choices.locations).length - 1 && 
                             <Form.Control.Feedback type="invalid">
                               {errors.first_dose_loc}
                             </Form.Control.Feedback>

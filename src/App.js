@@ -1,6 +1,7 @@
 import i18n from './i18n';
 import React, { Component } from "react";
 import { Navbar } from "react-bootstrap";
+import Amplify from 'aws-amplify';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./css/pc-main-bs-override.css";
@@ -10,6 +11,17 @@ import pimaCountyLogo from './img/health-department-logo-fade.png';
 import VaccineInterestForm from "./components/VaccineInterestForm";
 import Landing from "./components/Landing";
 
+Amplify.configure({
+  API: {
+    endpoints: [
+      {
+        name: "enumValues",
+        endpoint: "https://frruryqr87.execute-api.us-west-2.amazonaws.com/dev",
+        region: "us-west-2"
+      },
+    ]
+  }
+});
 
 class App extends Component {
   

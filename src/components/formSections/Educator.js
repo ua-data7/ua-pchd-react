@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { Button, Form, Col } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
 
-import { educatorEmployerOptions } from "./Choices";
-
 import { Formik } from 'formik';
 
 class Educator extends Component {
@@ -22,37 +20,29 @@ class Educator extends Component {
    
     return (
       <>
-        <Button className="pc-color-primary-alt-darker"
-                onClick={() => this.props.changeLanguage('en')}>
-          English
-        </Button>
-        <Button className="pc-color-primary-alt-darkest ml-2"
-                onClick={() => this.props.changeLanguage('es')}>
-          Español
-        </Button>
-        <h4>
-          {t('form_title')}
-        </h4>
-
         <p>Educators</p>
 
         <Form.Row className="mt-5">
-          <Form.Group as={Col} md="4">
+          <Form.Group as={Col} md="6" sm="12">
             <Form.Label>
               {t('educator_employer')} <span className="pc-color-text-secondary-dark">*</span>
             </Form.Label>
             <Form.Control as="select"
-                            custom
-                            defaultValue=""
-                            name="educator_employer">
+                          custom
+                          defaultValue=""
+                          name="educator_employer">
                 <option value="" disabled>Select Employer</option>
-                {educatorEmployerOptions.map((option) => <option key={option.value} value={option.value}>{this.props.language === 'en' ? option.english : option.spanish }</option>)}
+                {Object.keys(this.props.choices.educator_employer).map((key, index) => 
+                  <option key={key} value={key}>
+                    { this.props.language === 'es' ? this.props.choices.educator_employer[key].esp : this.props.choices.educator_employer[key].eng}
+                  </option>
+                )}
               </Form.Control>
           </Form.Group>
         </Form.Row>
 
         <Form.Row>
-          <Form.Group as={Col} md="4">
+          <Form.Group as={Col} md="6" sm="12">
             <Form.Label>
               {t('educator_employer')} <span className="pc-color-text-secondary-dark">*</span>
             </Form.Label>
@@ -60,23 +50,27 @@ class Educator extends Component {
           </Form.Group>
         </Form.Row>
 
-        <Form.Row className="mt-5">
-          <Form.Group as={Col} md="4">
+        <Form.Row className="mt-4">
+          <Form.Group as={Col} md="6" sm="12">
             <Form.Label>
               {t('education_occupation')} <span className="pc-color-text-secondary-dark">*</span>
             </Form.Label>
             <Form.Control as="select"
-                            custom
-                            defaultValue=""
-                            name="education_occupation">
+                          custom
+                          defaultValue=""
+                          name="education_occupation">
                 <option value="" disabled>Select Occupation</option>
-                {educatorEmployerOptions.map((option) => <option key={option.value} value={option.value}>{this.props.language === 'en' ? option.english : option.spanish }</option>)}
+                {Object.keys(this.props.choices.educator_occupation).map((key, index) => 
+                  <option key={key} value={key}>
+                    { this.props.language === 'es' ? this.props.choices.educator_occupation[key].esp : this.props.choices.educator_occupation[key].eng}
+                  </option>
+                )}
               </Form.Control>
           </Form.Group>
         </Form.Row>
-
+        
         <Form.Row>
-          <Form.Group as={Col} md="4">
+          <Form.Group as={Col} md="6" sm="12">
             <Form.Label>
               {t('education_occupation')} <span className="pc-color-text-secondary-dark">*</span>
             </Form.Label>

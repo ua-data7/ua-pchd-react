@@ -41,7 +41,7 @@ export const vaccineLocationOptions = [
 export const occupationScreeningOptions = [
   {  
     value: 'childcare',
-    english: 'Childcareeeee (licensed childcare provider)',
+    english: 'Childcare (licensed childcare provider)',
     spanish: 'Childcare (licensed childcare provider)'
   },
   {  
@@ -79,8 +79,30 @@ export const occupationScreeningOptions = [
     english: 'None of the above',
     spanish: 'None of the above'
   }, 
-  
 ];
+
+export const healthConditionOptions = [
+  {  
+    value: 'cancer',
+    english: 'Cancer',
+    spanish: 'Cancer'
+  },
+  {  
+    value: 'diabetes',
+    english: 'Diabetes',
+    spanish: 'Diabetes'
+  }, 
+  {  
+    value: 'copd',
+    english: 'COPD',
+    spanish: 'COPD'
+  }, 
+  {  
+    value: 'none',
+    english: 'None of the above',
+    spanish: 'None of the above'
+  }, 
+]
 
 
 export const educatorEmployerOptions = [

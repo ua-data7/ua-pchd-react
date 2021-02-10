@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
+import { API } from 'aws-amplify';
 
 import Start from './formSections/Start';
 import Screening from "./formSections/Screening";
@@ -17,13 +18,28 @@ class VaccineInterestForm extends Component {
     super(props);
 
     this.state = {
-      step: 'screening',
+      step: 'educator',
+      loading: true,
     }
 
     this.setDate = this.setDate.bind(this);
     this.updateStep = this.updateStep.bind(this);
     this.handleStartSubmit = this.handleStartSubmit.bind(this);
     this.handleScreeningSubmit = this.handleScreeningSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    return API.get("enumValues", "/enumValues")
+
+    .then(choices => {
+      this.setState({
+        choices: choices,
+        loading: false
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -46,7 +62,9 @@ class VaccineInterestForm extends Component {
 
   handleScreeningSubmit(e) {
     console.log(e);
-    // this.setState({start: e});
+    if (e.occupation_screening === '') {
+
+    }
     // this.updateStep('screening');
   }
 
@@ -57,7 +75,8 @@ class VaccineInterestForm extends Component {
   renderStart() {
     return (
       <Start language={this.props.language}
-             handleStartSubmit={this.handleStartSubmit}>            
+             handleStartSubmit={this.handleStartSubmit}
+             choices={this.state.choices}>            
       </Start>
     );
   }
@@ -65,7 +84,8 @@ class VaccineInterestForm extends Component {
   renderScreening() {
     return (
       <Screening language={this.props.language}
-                 handleScreeningSubmit={this.handleScreeningSubmit}>
+                 handleScreeningSubmit={this.handleScreeningSubmit}
+                 choices={this.state.choices}>
       </Screening>
     );
   }
@@ -73,7 +93,8 @@ class VaccineInterestForm extends Component {
   renderEducator() {
     return (
       <Educator changeLanguage={this.changeLanguage}
-                language={this.props.language}>            
+                language={this.props.language}
+                choices={this.state.choices}>            
       </Educator>
     );
   }
@@ -81,7 +102,8 @@ class VaccineInterestForm extends Component {
   renderChildcare() {
     return (
       <ChildcareProvider changeLanguage={this.changeLanguage}
-                         language={this.props.language}>            
+                         language={this.props.language}
+                         choices={this.state.choices}>            
       </ChildcareProvider>
     );
   }
@@ -89,7 +111,8 @@ class VaccineInterestForm extends Component {
   renderProtectiveServices() {
     return (
       <ProtectiveServices changeLanguage={this.changeLanguage}
-                          language={this.props.language}>            
+                          language={this.props.language}
+                          choices={this.state.choices}>            
       </ProtectiveServices>
     );
   }
@@ -97,7 +120,8 @@ class VaccineInterestForm extends Component {
   renderEssentialServices() {
     return (
       <EssentialServices changeLanguage={this.changeLanguage}
-                         language={this.props.language}>            
+                         language={this.props.language}
+                         choices={this.state.choices}>            
       </EssentialServices>
     );
   }
@@ -105,7 +129,8 @@ class VaccineInterestForm extends Component {
   renderHealthcare() {
     return (
       <Healthcare changeLanguage={this.changeLanguage}
-                  language={this.props.language}>            
+                  language={this.props.language}
+                  choices={this.state.choices}>            
       </Healthcare>
     );
   }
@@ -130,14 +155,15 @@ class VaccineInterestForm extends Component {
           {t('form_title')}
         </h4>
 
-        {step === 'landing' &&  this.renderLanding()}
-        {step === 'start' &&  this.renderStart()}
-        {step === 'screening' &&  this.renderScreening()}
-        {step === 'educator' &&  this.renderEducator()}
-        {step === 'childcare' &&  this.renderChildcare()}
-        {step === 'protectiveServices' &&  this.renderProtectiveServices()}
-        {step === 'essentialServices' &&  this.renderEssentialServices()}
-        {step === 'healthcare' &&  this.renderHealthcare()}
+        { !this.state.loading && <>
+          {step === 'start' &&  this.renderStart()}
+          {step === 'screening' &&  this.renderScreening()}
+          {step === 'educator' &&  this.renderEducator()}
+          {step === 'childcare' &&  this.renderChildcare()}
+          {step === 'protectiveServices' &&  this.renderProtectiveServices()}
+          {step === 'essentialServices' &&  this.renderEssentialServices()}
+          {step === 'healthcare' &&  this.renderHealthcare()} </>
+        }
 
       </>
     );
