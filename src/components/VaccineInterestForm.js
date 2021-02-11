@@ -20,7 +20,7 @@ class VaccineInterestForm extends Component {
 
     this.state = {
       captcha: null,
-      step: 'childcare',
+      step: 'educator',
       loading: true,
     }
 
@@ -30,7 +30,7 @@ class VaccineInterestForm extends Component {
     this.handleScreeningSubmit = this.handleScreeningSubmit.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     return API.get("enumValues", "/enumValues")
 
     .then(choices => {
@@ -103,18 +103,18 @@ class VaccineInterestForm extends Component {
 
   renderEducator() {
     return (
-      <Educator changeLanguage={this.changeLanguage}
-                language={this.props.language}
+      <Educator language={this.props.language}
                 choices={this.state.choices}
-                handleSubmit={this.handleSubmit}>            
+                handleSubmit={this.handleSubmit}
+                onCaptchaUpdate={this.onCaptchaUpdate}
+                captcha={this.state.captcha}>            
       </Educator>
     );
   }
 
   renderChildcare() {
     return (
-      <ChildcareProvider changeLanguage={this.changeLanguage}
-                         language={this.props.language}
+      <ChildcareProvider language={this.props.language}
                          choices={this.state.choices}
                          handleSubmit={this.handleSubmit}
                          onCaptchaUpdate={this.onCaptchaUpdate}
@@ -125,27 +125,33 @@ class VaccineInterestForm extends Component {
 
   renderProtectiveServices() {
     return (
-      <ProtectiveServices changeLanguage={this.changeLanguage}
-                          language={this.props.language}
-                          choices={this.state.choices}>            
+      <ProtectiveServices language={this.props.language}
+                          choices={this.state.choices}
+                          handleSubmit={this.handleSubmit}
+                          onCaptchaUpdate={this.onCaptchaUpdate}
+                          captcha={this.state.captcha}>            
       </ProtectiveServices>
     );
   }
 
   renderEssentialServices() {
     return (
-      <EssentialServices changeLanguage={this.changeLanguage}
-                         language={this.props.language}
-                         choices={this.state.choices}>            
+      <EssentialServices language={this.props.language}
+                         choices={this.state.choices}
+                         handleSubmit={this.handleSubmit}
+                         onCaptchaUpdate={this.onCaptchaUpdate}
+                         captcha={this.state.captcha}>            
       </EssentialServices>
     );
   }
 
   renderHealthcare() {
     return (
-      <Healthcare changeLanguage={this.changeLanguage}
-                  language={this.props.language}
-                  choices={this.state.choices}>            
+      <Healthcare language={this.props.language}
+                  choices={this.state.choices}
+                  handleSubmit={this.handleSubmit}
+                  onCaptchaUpdate={this.onCaptchaUpdate}
+                  captcha={this.state.captcha}>            
       </Healthcare>
     );
   }

@@ -181,7 +181,7 @@ class Screening extends Component {
               Next
             </Button>
 
-            <FormikErrorFocus />
+            <FormikErrorFocus/>
           </Form>
         )}
       </Formik>

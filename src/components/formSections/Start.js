@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Form, Col, Alert, InputGroup } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
-import { stateOptions, monthOptions, vaccineTypeOptions, vaccineLocationOptions } from "./Choices";
+import { stateOptions, monthOptions, vaccineTypeOptions } from "./Choices";
 
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
@@ -163,7 +163,7 @@ class Start extends Component {
           errors,
         }) => (
 
-          <Form className="pt-4" noValidate onSubmit={handleSubmit} autocomplete="off">
+          <Form className="pt-4" noValidate onSubmit={handleSubmit} autoComplete="off">
             <p>
               {t('form_instructions')}
             </p>
@@ -180,7 +180,6 @@ class Start extends Component {
                               name="first_name"
                               onChange={handleChange}
                               value={values.first_name}
-                              // isValid={this.props.touched.first_name && !this.props.errors.first_name}
                               onBlur={handleBlur}
                               isInvalid={touched.first_name && errors.first_name}/>
                 <Form.Control.Feedback type="invalid">
@@ -196,7 +195,6 @@ class Start extends Component {
                               name="last_name"
                               onChange={handleChange}
                               value={values.last_name}
-                              // isValid={this.props.touched.last_name && !this.props.errors.last_name}
                               onBlur={handleBlur}
                               isInvalid={touched.last_name && errors.last_name}/>
                 <Form.Control.Feedback type="invalid">
@@ -481,19 +479,20 @@ class Start extends Component {
                     </Form.Label>
                     <div className="mb-3">
 
-                      {vaccineTypeOptions.map((option, index) => 
+                      {Object.keys(this.props.choices.vaccine_type).map((key, index) => 
                         <Form.Check type="radio"
-                                    id={'vaccine_type_' + option.display}>
+                                    id={'vaccine_type_' + key}
+                                    key={key}>
                           <Form.Check.Input 
                                     type="radio" 
                                     name="vaccine_type"
-                                    value={option.value}
+                                    value={key}
                                     isInvalid={touched.vaccine_type && !!errors.vaccine_type}
                                     onChange={handleChange}/>
                           <Form.Check.Label>
-                            {option.display}
+                            { this.props.language === 'es' ? this.props.choices.vaccine_type[key].esp : this.props.choices.vaccine_type[key].eng}
                           </Form.Check.Label>
-                          { index === vaccineTypeOptions.length - 1 && 
+                          { index === Object.keys(this.props.choices.vaccine_type).length - 1 && 
                             <Form.Control.Feedback type="invalid">
                               {errors.vaccine_type}
                             </Form.Control.Feedback>

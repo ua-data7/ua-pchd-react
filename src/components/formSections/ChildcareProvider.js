@@ -12,10 +12,6 @@ class Education extends Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-    
-    }
   }
 
   render() {
@@ -34,7 +30,6 @@ class Education extends Component {
         .string()
         .required('Required.'),
     });
-   
    
     return (
       <Formik
@@ -133,7 +128,7 @@ class Education extends Component {
                     disabled={this.props.captcha === null}>
               Submit
             </Button>
-          
+            <FormikErrorFocus/>
           </Form>
         )}
       </Formik>
