@@ -163,7 +163,7 @@ class Start extends Component {
           errors,
         }) => (
 
-          <Form className="pt-4" noValidate onSubmit={handleSubmit}>
+          <Form className="pt-4" noValidate onSubmit={handleSubmit} autocomplete="off">
             <p>
               {t('form_instructions')}
             </p>

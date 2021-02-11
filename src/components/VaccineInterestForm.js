@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
 import { API } from 'aws-amplify';
 
+
 import Start from './formSections/Start';
 import Screening from "./formSections/Screening";
 import Educator from "./formSections/Educator";
@@ -18,12 +19,13 @@ class VaccineInterestForm extends Component {
     super(props);
 
     this.state = {
-      step: 'educator',
+      captcha: null,
+      step: 'childcare',
       loading: true,
     }
 
-    this.setDate = this.setDate.bind(this);
     this.updateStep = this.updateStep.bind(this);
+    this.onCaptchaUpdate = this.onCaptchaUpdate.bind(this);
     this.handleStartSubmit = this.handleStartSubmit.bind(this);
     this.handleScreeningSubmit = this.handleScreeningSubmit.bind(this);
   }
@@ -49,6 +51,11 @@ class VaccineInterestForm extends Component {
     console.log(this.state);
   }
 
+  onCaptchaUpdate(value) {
+    this.setState({captcha: value});
+    console.log(value)
+  }
+
   updateStep(value) {
     this.setState({
       step: value,
@@ -68,8 +75,12 @@ class VaccineInterestForm extends Component {
     // this.updateStep('screening');
   }
 
-  setDate(field_name, date) {
-    this.setState({[field_name]: date});
+  handleSubmit(e) {
+    console.log(e);
+    // if (e.occupation_screening === '') {
+
+    // }
+    // this.updateStep('screening');
   }
 
   renderStart() {
@@ -94,7 +105,8 @@ class VaccineInterestForm extends Component {
     return (
       <Educator changeLanguage={this.changeLanguage}
                 language={this.props.language}
-                choices={this.state.choices}>            
+                choices={this.state.choices}
+                handleSubmit={this.handleSubmit}>            
       </Educator>
     );
   }
@@ -103,7 +115,10 @@ class VaccineInterestForm extends Component {
     return (
       <ChildcareProvider changeLanguage={this.changeLanguage}
                          language={this.props.language}
-                         choices={this.state.choices}>            
+                         choices={this.state.choices}
+                         handleSubmit={this.handleSubmit}
+                         onCaptchaUpdate={this.onCaptchaUpdate}
+                         captcha={this.state.captcha}>            
       </ChildcareProvider>
     );
   }

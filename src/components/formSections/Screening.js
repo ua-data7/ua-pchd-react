@@ -54,7 +54,7 @@ class Screening extends Component {
           errors,
         }) => (
 
-          <Form noValidate onSubmit={handleSubmit}>
+          <Form noValidate onSubmit={handleSubmit} autocomplete="off">
             {/* <p>All questions with * are required.</p> */}
             <Form.Row className="mt-5">
               <Form.Group as={Col}>

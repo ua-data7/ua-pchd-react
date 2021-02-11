@@ -1,23 +1,11 @@
 import React, { Component } from "react";
 import { Button, Jumbotron } from "react-bootstrap";
-import ReCAPTCHA from "react-google-recaptcha";
 
 class Landing extends Component {
   
   constructor(props) {
-    super(props);
-
-    this.state = {
-      captcha: null,
-    }
-
-    this.onCaptchaUpdate = this.onCaptchaUpdate.bind(this);
+    super(props);    
     this.startForm = this.startForm.bind(this);
-  }
-
-  onCaptchaUpdate(value) {
-    this.setState({captcha: value});
-    console.log(value)
   }
 
   startForm(language) {
@@ -25,8 +13,6 @@ class Landing extends Component {
   }
 
   render() {
-
-    const {captcha} = this.state;
 
     return (
       <>  
@@ -50,18 +36,6 @@ class Landing extends Component {
                   onClick={() => this.startForm('es')}>
             Español
           </Button>
-
-          {/* <ReCAPTCHA
-            sitekey="6LdEm0EaAAAAAD5G7tbDWA0woDjFqlSvqyN2TUqL"
-            onChange={this.onCaptchaUpdate}
-          />
-
-          <Button className="mt-3"
-                  disabled={captcha === null}
-                  onClick={() => this.props.updateStep('form')}
-          >
-            Continue
-          </Button> */}
 
         </Jumbotron>
       </>
