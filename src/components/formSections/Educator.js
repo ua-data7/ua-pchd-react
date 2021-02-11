@@ -123,16 +123,16 @@ class Educator extends Component {
                               isInvalid={touched.occupation && !!errors.occupation}
                               onChange={handleChange}
                               onBlur={handleBlur}>
-                    <option value="" disabled>Select Occupation</option>
-                    {Object.keys(this.props.choices.educator_occupation).map((key, index) => 
-                      <option key={key} value={key}>
-                        { this.props.language === 'es' ? this.props.choices.educator_occupation[key].esp : this.props.choices.educator_occupation[key].eng}
-                      </option>
-                    )}
-                  </Form.Control>
-                  <Form.Control.Feedback type="invalid">
-                    {errors.occupation}
-                  </Form.Control.Feedback>
+                  <option value="" disabled>Select Occupation</option>
+                  {Object.keys(this.props.choices.educator_occupation).map((key, index) => 
+                    <option key={key} value={key}>
+                      { this.props.language === 'es' ? this.props.choices.educator_occupation[key].esp : this.props.choices.educator_occupation[key].eng}
+                    </option>
+                  )}
+                </Form.Control>
+                <Form.Control.Feedback type="invalid">
+                  {errors.occupation}
+                </Form.Control.Feedback>
               </Form.Group>
             </Form.Row>
 

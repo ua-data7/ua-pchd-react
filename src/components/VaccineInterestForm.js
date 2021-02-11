@@ -20,7 +20,7 @@ class VaccineInterestForm extends Component {
 
     this.state = {
       captcha: null,
-      step: 'educator',
+      step: 'protectiveServices',
       loading: true,
     }
 
