@@ -7,4 +7,12 @@
     display: flex;
     justify-content: center;
 }
-    
+
+.react-datepicker__input-container {
+    width: inherit;
+  }
+  
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
+

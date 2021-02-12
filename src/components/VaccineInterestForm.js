@@ -20,11 +20,14 @@ class VaccineInterestForm extends Component {
 
     this.state = {
       captcha: null,
-      step: 'protectiveServices',
+      step: 'start',
+      start: null,
+      screening: null,
       loading: true,
     }
 
     this.updateStep = this.updateStep.bind(this);
+    this.prevStep = this.prevStep.bind(this);
     this.onCaptchaUpdate = this.onCaptchaUpdate.bind(this);
     this.handleStartSubmit = this.handleStartSubmit.bind(this);
     this.handleScreeningSubmit = this.handleScreeningSubmit.bind(this);
@@ -62,6 +65,10 @@ class VaccineInterestForm extends Component {
     });
   }
 
+  prevStep() {
+    
+  }
+
   handleStartSubmit(e) {
     this.setState({start: e});
     this.updateStep('screening');
@@ -69,25 +76,37 @@ class VaccineInterestForm extends Component {
 
   handleScreeningSubmit(e) {
     console.log(e);
-    if (e.occupation_screening === '') {
+    this.setState({screening: e});
 
+    let occupation = e.occupation;
+
+    if (occupation === '1') {
+      this.setState({step: 'childcare_providers'})
+    } else if (occupation === '2') {
+      this.setState({step: 'educators'})
+    } else if (occupation === '3' || occupation === '7') {
+      this.setState({step: 'protective_services'});
+    } else if (occupation === '4') {
+      this.setState({step: 'essential_workers'});
+    } else if (occupation === '5' || occupation === '6') {
+      this.setState({step: 'healthcare_workers'});
+    } else {
+      this.handleSubmit();
     }
     // this.updateStep('screening');
   }
 
-  handleSubmit(e) {
-    console.log(e);
-    // if (e.occupation_screening === '') {
+  handleSubmit() {
+    console.log('submitting');
 
-    // }
-    // this.updateStep('screening');
   }
 
   renderStart() {
     return (
       <Start language={this.props.language}
              handleStartSubmit={this.handleStartSubmit}
-             choices={this.state.choices}>            
+             choices={this.state.choices}
+             start={this.state.start}>            
       </Start>
     );
   }
@@ -96,7 +115,9 @@ class VaccineInterestForm extends Component {
     return (
       <Screening language={this.props.language}
                  handleScreeningSubmit={this.handleScreeningSubmit}
-                 choices={this.state.choices}>
+                 choices={this.state.choices}
+                 screening={this.state.screening}
+                 updateStep={this.updateStep}>
       </Screening>
     );
   }
@@ -107,7 +128,8 @@ class VaccineInterestForm extends Component {
                 choices={this.state.choices}
                 handleSubmit={this.handleSubmit}
                 onCaptchaUpdate={this.onCaptchaUpdate}
-                captcha={this.state.captcha}>            
+                captcha={this.state.captcha}
+                updateStep={this.updateStep}>            
       </Educator>
     );
   }
@@ -118,7 +140,8 @@ class VaccineInterestForm extends Component {
                          choices={this.state.choices}
                          handleSubmit={this.handleSubmit}
                          onCaptchaUpdate={this.onCaptchaUpdate}
-                         captcha={this.state.captcha}>            
+                         captcha={this.state.captcha}
+                         updateStep={this.updateStep}>            
       </ChildcareProvider>
     );
   }
@@ -129,7 +152,8 @@ class VaccineInterestForm extends Component {
                           choices={this.state.choices}
                           handleSubmit={this.handleSubmit}
                           onCaptchaUpdate={this.onCaptchaUpdate}
-                          captcha={this.state.captcha}>            
+                          captcha={this.state.captcha}
+                          updateStep={this.updateStep}>            
       </ProtectiveServices>
     );
   }
@@ -140,7 +164,8 @@ class VaccineInterestForm extends Component {
                          choices={this.state.choices}
                          handleSubmit={this.handleSubmit}
                          onCaptchaUpdate={this.onCaptchaUpdate}
-                         captcha={this.state.captcha}>            
+                         captcha={this.state.captcha}
+                         updateStep={this.updateStep}>            
       </EssentialServices>
     );
   }
@@ -151,7 +176,8 @@ class VaccineInterestForm extends Component {
                   choices={this.state.choices}
                   handleSubmit={this.handleSubmit}
                   onCaptchaUpdate={this.onCaptchaUpdate}
-                  captcha={this.state.captcha}>            
+                  captcha={this.state.captcha}
+                  updateStep={this.updateStep}>            
       </Healthcare>
     );
   }
@@ -179,11 +205,11 @@ class VaccineInterestForm extends Component {
         { !this.state.loading && <>
           {step === 'start' &&  this.renderStart()}
           {step === 'screening' &&  this.renderScreening()}
-          {step === 'educator' &&  this.renderEducator()}
-          {step === 'childcare' &&  this.renderChildcare()}
-          {step === 'protectiveServices' &&  this.renderProtectiveServices()}
-          {step === 'essentialServices' &&  this.renderEssentialServices()}
-          {step === 'healthcare' &&  this.renderHealthcare()} </>
+          {step === 'educators' &&  this.renderEducator()}
+          {step === 'childcare_providers' &&  this.renderChildcare()}
+          {step === 'protective_services' &&  this.renderProtectiveServices()}
+          {step === 'essential_workers' &&  this.renderEssentialServices()}
+          {step === 'healthcare_workers' &&  this.renderHealthcare()} </>
         }
 
       </>

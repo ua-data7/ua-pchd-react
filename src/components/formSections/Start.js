@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, ref } from "react";
 import { Button, Form, Col, Alert, InputGroup } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
 import { stateOptions, monthOptions, vaccineTypeOptions } from "./Choices";
@@ -6,7 +6,7 @@ import { stateOptions, monthOptions, vaccineTypeOptions } from "./Choices";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
-import { Formik, useField, useFormikContext } from 'formik';
+import { Formik, useFormik, useFormikContext } from 'formik';
 import * as yup from 'yup';
 import FormikErrorFocus from "../FormikErrorFocus";
 
@@ -14,18 +14,26 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { CalendarEvent } from 'react-bootstrap-icons';
 
-class Start extends Component {
 
-  constructor(props) {
-    super(props);
-    
-    this.state = {
-    
-    }
-  }
+const BirthdayCheck = () => {
 
-  render() {
-    const { t, language } = this.props;
+  const {values, setFieldValue} = useFormikContext();
+  
+  React.useEffect(() => {
+      console.log('here')
+      if (values && values.dob_month && values.dob_date && values.dob_year) {
+        console.log('age')
+        setFieldValue('age',  '15');
+      }
+  }, [values.dob_month, values.dob_date, values.dob_year]);
+
+  return null;
+};
+
+
+function Start(props) {
+
+    const { t, language } = props;
 
     const vaccineInterestSchema = yup.object({
       first_name: yup
@@ -70,11 +78,7 @@ class Start extends Component {
       home_zip: yup
         .string()
         .required(),
-      home_phone: yup
-        .string()
-        .required()
-        .min(11, 'Must be exactly 10 digits'),
-      cell_number: yup
+      phone: yup
         .string()
         .required()
         .min(11, 'Must be exactly 10 digits'),
@@ -119,6 +123,7 @@ class Start extends Component {
             onBlur={props.onBlur}
             isInvalid={props.isInvalid}
             placeholder="Select Date"
+            className="datepicker"
           />
           <Form.Control.Feedback type="invalid">
             {props.errors.first_dose_date}
@@ -131,7 +136,7 @@ class Start extends Component {
     return (
       <Formik
         validationSchema={vaccineInterestSchema}
-        onSubmit={this.props.handleStartSubmit}
+        onSubmit={props.handleStartSubmit}
         initialValues={{
           first_name: "",
           last_name: "",
@@ -144,8 +149,7 @@ class Start extends Component {
           city: "",
           state: "",
           home_zip: "",
-          home_phone: "",
-          cell_number: "",
+          phone: "",
           received_first_dose: "",
           vaccine_type: "",
           first_dose_date: null,
@@ -243,7 +247,7 @@ class Start extends Component {
                   <Form.Control type="number"
                                 name="dob_year"
                                 placeholder="Year"
-                                onChange={handleChange}
+                                onChange={ handleChange}
                                 onBlur={handleBlur}
                                 isInvalid={touched.dob_year && errors.dob_year}>
                   </Form.Control>
@@ -264,7 +268,7 @@ class Start extends Component {
                   {t('sex')} <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <div className="mb-3">
-                  {Object.keys(this.props.choices.sex).map((key, index) => 
+                  {Object.keys(props.choices.sex).map((key, index) => 
                     <Form.Check type="radio"
                                 id={'sex_' + key}
                                 key={key}>
@@ -275,9 +279,9 @@ class Start extends Component {
                                 isInvalid={touched.sex && !!errors.sex}
                                 onChange={handleChange}/>
                       <Form.Check.Label>
-                        { this.props.language === 'es' ? this.props.choices.sex[key].esp : this.props.choices.sex[key].eng}
+                        { props.language === 'es' ? props.choices.sex[key].esp : props.choices.sex[key].eng}
                       </Form.Check.Label>
-                      { index === Object.keys(this.props.choices.sex).length - 1 && 
+                      { index === Object.keys(props.choices.sex).length - 1 && 
                         <Form.Control.Feedback type="invalid">
                           {errors.sex}
                         </Form.Control.Feedback>
@@ -381,61 +385,31 @@ class Start extends Component {
             <Form.Row className="mt-3">
               <Form.Group as={Col}>
                 <Form.Label>
-                  {t('home_phone')} <span className="pc-color-text-secondary-dark">*</span>
+                  {t('phone_number')} <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
 
                 <PhoneInput
                   country={'us'}
-                  value={values.home_phone}
-                  onChange={ value => setFieldValue('home_phone', value)}
+                  value={values.phone}
+                  onChange={ value => setFieldValue('phone', value)}
                   onBlur={handleBlur}
                   countryCodeEditable={false}
                   disableDropdown={true}
                   inputProps={{
-                    name: "home_phone",
+                    name: "phone",
                   }}
                 />
 
-                { touched.home_phone && 
+                { touched.phone && 
                   <Form.Text className="pc-color-text-secondary-dark">
-                    {errors.home_phone}
+                    {errors.phone}
                   </Form.Text>
                 }
 
-                <Form.Text muted>
+                {/* <Form.Text muted>
                   {t('home_phone_help_text')}
-                </Form.Text>
+                </Form.Text> */}
 
-              </Form.Group>
-            </Form.Row>
-
-            <Form.Row>
-              <Form.Group as={Col}>
-                <Form.Label>
-                  {t('cell_number')} <span className="pc-color-text-secondary-dark">*</span>
-                </Form.Label>
-                
-                <PhoneInput
-                  country={'us'}
-                  value={values.cell_number}
-                  onChange={ value => setFieldValue('cell_number', value)}
-                  onBlur={handleBlur}
-                  countryCodeEditable={false}
-                  disableDropdown={true}
-                  inputProps={{
-                    name: "cell_number",
-                  }}
-                />
-
-                { touched.cell_number && 
-                  <Form.Text className="pc-color-text-secondary-dark">
-                    {errors.cell_number}
-                  </Form.Text>
-                }
-
-                <Form.Text muted>
-                  {t('cell_phone_help_text')}
-                </Form.Text>
               </Form.Group>
             </Form.Row>
 
@@ -479,7 +453,7 @@ class Start extends Component {
                     </Form.Label>
                     <div className="mb-3">
 
-                      {Object.keys(this.props.choices.vaccine_type).map((key, index) => 
+                      {Object.keys(props.choices.vaccine_type).map((key, index) => 
                         <Form.Check type="radio"
                                     id={'vaccine_type_' + key}
                                     key={key}>
@@ -490,9 +464,9 @@ class Start extends Component {
                                     isInvalid={touched.vaccine_type && !!errors.vaccine_type}
                                     onChange={handleChange}/>
                           <Form.Check.Label>
-                            { this.props.language === 'es' ? this.props.choices.vaccine_type[key].esp : this.props.choices.vaccine_type[key].eng}
+                            { props.language === 'es' ? props.choices.vaccine_type[key].esp : props.choices.vaccine_type[key].eng}
                           </Form.Check.Label>
-                          { index === Object.keys(this.props.choices.vaccine_type).length - 1 && 
+                          { index === Object.keys(props.choices.vaccine_type).length - 1 && 
                             <Form.Control.Feedback type="invalid">
                               {errors.vaccine_type}
                             </Form.Control.Feedback>
@@ -507,12 +481,13 @@ class Start extends Component {
                   {t('date_received')}
                 </Form.Label>
                 <Form.Row>
-                  <Form.Group>
+                  <Form.Group as={Col} md="6" sm="12">
                     <DatePicker
                       name="first_dose_date"
                       selected={values.first_dose_date}
                       onChange={ date => setFieldValue('first_dose_date', date)}
                       maxDate={new Date()}
+                      minDate={new Date(Date.parse("12-1-2020"))}
                       onBlur={handleBlur}
                       customInput={
                         <CustomDatepickerInput
@@ -530,7 +505,7 @@ class Start extends Component {
                       {t('where_received')} <span className="pc-color-text-secondary-dark">*</span>
                     </Form.Label>
                     <div className="mb-3">
-                      {Object.keys(this.props.choices.locations).map((key, index) => 
+                      {Object.keys(props.choices.locations).map((key, index) => 
                         <Form.Check type="radio"
                                     id={'first_dose_loc_' + key}
                                     key={key}>
@@ -541,9 +516,9 @@ class Start extends Component {
                                     isInvalid={touched.first_dose_loc && !!errors.first_dose_loc}
                                     onChange={handleChange}/>
                           <Form.Check.Label>
-                            { this.props.language === 'es' ? this.props.choices.locations[key].esp : this.props.choices.locations[key].eng}
+                            { props.language === 'es' ? props.choices.locations[key].esp : props.choices.locations[key].eng}
                           </Form.Check.Label> 
-                          { index === Object.keys(this.props.choices.locations).length - 1 && 
+                          { index === Object.keys(props.choices.locations).length - 1 && 
                             <Form.Control.Feedback type="invalid">
                               {errors.first_dose_loc}
                             </Form.Control.Feedback>
@@ -561,12 +536,13 @@ class Start extends Component {
             Next
             </Button>
 
+            <BirthdayCheck></BirthdayCheck>
             <FormikErrorFocus />
           </Form>
         )}
       </Formik>
     );
-  }
+
 }
 
 export default withTranslation()(Start);
