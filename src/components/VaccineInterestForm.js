@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
 import { API } from 'aws-amplify';
 
@@ -182,6 +182,12 @@ class VaccineInterestForm extends Component {
     );
   }
 
+  renderLoading() {
+    return (
+      <Spinner animation="border" variant="secondary" className="loading"/>
+    );
+  }
+
   render() {
     
     const { t } = this.props;
@@ -202,14 +208,22 @@ class VaccineInterestForm extends Component {
           {t('form_title')}
         </h4>
 
-        { !this.state.loading && <>
-          {step === 'start' &&  this.renderStart()}
-          {step === 'screening' &&  this.renderScreening()}
-          {step === 'educators' &&  this.renderEducator()}
-          {step === 'childcare_providers' &&  this.renderChildcare()}
-          {step === 'protective_services' &&  this.renderProtectiveServices()}
-          {step === 'essential_workers' &&  this.renderEssentialServices()}
-          {step === 'healthcare_workers' &&  this.renderHealthcare()} </>
+        { this.state.loading && 
+          <>
+            {this.renderLoading()}
+          </>
+        }
+
+        { !this.state.loading && 
+          <>
+            {step === 'start' &&  this.renderStart()}
+            {step === 'screening' &&  this.renderScreening()}
+            {step === 'educators' &&  this.renderEducator()}
+            {step === 'childcare_providers' &&  this.renderChildcare()}
+            {step === 'protective_services' &&  this.renderProtectiveServices()}
+            {step === 'essential_workers' &&  this.renderEssentialServices()}
+            {step === 'healthcare_workers' &&  this.renderHealthcare()} 
+          </>
         }
 
       </>
