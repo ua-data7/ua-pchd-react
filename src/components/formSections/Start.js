@@ -38,7 +38,8 @@ const BirthdayCheck = () => {
             setStatus({dob_valid: 'Double check dob.'});
           } else {
             setFieldValue('age',  age);
-            setFieldValue('dob',  date.format("YYYY-MM-DD"));   
+            setFieldValue('dob',  date);  
+            setStatus({dob_valid: ''}); 
           }  
         } else {
           setStatus({dob_valid: 'Invalid!'});
@@ -83,6 +84,10 @@ function Start(props) {
         .integer()
         .min(1900)
         .max(2021),
+      dob: yup
+        .date()
+        .nullable()
+        .required(),
       sex: yup
         .string()
         .required(requiredMessage),
@@ -99,7 +104,7 @@ function Start(props) {
       state: yup
         .string()
         .required(requiredMessage),
-      home_zip: yup
+      zip: yup
         .string()
         .matches(/^[0-9]+$/, "Must be only digits")
         .required(requiredMessage)
@@ -123,12 +128,18 @@ function Start(props) {
         .nullable(true)
         .when("received_first_dose", {
           is: 'Yes',
-          then: yup.date().required(requiredMessage)
+          then: yup.date(requiredMessage).nullable(true).required(requiredMessage)
         }),
       first_dose_loc: yup
         .string()
         .when("received_first_dose", {
           is: 'Yes',
+          then: yup.string().required(requiredMessage)
+        }),
+      first_dose_other_loc: yup
+        .string()
+        .when("first_dose_loc", {
+          is: '8',
           then: yup.string().required(requiredMessage)
         })
     });
@@ -169,17 +180,19 @@ function Start(props) {
           dob_month: "",
           dob_date: null,
           dob_year: null,
+          dob: null,
           sex: "",
           email: "",
           residential_address: "",
           city: "",
           state: "",
-          home_zip: "",
+          zip: "",
           phone: "",
           received_first_dose: "",
           vaccine_type: "",
           first_dose_date: null,
           first_dose_loc: "",
+          first_dose_other_loc: "",
         }}
         initialStatus={{}}
       >
@@ -276,7 +289,7 @@ function Start(props) {
                   <Form.Control type="number"
                                 name="dob_year"
                                 placeholder="Year"
-                                onChange={ handleChange}
+                                onChange={handleChange}
                                 onBlur={handleBlur}
                                 isInvalid={touched.dob_year && errors.dob_year}>
                   </Form.Control>
@@ -293,6 +306,8 @@ function Start(props) {
                   { status.dob_valid }
                 </Form.Text>
             </Form.Row>
+
+            <input type="hidden" name="dob" value={values.dob}></input>
 
             <Form.Row className="mt-2">
               <Form.Group as={Col}>
@@ -332,7 +347,10 @@ function Start(props) {
                 <Form.Control type="email"
                               placeholder="Enter email"
                               name="email"
-                              onChange={handleChange}
+                              onChange={e => {
+                                setFieldTouched('email');
+                                handleChange(e);
+                              }}
                               onBlur={handleBlur}
                               isInvalid={touched.email && errors.email}>
                 </Form.Control>
@@ -403,16 +421,16 @@ function Start(props) {
                   <Form.Label>
                     {t('zip_code')} <span className="pc-color-text-secondary-dark">*</span>
                   </Form.Label>
-                  <Form.Control name="home_zip"
+                  <Form.Control name="zip"
                                 onChange={e => {
-                                  setFieldTouched('home_zip');
+                                  setFieldTouched('zip');
                                   handleChange(e);
                                 }}
                                 onBlur={handleBlur}
-                                isInvalid={touched.home_zip && errors.home_zip}>
+                                isInvalid={touched.zip && errors.zip}>
                   </Form.Control>
                   <Form.Control.Feedback type="invalid">
-                    {errors.home_zip}
+                    {errors.zip}
                   </Form.Control.Feedback>
                 </Form.Group>
             </Form.Row>
@@ -458,19 +476,19 @@ function Start(props) {
                 <div className="mb-3 mt-3">
                   <Form.Check
                     name="received_first_dose"
-                    id="received_first_dose_yes"
+                    id="received_first_dose_no"
                     type="radio"
-                    label="Yes"
-                    value="Yes"
+                    label={t('yes_no_answer_0')}
+                    value={false}
                     isInvalid={touched.received_first_dose && !!errors.received_first_dose}
                     onChange={handleChange}
                   />
                   <Form.Check
                     name="received_first_dose"
-                    id="received_first_dose_no"
+                    id="received_first_dose_yes"
                     type="radio"
-                    label="No"
-                    value="No"
+                    label={t('yes_no_answer_1')}
+                    value={true}
                     isInvalid={touched.received_first_dose && !!errors.received_first_dose}
                     onChange={handleChange}
                     feedback={errors.received_first_dose}
@@ -479,7 +497,7 @@ function Start(props) {
               </Form.Group>
             </Form.Row>
 
-            { values.received_first_dose === 'Yes' && 
+            { values.received_first_dose === 'true' && 
               <>
                 <Form.Row>
                   <Form.Group as={Col}>
@@ -516,7 +534,7 @@ function Start(props) {
                   {t('date_received')}
                 </Form.Label>
                 <Form.Row>
-                  <Form.Group as={Col} md="6" sm="12">
+                  <Form.Group as={Col} md="4" sm="6" xs="12">
                     <DatePicker
                       name="first_dose_date"
                       selected={values.first_dose_date}
@@ -563,6 +581,25 @@ function Start(props) {
                     </div>
                   </Form.Group>
                 </Form.Row>
+                
+                { values.first_dose_loc === '8' &&
+                  <Form.Row>
+                    <Form.Group as={Col} md="4" sm="6" xs="12">
+                      <Form.Label>
+                        Please list the location: <span className="pc-color-text-secondary-dark">*</span>
+                      </Form.Label>
+                      <Form.Control name="first_dose_other_loc"
+                                    onChange={handleChange}
+                                    value={values.first_dose_other_loc}
+                                    onBlur={handleBlur}
+                                    isInvalid={touched.first_dose_other_loc && errors.first_dose_other_loc}/>
+                      <Form.Control.Feedback type="invalid">
+                        {errors.first_dose_other_loc}
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  </Form.Row>
+                }
+                
               </>
             }
 
