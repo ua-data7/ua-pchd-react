@@ -6,6 +6,9 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import FormikErrorFocus from "../FormikErrorFocus";
 
+import ReCAPTCHA from "react-google-recaptcha";
+import { age_threshold, recaptcha_site_key } from "../../config";
+
 class Screening extends Component {
 
   constructor(props) {
@@ -66,6 +69,8 @@ class Screening extends Component {
 
           <Form noValidate onSubmit={handleSubmit} autoComplete="off">
             {/* <p>All questions with * are required.</p> */}
+
+            <p>{this.props.age}</p>
             
             <Form.Row className="mt-5">
               <Form.Group as={Col}>
@@ -159,41 +164,60 @@ class Screening extends Component {
                 </div>
               </Form.Group>
             </Form.Row>
+            
+            { this.props.age < age_threshold ?
+              <>
+                <Form.Row>
+                  <Form.Group as={Col} className="mt-3">
+                    <Form.Label>
+                      {t('occupation_screening')} <span className="pc-color-text-secondary-dark">*</span>
+                    </Form.Label>
+                    <div className="mt-2">
+                      {Object.keys(this.props.choices.occupations).map((key, index) => 
+                        <Form.Check type="radio"
+                                    id={'occupation_' + key}
+                                    key={key}
+                                    className="mb-2">
+                          <Form.Check.Input 
+                                    type="radio" 
+                                    name="occupation"
+                                    value={key}
+                                    isInvalid={touched.occupation && !!errors.occupation}
+                                    onChange={handleChange}/>
+                          <Form.Check.Label>
+                            { this.props.language === 'es' ? this.props.choices.occupations[key].esp : this.props.choices.occupations[key].eng}
+                          </Form.Check.Label> 
+                          { index === Object.keys(this.props.choices.occupations).length - 1 && 
+                            <Form.Control.Feedback type="invalid">
+                              {errors.occupation}
+                            </Form.Control.Feedback>
+                          } 
+                        </Form.Check>            
+                      )}
+                    </div>
+                  </Form.Group>
+                </Form.Row>
 
-            <Form.Row>
-              <Form.Group as={Col} className="mt-3">
-                <Form.Label>
-                  {t('occupation_screening')} <span className="pc-color-text-secondary-dark">*</span>
-                </Form.Label>
-                <div className="mt-2">
-                  {Object.keys(this.props.choices.occupations).map((key, index) => 
-                    <Form.Check type="radio"
-                                id={'occupation_' + key}
-                                key={key}
-                                className="mb-2">
-                      <Form.Check.Input 
-                                type="radio" 
-                                name="occupation"
-                                value={key}
-                                isInvalid={touched.occupation && !!errors.occupation}
-                                onChange={handleChange}/>
-                      <Form.Check.Label>
-                        { this.props.language === 'es' ? this.props.choices.occupations[key].esp : this.props.choices.occupations[key].eng}
-                      </Form.Check.Label> 
-                      { index === Object.keys(this.props.choices.occupations).length - 1 && 
-                        <Form.Control.Feedback type="invalid">
-                          {errors.occupation}
-                        </Form.Control.Feedback>
-                      } 
-                    </Form.Check>            
-                  )}
-                </div>
-              </Form.Group>
-            </Form.Row>
+                <Button variant="primary" type="submit" className="mt-5 mb-5">
+                  Next
+                </Button>
+              </>
+              :
+              <>
+                <ReCAPTCHA
+                  sitekey={recaptcha_site_key}
+                  onChange={this.props.onCaptchaUpdate}
+                  className="mt-3"
+                />
 
-            <Button variant="primary" type="submit" className="mt-5 mb-5">
-              Next
-            </Button>
+                <Button variant="primary"
+                        type="submit"
+                        className="mt-4 mb-5"
+                        disabled={this.props.captcha === null}>
+                  Submit
+                </Button>
+              </>
+            }
 
             <FormikErrorFocus/>
           </Form>

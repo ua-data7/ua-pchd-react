@@ -22,7 +22,7 @@ class Healthcare extends Component {
       other_occupation: yup
         .string()
         .when("occupation", {
-          is: "45",
+          is: "47",
           then: yup.string().required('Required.')
       }),
       employer: yup
@@ -82,7 +82,7 @@ class Healthcare extends Component {
               </Form.Group>
             </Form.Row>
 
-            { values.occupation === "45" &&
+            { values.occupation === "47" &&
               <Form.Row>
                 <Form.Group as={Col} md="6" sm="12">
                   <Form.Label>

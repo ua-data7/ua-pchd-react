@@ -205,7 +205,6 @@ function Start(props) {
           setFieldTouched,
           values,
           touched,
-          isValid,
           errors,
           status
         }) => (
@@ -315,7 +314,7 @@ function Start(props) {
                 </Form.Text> */}
             </Form.Row>
 
-            <input type="hidden" name="dob" value={values.dob}></input>
+            <input type="hidden" name="dob"></input>
 
             <Form.Row className="mt-2">
               <Form.Group as={Col}>
@@ -611,9 +610,8 @@ function Start(props) {
               </>
             }
 
-      
             <Button variant="primary" type="submit" className="mt-5">
-            Next
+              Next
             </Button>
 
             <BirthdayCheck></BirthdayCheck>

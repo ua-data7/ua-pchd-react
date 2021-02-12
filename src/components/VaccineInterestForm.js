@@ -117,7 +117,8 @@ class VaccineInterestForm extends Component {
                  handleScreeningSubmit={this.handleScreeningSubmit}
                  choices={this.state.choices}
                  screening={this.state.screening}
-                 updateStep={this.updateStep}>
+                 updateStep={this.updateStep}
+                 age={this.state.start.age}>
       </Screening>
     );
   }
