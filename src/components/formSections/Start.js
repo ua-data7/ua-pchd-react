@@ -43,6 +43,7 @@ const BirthdayCheck = () => {
           }  
         } else {
           setStatus({dob_valid: 'Invalid!'});
+          setFieldValue('dob', null);
         }
         
       }
@@ -82,8 +83,8 @@ function Start(props) {
         .required(requiredMessage)
         .nullable(true)
         .integer()
-        .min(1900)
-        .max(2021),
+        .min(1900, '')
+        .max(2021, ''), 
       dob: yup
         .date()
         .nullable()
@@ -301,10 +302,17 @@ function Start(props) {
                   <Form.Text muted className="pl-1">
                     {t('dob_help_text')}
                   </Form.Text>
+                  <Form.Text className="pl-1">
+                    { status.dob_valid &&
+                      <span className="pc-color-text-secondary-dark">
+                        {status.dob_valid}
+                      </span>
+                    }
+                  </Form.Text>
                 </Form.Group>
-                <Form.Text muted className="pl-1">
+                {/* <Form.Text muted className="pl-1">
                   { status.dob_valid }
-                </Form.Text>
+                </Form.Text> */}
             </Form.Row>
 
             <input type="hidden" name="dob" value={values.dob}></input>
