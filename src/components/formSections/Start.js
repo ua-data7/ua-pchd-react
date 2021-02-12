@@ -247,6 +247,21 @@ function Start(props) {
                   {errors.last_name}
                 </Form.Control.Feedback>
               </Form.Group>
+
+              <Form.Group as={Col} md="3" sm="6" xs="6">
+                <Form.Label>
+                  {t('middle_name')}
+                </Form.Label>
+                <Form.Control/>
+              </Form.Group>
+
+              <Form.Group as={Col} md="1" sm="6" xs="6">
+                <Form.Label>
+                  {t('suffix')}
+                </Form.Label>
+                <Form.Control/>
+              </Form.Group>
+              
             </Form.Row>
             
             <Form.Label>

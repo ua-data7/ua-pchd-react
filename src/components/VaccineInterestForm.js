@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, Spinner } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
 import { API } from 'aws-amplify';
-
+import moment from 'moment';
 
 import Start from './formSections/Start';
 import Screening from "./formSections/Screening";
@@ -11,6 +11,7 @@ import ChildcareProvider from "./formSections/ChildcareProvider";
 import ProtectiveServices from "./formSections/ProtectiveServices";
 import EssentialServices from "./formSections/EssentialServices";
 import Healthcare from "./formSections/Healthcare";
+import Confirmation from "./formSections/Confirmation";
 
 
 class VaccineInterestForm extends Component {
@@ -31,6 +32,8 @@ class VaccineInterestForm extends Component {
     this.onCaptchaUpdate = this.onCaptchaUpdate.bind(this);
     this.handleStartSubmit = this.handleStartSubmit.bind(this);
     this.handleScreeningSubmit = this.handleScreeningSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.submitPayload = this.submitPayload.bind(this);
   }
 
   async componentDidMount() {
@@ -75,7 +78,6 @@ class VaccineInterestForm extends Component {
   }
 
   handleScreeningSubmit(e) {
-    console.log(e);
     this.setState({screening: e});
 
     let occupation = e.occupation;
@@ -91,13 +93,77 @@ class VaccineInterestForm extends Component {
     } else if (occupation === '5' || occupation === '6') {
       this.setState({step: 'healthcare_workers'});
     } else {
-      this.handleSubmit();
+      this.handleSubmit(e);
     }
-    // this.updateStep('screening');
   }
 
-  handleSubmit() {
-    console.log('submitting');
+  handleSubmit(e) {
+
+    this.setState({
+      [this.state.step]: e
+    },() => {
+      this.submitPayload();
+    });
+
+  }
+
+  async submitPayload() {
+    console.log(this.state);
+    console.log(this.state.start);
+
+    const start = this.state.start;
+    const screening = this.state.screening;
+
+    const payload = {
+      first_name: start.first_name,
+      last_name: start.last_name,
+      dob: start.dob.format('YYYY-MM-DD'),
+      sex: start.sex,
+      email: start.email,
+      residential_address: start.residential_address,
+      city: start.city,
+      state: start.state,
+      zip: start.zip,
+      phone: start.phone,
+      received_first_dose: start.received_first_dose === 'true' ? true : false,
+      congregate_housing: parseInt(screening.congregate_housing),
+      ahcccs: parseInt(screening.accchs),
+      occupation: screening.occupation ? parseInt(screening.occupation) : 0,
+    };
+
+    if (start.received_first_dose === "true") {
+      payload['first_dose_date'] = moment(start.first_dose_date).format("YYYY-MM-DD");
+      payload['first_dose_loc'] = parseInt(start.first_dose_loc);
+      if (start.first_dose_loc === '8') {
+        payload['first_dose_other_loc'] = start.first_dose_other_loc;
+      }
+      payload['vaccine_type'] = parseInt(start.vaccine_type)
+    }
+
+    if (screening.health_conditions.length) {
+      payload['health_conditions'] = screening.health_conditions.map(val => parseInt(val, 10))
+    }
+
+    if (this.state.childcare_provider) {
+      
+    }
+
+    let submission = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: payload,
+    }
+
+    console.log(payload)
+
+    return API.post("regPublish", "/regPublish", submission)
+      .then(result => {
+        console.log(result)
+      })
+      .then(error => {
+        console.log(error)
+      });
 
   }
 
@@ -118,7 +184,9 @@ class VaccineInterestForm extends Component {
                  choices={this.state.choices}
                  screening={this.state.screening}
                  updateStep={this.updateStep}
-                 age={this.state.start.age}>
+                 age={this.state.start.age}
+                 onCaptchaUpdate={this.onCaptchaUpdate}
+                 captcha={this.state.captcha}>
       </Screening>
     );
   }
@@ -183,6 +251,12 @@ class VaccineInterestForm extends Component {
     );
   }
 
+  renderConfirmation() {
+    return (
+      <Confirmation></Confirmation>
+    );
+  }
+
   renderLoading() {
     return (
       <Spinner animation="border" variant="secondary" className="loading"/>
@@ -224,6 +298,7 @@ class VaccineInterestForm extends Component {
             {step === 'protective_services' &&  this.renderProtectiveServices()}
             {step === 'essential_workers' &&  this.renderEssentialServices()}
             {step === 'healthcare_workers' &&  this.renderHealthcare()} 
+            {step === 'confirmation' &&  this.renderConfirmation()} 
           </>
         }
 

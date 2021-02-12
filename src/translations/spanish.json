@@ -6,6 +6,7 @@
     "first_name": "Nombre",
     "middle_name": "Segundo Nombre",
     "last_name": "Apellido",
+    "suffix": "Suffix",
     "dob": "Fecha de nacimiento",
     "dob_help_text": "Verifique la fecha de nacimiento. La fecha de nacimiento debe ser precisa para su procesamiento.",
     "sex": "Sexo",

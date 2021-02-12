@@ -21,20 +21,24 @@ class Screening extends Component {
 
   render() {
 
-    const { t, language } = this.props;
+    const { t, language, age } = this.props;
 
     const schema = yup.object({
-      occupation: yup
+      congregate_housing: yup
         .string()
         .required('Required.'),
-      congregate_housing_status: yup
-        .string()
-        .required('Required.'),
-      accchs_status: yup
+      accchs: yup
         .string()
         .required('Required.'),
       health_conditions: yup
-        .array()
+        .array(),
+      occupation: yup
+        .string()
+        .when("$age", ($age) => {
+          if(age < age_threshold) {
+            return yup.string().required('Required')
+          }
+        }),
     });
 
     let initialValues;
@@ -44,13 +48,16 @@ class Screening extends Component {
     } else {
       initialValues = {
         occupation: "",
-        congregate_housing_status: "",
-        accchs_status: "",
+        congregate_housing: "",
+        accchs: "",
         health_conditions: [],
       };
     }
    
     return (
+
+      
+
       <Formik
         validationSchema={schema}
         onSubmit={this.props.handleScreeningSubmit}
@@ -67,10 +74,8 @@ class Screening extends Component {
           errors,
         }) => (
 
-          <Form noValidate onSubmit={handleSubmit} autoComplete="off">
+          <Form noValidate onSubmit={handleSubmit} autoComplete="off" context={ age }>
             {/* <p>All questions with * are required.</p> */}
-
-            <p>{this.props.age}</p>
             
             <Form.Row className="mt-5">
               <Form.Group as={Col}>
@@ -80,21 +85,21 @@ class Screening extends Component {
                 <div className="mt-3">
                   {Object.keys(this.props.choices.congregate).map((key, index) => 
                     <Form.Check type="radio"
-                                id={'congregate_housing_status_' + key}
+                                id={'congregate_housing_' + key}
                                 key={key}
                                 className="mb-2">
                       <Form.Check.Input 
                                 type="radio" 
-                                name="congregate_housing_status"
+                                name="congregate_housing"
                                 value={key}
-                                isInvalid={touched.congregate_housing_status && !!errors.congregate_housing_status}
+                                isInvalid={touched.congregate_housing && !!errors.congregate_housing}
                                 onChange={handleChange}/>
                       <Form.Check.Label>
                         { this.props.language === 'es' ? this.props.choices.congregate[key].esp : this.props.choices.congregate[key].eng}
                       </Form.Check.Label> 
                       { index === Object.keys(this.props.choices.congregate).length - 1 && 
                         <Form.Control.Feedback type="invalid">
-                          {errors.congregate_housing_status}
+                          {errors.congregate_housing}
                         </Form.Control.Feedback>
                       } 
                     </Form.Check>            
@@ -111,21 +116,21 @@ class Screening extends Component {
                 <div className="mt-2">
                   {Object.keys(this.props.choices.ahcccs).map((key, index) => 
                     <Form.Check type="radio"
-                                id={'accchs_status_' + key}
+                                id={'accchs_' + key}
                                 key={key}
                                 className="mb-2">
                       <Form.Check.Input 
                                 type="radio" 
-                                name="accchs_status"
+                                name="accchs"
                                 value={key}
-                                isInvalid={touched.accchs_status && !!errors.accchs_status}
+                                isInvalid={touched.accchs && !!errors.accchs}
                                 onChange={handleChange}/>
                       <Form.Check.Label>
                         { this.props.language === 'es' ? this.props.choices.ahcccs[key].esp : this.props.choices.ahcccs[key].eng}
                       </Form.Check.Label> 
                       { index === Object.keys(this.props.choices.ahcccs).length - 1 && 
                         <Form.Control.Feedback type="invalid">
-                          {errors.accchs_status}
+                          {errors.accchs}
                         </Form.Control.Feedback>
                       } 
                     </Form.Check>            
@@ -197,10 +202,30 @@ class Screening extends Component {
                     </div>
                   </Form.Group>
                 </Form.Row>
+                {
+                  values.occupation === '8' ?
+                    <>
+                      <ReCAPTCHA
+                        sitekey={recaptcha_site_key}
+                        onChange={this.props.onCaptchaUpdate}
+                        className="mt-3"
+                      />
 
-                <Button variant="primary" type="submit" className="mt-5 mb-5">
-                  Next
-                </Button>
+                      <Button variant="primary"
+                              type="submit"
+                              className="mt-4 mb-5"
+                              disabled={this.props.captcha === null}>
+                        Submit
+                      </Button>
+                    </>
+                  :
+                    <>
+                      <Button variant="primary" type="submit" className="mt-5 mb-5">
+                        Next
+                      </Button>
+                    </>
+                }
+                
               </>
               :
               <>

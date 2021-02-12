@@ -6,6 +6,7 @@
     "first_name": "First Name",
     "middle_name": "Middle Name",
     "last_name": "Last Name",
+    "suffix": "Suffix",
     "dob": "Date of Birth",
     "dob_help_text": "Double check DOB. DOB must be accurate for processing.",
     "sex": "Legal Sex",
