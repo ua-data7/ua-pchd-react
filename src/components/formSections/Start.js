@@ -21,7 +21,7 @@ const BirthdayCheck = () => {
   const {values, setFieldValue, setStatus} = useFormikContext();
   
   React.useEffect(() => {
-      console.log('here')
+
       if (values && values.dob_month && values.dob_date && values.dob_year) {
         
         var date = moment({ 
@@ -49,6 +49,8 @@ const BirthdayCheck = () => {
 
   return null;
 };
+
+
 
 
 function Start(props) {
@@ -99,7 +101,10 @@ function Start(props) {
         .required(requiredMessage),
       home_zip: yup
         .string()
-        .required(requiredMessage),
+        .matches(/^[0-9]+$/, "Must be only digits")
+        .required(requiredMessage)
+        .min(5, 'Must be exactly 5 digits')
+        .max(5, 'Must be exactly 5 digits'),
       phone: yup
         .string()
         .required(requiredMessage)
@@ -183,6 +188,7 @@ function Start(props) {
           handleChange,
           handleBlur,
           setFieldValue,
+          setFieldTouched,
           values,
           touched,
           isValid,
@@ -398,7 +404,10 @@ function Start(props) {
                     {t('zip_code')} <span className="pc-color-text-secondary-dark">*</span>
                   </Form.Label>
                   <Form.Control name="home_zip"
-                                onChange={handleChange}
+                                onChange={e => {
+                                  setFieldTouched('home_zip');
+                                  handleChange(e);
+                                }}
                                 onBlur={handleBlur}
                                 isInvalid={touched.home_zip && errors.home_zip}>
                   </Form.Control>
