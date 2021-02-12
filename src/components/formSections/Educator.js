@@ -18,7 +18,7 @@ class Educator extends Component {
     }
   }
 
-  render() {
+  render() { 
 
     const { t } = this.props;
 
@@ -66,7 +66,7 @@ class Educator extends Component {
           errors,
         }) => (
 
-          <Form noValidate onSubmit={handleSubmit} autocomplete="off">
+          <Form noValidate onSubmit={handleSubmit} autoComplete="off">
 
             <Form.Row className="mt-4">
               <Form.Group as={Col} md="6" sm="12">

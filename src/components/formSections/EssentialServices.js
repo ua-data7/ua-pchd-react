@@ -2,87 +2,129 @@ import React, { Component } from "react";
 import { Button, Form, Col } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
 
-import { educatorEmployerOptions } from "./Choices";
-
 import { Formik } from 'formik';
+import * as yup from 'yup';
+import FormikErrorFocus from "../FormikErrorFocus";
+
+import ReCAPTCHA from "react-google-recaptcha";
 
 class EssentialServices extends Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-    
-    }
-  }
 
   render() {
 
     const { t } = this.props;
+
+    const schema = yup.object({
+      occupation: yup
+        .string()
+        .required('Required.'),
+      other_occupation: yup
+        .string()
+        .when("occupation", {
+          is: "24",
+          then: yup.string().required('Required.')
+      }),
+      employer: yup
+        .string()
+        .required('Required.'),
+    });
    
     return (
-      <>
-        <Button className="pc-color-primary-alt-darker"
-                onClick={() => this.props.changeLanguage('en')}>
-          English
-        </Button>
-        <Button className="pc-color-primary-alt-darkest ml-2"
-                onClick={() => this.props.changeLanguage('es')}>
-          Español
-        </Button>
-        <h4>
-          {t('form_title')}
-        </h4>
+      <Formik
+        validationSchema={schema}
+        onSubmit={this.props.handleSubmit}
+        initialValues={{
+          employer: "",
+          occupation: "",
+          other_occupation: "",
+        }}
+      >
+        {({
+          handleSubmit,
+          handleChange,
+          handleBlur,
+          values,
+          touched,
+          errors,
+        }) => (
 
-        <p>Essential Services</p>
-
-        <Form.Row>
-          <Form.Group as={Col} md="4">
-            <Form.Label>
-              {t('essential_occupation')} <span className="pc-color-text-secondary-dark">*</span>
-            </Form.Label>
-            <Form.Control as="select"
-                            custom
-                            defaultValue=""
-                            name="essential_occupation">
-                <option value="" disabled>Select Occupation</option>
-                {educatorEmployerOptions.map((option) => <option key={option.value} value={option.value}>{this.props.language === 'en' ? option.english : option.spanish }</option>)}
-              </Form.Control>
-          </Form.Group>
-        </Form.Row>
-
-        <Form.Row>
-          <Form.Group as={Col} md="4">
-            <Form.Label>
-              {t('other_essential_occupation')} <span className="pc-color-text-secondary-dark">*</span>
-            </Form.Label>
-            <Form.Control name="other_essential_occupation"/>
-          </Form.Group>
-        </Form.Row>
-
-        <Form.Row>
-          <Form.Group as={Col} md="4">
-            <Form.Label>
-              {t('essential_employer')} <span className="pc-color-text-secondary-dark">*</span>
-            </Form.Label>
-            <Form.Control name="essential_employer_specify"/>
-          </Form.Group>
-        </Form.Row>
-
-        <Form.Row>
-          <Form.Group as={Col} md="4">
-            <Form.Label>
-              {t('essential_address')} <span className="pc-color-text-secondary-dark">*</span>
-            </Form.Label>
-            <Form.Control />
-          </Form.Group>
-        </Form.Row>
+          <Form noValidate onSubmit={handleSubmit} autoComplete="off">
         
-        <Button variant="primary" type="submit" className="mt-4 mb-5">
-          Next
-        </Button>
-          
-      </>
+            <Form.Row className="mt-5">
+              <Form.Group as={Col} md="6" sm="12">
+                <Form.Label>
+                  {t('essential_occupation')} <span className="pc-color-text-secondary-dark">*</span>
+                </Form.Label>
+                <Form.Control as="select"
+                              custom
+                              defaultValue=""
+                              name="occupation"
+                              isInvalid={touched.occupation && !!errors.occupation}
+                              onChange={handleChange}
+                              onBlur={handleBlur}>
+                  <option value="" disabled>Select Occupation</option>
+                  {Object.keys(this.props.choices.essential_occupation).map((key, index) => 
+                    <option key={key} value={key}>
+                      { this.props.language === 'es' ? this.props.choices.essential_occupation[key].esp : this.props.choices.essential_occupation[key].eng}
+                    </option>
+                  )}
+                </Form.Control>
+                <Form.Control.Feedback type="invalid">
+                  {errors.occupation}
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Form.Row>
+
+            { values.occupation === "24" &&
+              <Form.Row>
+                <Form.Group as={Col} md="6" sm="12">
+                  <Form.Label>
+                    {t('other_essential_occupation')} <span className="pc-color-text-secondary-dark">*</span>
+                  </Form.Label>
+                  <Form.Control name="other_occupation"
+                                onChange={handleChange}
+                                value={values.other_occupation}
+                                onBlur={handleBlur}
+                                isInvalid={touched.other_occupation && errors.other_occupation}/>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.other_occupation}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Form.Row>
+            }
+
+            <Form.Row>
+              <Form.Group as={Col} md="6" sm="12">
+                <Form.Label>
+                  {t('essential_employer')} <span className="pc-color-text-secondary-dark">*</span>
+                </Form.Label>
+                <Form.Control name="employer"
+                              onChange={handleChange}
+                              value={values.employer}
+                              onBlur={handleBlur}
+                              isInvalid={touched.employer && errors.employer}/>
+                <Form.Control.Feedback type="invalid">
+                  {errors.employer}
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Form.Row>
+            
+            <ReCAPTCHA
+              sitekey="6LdEm0EaAAAAAD5G7tbDWA0woDjFqlSvqyN2TUqL"
+              onChange={this.props.onCaptchaUpdate}
+              className="mt-3"
+            />
+
+            <Button variant="primary"
+                    type="submit"
+                    className="mt-4 mb-5"
+                    disabled={this.props.captcha === null}>
+              Submit
+            </Button>
+            <FormikErrorFocus/>
+          </Form>
+        )}
+      </Formik>
 
     );
   }
