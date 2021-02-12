@@ -112,7 +112,7 @@
     "cell_phone_help_text": "If no cell phone number, enter your home phone number again.",
     "already_recieved": "Have you already received your first COVID-19 vaccine dose?",
     "already_received_yes_help_text": "Select YES if you have already gotten your first dose and need to schedule a second dose. ",
-    "already_received_no_help_text": "Select NO if you have an appointment but have not yet received the vaccine, or if you have not otherwise received a dose of teh COVID-19 vaccine.",
+    "already_received_no_help_text": "Select NO if you have an appointment but have not yet received the vaccine, or if you have not otherwise received a dose of the COVID-19 vaccine.",
     "which_received": "Which vaccine did you receive?",
     "date_received": "Date you received your first dose (please double check the date entered is correct):",
     "where_received": "Where did you receive your first COVID vaccine?",

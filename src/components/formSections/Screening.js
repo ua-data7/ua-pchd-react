@@ -30,6 +30,8 @@ class Screening extends Component {
       accchs_status: yup
         .string()
         .required('Required.'),
+      health_conditions: yup
+        .array()
     });
 
     let initialValues;
@@ -41,7 +43,7 @@ class Screening extends Component {
         occupation: "",
         congregate_housing_status: "",
         accchs_status: "",
-        health_conditions: null
+        health_conditions: [],
       };
     }
    
@@ -62,7 +64,7 @@ class Screening extends Component {
           errors,
         }) => (
 
-          <Form noValidate onSubmit={handleSubmit} autocomplete="off">
+          <Form noValidate onSubmit={handleSubmit} autoComplete="off">
             {/* <p>All questions with * are required.</p> */}
             
             <Form.Row className="mt-5">
