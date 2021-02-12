@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { Button, Form, Col } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
 
-import { educatorEmployerOptions } from "./Choices";
-
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import FormikErrorFocus from "../FormikErrorFocus";
@@ -52,10 +50,8 @@ class ProtectiveServices extends Component {
           handleSubmit,
           handleChange,
           handleBlur,
-          setFieldValue,
           values,
           touched,
-          isValid,
           errors,
         }) => (
 
@@ -103,15 +99,6 @@ class ProtectiveServices extends Component {
                 </Form.Group>
               </Form.Row>
             }
-
-            <Form.Row>
-              <Form.Group as={Col} md="6" sm="12">
-                <Form.Label>
-                  {t('protect_zip')} <span className="pc-color-text-secondary-dark">*</span>
-                </Form.Label>
-                <Form.Control />
-              </Form.Group>
-            </Form.Row>
             
             <Form.Row>
               <Form.Group as={Col} md="6" sm="12">
