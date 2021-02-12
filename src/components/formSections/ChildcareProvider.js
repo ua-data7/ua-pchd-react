@@ -8,11 +8,7 @@ import FormikErrorFocus from "../FormikErrorFocus";
 
 import ReCAPTCHA from "react-google-recaptcha";
 
-class Education extends Component {
-
-  constructor(props) {
-    super(props);
-  }
+class ChildcareProvider extends Component {
 
   render() {
 
@@ -136,4 +132,4 @@ class Education extends Component {
   }
 }
 
-export default withTranslation()(Education);
+export default withTranslation()(ChildcareProvider);

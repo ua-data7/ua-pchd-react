@@ -2,11 +2,12 @@ import React, { Component, ref } from "react";
 import { Button, Form, Col, Alert, InputGroup } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
 import { stateOptions, monthOptions, vaccineTypeOptions } from "./Choices";
+import moment from 'moment';
 
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
-import { Formik, useFormik, useFormikContext } from 'formik';
+import { Formik, useFormikContext } from 'formik';
 import * as yup from 'yup';
 import FormikErrorFocus from "../FormikErrorFocus";
 
@@ -17,13 +18,32 @@ import { CalendarEvent } from 'react-bootstrap-icons';
 
 const BirthdayCheck = () => {
 
-  const {values, setFieldValue} = useFormikContext();
+  const {values, setFieldValue, setStatus} = useFormikContext();
   
   React.useEffect(() => {
       console.log('here')
       if (values && values.dob_month && values.dob_date && values.dob_year) {
-        console.log('age')
-        setFieldValue('age',  '15');
+        
+        var date = moment({ 
+          year: values.dob_year,
+          month: values.dob_month,
+          date: values.dob_date
+        });
+
+        if (date.isValid()) {
+          var age = moment().diff(date, 'years');
+          if (age < 16) {
+            setStatus({dob_valid: 'Must be 16 to register!'});
+          } else if (age > 120) {
+            setStatus({dob_valid: 'Double check dob.'});
+          } else {
+            setFieldValue('age',  age);
+            setFieldValue('dob',  date.format("YYYY-MM-DD"));   
+          }  
+        } else {
+          setStatus({dob_valid: 'Invalid!'});
+        }
+        
       }
   }, [values.dob_month, values.dob_date, values.dob_year]);
 
@@ -35,74 +55,76 @@ function Start(props) {
 
     const { t, language } = props;
 
+    const requiredMessage = (language === 'en' ?  'Required.' : 'Obligatorio.');
+
     const vaccineInterestSchema = yup.object({
       first_name: yup
         .string()
-        .required('First name is required.'),
+        .required(requiredMessage),
       last_name: yup
         .string()
-        .required('Last name is required.'),
+        .required(requiredMessage),
       dob_month: yup
         .string()
-        .required('Required.'),
+        .required(requiredMessage),
       dob_date: yup
         .number('Invalid date.')
-        .required('Required.')
+        .required(requiredMessage)
         .nullable(true)
         .integer('Invalid date.')
         .min(1, 'Invalid date.')
         .max(31, 'Invalid date.'),
       dob_year: yup
         .number('Required.')
-        .required(language === 'en' ?  'Required.' : 'Obligatorio.')
+        .required(requiredMessage)
         .nullable(true)
         .integer()
         .min(1900)
         .max(2021),
       sex: yup
         .string()
-        .required("Required."),
+        .required(requiredMessage),
       email: yup
         .string()
         .email()
-        .required('Email address is required.'),
+        .required(requiredMessage),
       residential_address: yup
         .string()
-        .required(),
+        .required(requiredMessage),
       city: yup
         .string()
-        .required(),
+        .required(requiredMessage),
       state: yup
         .string()
-        .required(),
+        .required(requiredMessage),
       home_zip: yup
         .string()
-        .required(),
+        .required(requiredMessage),
       phone: yup
         .string()
-        .required()
+        .required(requiredMessage)
         .min(11, 'Must be exactly 10 digits'),
       received_first_dose: yup
         .string()
-        .required(),
+        .required(requiredMessage),
       vaccine_type: yup
         .string()
         .when("received_first_dose", {
           is: 'Yes',
-          then: yup.string().required()
+          then: yup.string().required(requiredMessage)
         }),
       first_dose_date: yup
         .date()
         .nullable(true)
         .when("received_first_dose", {
           is: 'Yes',
-          then: yup.date().required()
+          then: yup.date().required(requiredMessage)
         }),
       first_dose_loc: yup
         .string()
         .when("received_first_dose", {
           is: 'Yes',
-          then: yup.string().required()
+          then: yup.string().required(requiredMessage)
         })
     });
 
@@ -119,7 +141,6 @@ function Start(props) {
             name={props.name}
             value={props.value}
             onClick={props.onClick}
-            // onChange={props.onChange}
             onBlur={props.onBlur}
             isInvalid={props.isInvalid}
             placeholder="Select Date"
@@ -155,6 +176,7 @@ function Start(props) {
           first_dose_date: null,
           first_dose_loc: "",
         }}
+        initialStatus={{}}
       >
         {({
           handleSubmit,
@@ -165,6 +187,7 @@ function Start(props) {
           touched,
           isValid,
           errors,
+          status
         }) => (
 
           <Form className="pt-4" noValidate onSubmit={handleSubmit} autoComplete="off">
@@ -175,7 +198,7 @@ function Start(props) {
             <p>
               {t('form_disclaimer')}
             </p>
-            <Form.Row>
+            <Form.Row className="mt-5">
               <Form.Group as={Col} md="4" sm="6" xs="12">
                 <Form.Label>
                   {t('first_name')} <span className="pc-color-text-secondary-dark">*</span>
@@ -260,6 +283,9 @@ function Start(props) {
                     {t('dob_help_text')}
                   </Form.Text>
                 </Form.Group>
+                <Form.Text muted className="pl-1">
+                  { status.dob_valid }
+                </Form.Text>
             </Form.Row>
 
             <Form.Row className="mt-2">

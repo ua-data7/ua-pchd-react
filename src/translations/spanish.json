@@ -176,5 +176,6 @@
     "city": "Ciudad",
     "state": "Estado",
     "zip_code": "Código postal",
-    "address_header": "Dirección"
+    "address_header": "Dirección",
+    "required": "Obligatorio."
 }

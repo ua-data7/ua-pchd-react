@@ -167,5 +167,6 @@
     "city": "City",
     "state": "State",
     "zip_code": "Zip Code",
-    "address_header": "Address"
+    "address_header": "Address",
+    "required": "Required."
 }
