@@ -5,110 +5,164 @@ import { withTranslation } from 'react-i18next';
 import { educatorEmployerOptions } from "./Choices";
 
 import { Formik } from 'formik';
+import * as yup from 'yup';
+import FormikErrorFocus from "../FormikErrorFocus";
+
+import ReCAPTCHA from "react-google-recaptcha";
 
 class Healthcare extends Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-    
-    }
-  }
 
   render() {
 
     const { t } = this.props;
+
+    const schema = yup.object({
+      occupation: yup
+        .string()
+        .required('Required.'),
+      other_occupation: yup
+        .string()
+        .when("occupation", {
+          is: "45",
+          then: yup.string().required('Required.')
+      }),
+      employer: yup
+        .string()
+        .required('Required.'),
+      ltc: yup
+        .mixed()
+        .oneOf(Object.keys(this.props.choices.ltc))
+        .required("Required."),
+    });
+   
    
     return (
-      <>
-        <Button className="pc-color-primary-alt-darker"
-                onClick={() => this.props.changeLanguage('en')}>
-          English
-        </Button>
-        <Button className="pc-color-primary-alt-darkest ml-2"
-                onClick={() => this.props.changeLanguage('es')}>
-          Español
-        </Button>
-        <h4>
-          {t('form_title')}
-        </h4>
+      <Formik
+        validationSchema={schema}
+        onSubmit={this.props.handleSubmit}
+        initialValues={{
+          employer: "",
+          occupation: "",
+          other_occupation: "",
+          ltc: "",
+        }}
+      >
+        {({
+          handleSubmit,
+          handleChange,
+          handleBlur,
+          values,
+          touched,
+          errors,
+        }) => (
 
-        <p>Healthcare</p>
+          <Form noValidate onSubmit={handleSubmit} autoComplete="off">
 
-        <Form.Row>
-          <Form.Group as={Col} md="4">
-            <Form.Label>
-              {t('hcw_occupation')} <span className="pc-color-text-secondary-dark">*</span>
-            </Form.Label>
-            <Form.Control as="select"
-                            custom
-                            defaultValue=""
-                            name="hcw_occupation">
-                <option value="" disabled>Select Occupation</option>
-                {educatorEmployerOptions.map((option) => <option key={option.value} value={option.value}>{this.props.language === 'en' ? option.english : option.spanish }</option>)}
-              </Form.Control>
-          </Form.Group>
-        </Form.Row>
+            <Form.Row className="mt-5">
+              <Form.Group as={Col} md="6" sm="12">
+                <Form.Label>
+                  {t('hcw_occupation')} <span className="pc-color-text-secondary-dark">*</span>
+                </Form.Label>
+                <Form.Control as="select"
+                              custom
+                              defaultValue=""
+                              name="occupation"
+                              isInvalid={touched.occupation && !!errors.occupation}
+                              onChange={handleChange}
+                              onBlur={handleBlur}>
+                  <option value="" disabled>Select Occupation</option>
+                  {Object.keys(this.props.choices.hcw_occupation).map((key, index) => 
+                    <option key={key} value={key}>
+                      { this.props.language === 'es' ? this.props.choices.hcw_occupation[key].esp : this.props.choices.hcw_occupation[key].eng}
+                    </option>
+                  )}
+                </Form.Control>
+                <Form.Control.Feedback type="invalid">
+                  {errors.occupation}
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Form.Row>
 
-        <Form.Row>
-          <Form.Group as={Col} md="4">
-            <Form.Label>
-              {t('other_hcw_occupation')} <span className="pc-color-text-secondary-dark">*</span>
-            </Form.Label>
-            <Form.Control name="other_hcw_occupation"/>
-          </Form.Group>
-        </Form.Row>
+            { values.occupation === "45" &&
+              <Form.Row>
+                <Form.Group as={Col} md="6" sm="12">
+                  <Form.Label>
+                    {t('other_hcw_occupation')} <span className="pc-color-text-secondary-dark">*</span>
+                  </Form.Label>
+                  <Form.Control name="other_occupation"
+                                onChange={handleChange}
+                                value={values.other_occupation}
+                                onBlur={handleBlur}
+                                isInvalid={touched.other_occupation && errors.other_occupation}/>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.other_occupation}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Form.Row>
+            }
 
-        <Form.Row>
-          <Form.Group as={Col}>
-            <Form.Label>
-            {t('ltc')} <span className="pc-color-text-secondary-dark">*</span>
-            </Form.Label>
-            <div className="mb-3">
-              <Form.Check
-                name="ltc"
-                id="Yes"
-                type="radio"
-                label={t('yes_no_answer_1')}
-                value="Yes"
-              />
-              <Form.Check
-                name="ltc"
-                id="No"
-                type="radio"
-                label={t('yes_no_answer_0')}
-                value="No"
-              />
-            </div>  
-          </Form.Group>
-        </Form.Row>
+            <Form.Row>
+              <Form.Group as={Col}>
+                <Form.Label>
+                {t('ltc')} <span className="pc-color-text-secondary-dark">*</span>
+                </Form.Label>
+                <div className="mb-3">
+                  {Object.keys(this.props.choices.ltc).map((key, index) => 
+                    <Form.Check type="radio"
+                                id={'ltc_' + key}
+                                key={key}>
+                      <Form.Check.Input 
+                                type="radio" 
+                                name="ltc"
+                                value={key}
+                                isInvalid={touched.ltc && !!errors.ltc}
+                                onChange={handleChange}/>
+                      <Form.Check.Label>
+                        { this.props.language === 'es' ? this.props.choices.ltc[key].esp : this.props.choices.ltc[key].eng}
+                      </Form.Check.Label>
+                      { index === Object.keys(this.props.choices.ltc).length - 1 && 
+                        <Form.Control.Feedback type="invalid">
+                          {errors.ltc}
+                        </Form.Control.Feedback>
+                      } 
+                    </Form.Check>            
+                  )}
+                </div>  
+              </Form.Group>
+            </Form.Row>
 
-        <Form.Row>
-          <Form.Group as={Col} md="4">
-            <Form.Label>
-              {t('hcw_employer')} <span className="pc-color-text-secondary-dark">*</span>
-            </Form.Label>
-            <Form.Control name="hcw_employer_specify"/>
-          </Form.Group>
-        </Form.Row>
+            <Form.Row>
+              <Form.Group as={Col} md="6" sm="12">
+                <Form.Label>
+                  {t('hcw_employer')} <span className="pc-color-text-secondary-dark">*</span>
+                </Form.Label>
+                <Form.Control name="employer"
+                              onChange={handleChange}
+                              value={values.employer}
+                              onBlur={handleBlur}
+                              isInvalid={touched.employer && errors.employer}/>
+                <Form.Control.Feedback type="invalid">
+                  {errors.employer}
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Form.Row>
+            
+            <ReCAPTCHA
+              sitekey="6LdEm0EaAAAAAD5G7tbDWA0woDjFqlSvqyN2TUqL"
+              onChange={this.props.onCaptchaUpdate}
+              className="mt-3"
+            />
 
-        <Form.Row>
-          <Form.Group as={Col} md="4">
-            <Form.Label>
-              {t('hcw_employer_address')} <span className="pc-color-text-secondary-dark">*</span>
-            </Form.Label>
-            <Form.Control />
-          </Form.Group>
-        </Form.Row>
-        
-        
-
-        <Button variant="primary" type="submit" className="mt-4 mb-5">
-          Next
-        </Button>
-          
-      </>
+            <Button variant="primary"
+                    type="submit"
+                    className="mt-4 mb-5"
+                    disabled={this.props.captcha === null}>
+              Submit
+            </Button>
+            <FormikErrorFocus/>
+          </Form>
+        )}
+      </Formik>
 
     );
   }
