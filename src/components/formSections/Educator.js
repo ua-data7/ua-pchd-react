@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import FormikErrorFocus from "../FormikErrorFocus";
 
 import ReCAPTCHA from "react-google-recaptcha";
+import { recaptcha_site_key } from "../../config";
 
 class Educator extends Component {
 
@@ -155,7 +156,7 @@ class Educator extends Component {
             }
 
             <ReCAPTCHA
-              sitekey="6LdEm0EaAAAAAD5G7tbDWA0woDjFqlSvqyN2TUqL"
+              sitekey={recaptcha_site_key}
               onChange={this.props.onCaptchaUpdate}
               className="mt-3"
             />

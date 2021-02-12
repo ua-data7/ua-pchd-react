@@ -2,13 +2,12 @@ import React, { Component } from "react";
 import { Button, Form, Col } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
 
-import { educatorEmployerOptions } from "./Choices";
-
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import FormikErrorFocus from "../FormikErrorFocus";
 
 import ReCAPTCHA from "react-google-recaptcha";
+import { recaptcha_site_key } from "../../config";
 
 class Healthcare extends Component {
 
@@ -148,7 +147,7 @@ class Healthcare extends Component {
             </Form.Row>
             
             <ReCAPTCHA
-              sitekey="6LdEm0EaAAAAAD5G7tbDWA0woDjFqlSvqyN2TUqL"
+              sitekey={recaptcha_site_key}
               onChange={this.props.onCaptchaUpdate}
               className="mt-3"
             />
