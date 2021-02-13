@@ -122,7 +122,7 @@ class ChildcareProvider extends Component {
             <Button variant="primary"
                     type="submit"
                     className="mt-4 mb-5"
-                    disabled={this.props.captcha === null}>
+                    disabled={this.props.captcha === null || this.props.submitting}>
               Submit
             </Button>
             <FormikErrorFocus/>

@@ -107,6 +107,7 @@ class VaccineInterestForm extends Component {
 
   async submitPayload() {
     console.log(this.state);
+    this.setState({ submitting: true });
 
     const start = this.state.start;
     const screening = this.state.screening;
@@ -207,9 +208,11 @@ class VaccineInterestForm extends Component {
     return API.post("regPublish", "/regPublish", submission)
       .then(result => {
         this.setState({step: 'confirmation'});
+        this.setState({ submitting: false });
       })
       .then(error => {
         console.log(error)
+        this.setState({ submitting: false });
       });
 
   }
@@ -233,7 +236,8 @@ class VaccineInterestForm extends Component {
                  updateStep={this.updateStep}
                  age={this.state.start.age}
                  onCaptchaUpdate={this.onCaptchaUpdate}
-                 captcha={this.state.captcha}>
+                 captcha={this.state.captcha}
+                 submitting={this.state.submitting}>
       </Screening>
     );
   }
@@ -245,7 +249,8 @@ class VaccineInterestForm extends Component {
                 handleSubmit={this.handleSubmit}
                 onCaptchaUpdate={this.onCaptchaUpdate}
                 captcha={this.state.captcha}
-                updateStep={this.updateStep}>            
+                updateStep={this.updateStep}
+                submitting={this.state.submitting}>            
       </Educator>
     );
   }
@@ -257,7 +262,8 @@ class VaccineInterestForm extends Component {
                          handleSubmit={this.handleSubmit}
                          onCaptchaUpdate={this.onCaptchaUpdate}
                          captcha={this.state.captcha}
-                         updateStep={this.updateStep}>            
+                         updateStep={this.updateStep}
+                         submitting={this.state.submitting}>            
       </ChildcareProvider>
     );
   }
@@ -269,7 +275,8 @@ class VaccineInterestForm extends Component {
                           handleSubmit={this.handleSubmit}
                           onCaptchaUpdate={this.onCaptchaUpdate}
                           captcha={this.state.captcha}
-                          updateStep={this.updateStep}>            
+                          updateStep={this.updateStep}
+                          submitting={this.state.submitting}>            
       </ProtectiveServices>
     );
   }
@@ -281,7 +288,8 @@ class VaccineInterestForm extends Component {
                          handleSubmit={this.handleSubmit}
                          onCaptchaUpdate={this.onCaptchaUpdate}
                          captcha={this.state.captcha}
-                         updateStep={this.updateStep}>            
+                         updateStep={this.updateStep}
+                         submitting={this.state.submitting}>            
       </EssentialServices>
     );
   }
@@ -293,7 +301,8 @@ class VaccineInterestForm extends Component {
                   handleSubmit={this.handleSubmit}
                   onCaptchaUpdate={this.onCaptchaUpdate}
                   captcha={this.state.captcha}
-                  updateStep={this.updateStep}>            
+                  updateStep={this.updateStep}
+                  submitting={this.state.submitting}>            
       </Healthcare>
     );
   }
