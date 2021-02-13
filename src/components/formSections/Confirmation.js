@@ -11,14 +11,15 @@ class Confirmation extends Component {
     return (
       <>
         <p>
-            Thank you for your interest in receiving the COVID-19 vaccine. We are processing your request and will contact you with registration details as we determine your eligibility and as vaccines are available. Do not register again. Vaccines are in short supply and will be provided to our community’s most vulnerable first. We appreciate your cooperation to protect everyone in Pima County.
+          {t('confirmation_p1')}
         </p>
+
         <p>
-          You will receive registration instructions for MyChart@tmcaz.com. Check your spam/junk folder.
+          {t('confirmation_p2')}
         </p>
         
         <p>
-          For more information, visit our website pima.gov/covid19vaccine.
+          {t('confirmation_p3')} <a href="http://www.pima.gov/covid19vaccine" target="_blank">www.pima.gov/covid19vaccine</a>.
         </p>
       
       </>
