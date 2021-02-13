@@ -54,12 +54,10 @@ class VaccineInterestForm extends Component {
     if (this.state.step !== prevState.step) {
       window.scrollTo(0, 0);
     }
-    console.log(this.state);
   }
 
   onCaptchaUpdate(value) {
     this.setState({captcha: value});
-    console.log(value)
   }
 
   updateStep(value) {
@@ -109,7 +107,6 @@ class VaccineInterestForm extends Component {
 
   async submitPayload() {
     console.log(this.state);
-    console.log(this.state.start);
 
     const start = this.state.start;
     const screening = this.state.screening;
@@ -144,8 +141,58 @@ class VaccineInterestForm extends Component {
       payload['health_conditions'] = screening.health_conditions.map(val => parseInt(val, 10))
     }
 
-    if (this.state.childcare_provider) {
-      
+    if (this.state.childcare_providers) {
+      let values = this.state.childcare_providers;
+      payload.childcare_providers = {
+        employer: values.employer,
+        occupation: values.occupation,
+        license: parseInt(values.license)
+      };
+    } else if (this.state.protective_services) {
+      let values = this.state.protective_services;
+      payload.protective_services = {
+        employer: parseInt(values.employer),
+        occupation: parseInt(values.occupation),
+      };
+      if (values.employer === "51") {
+        payload.protective_services.other_employer = values.other_employer;
+      }
+      if (values.occupation === "9") {
+        payload.protective_services.other_occupation = values.other_occupation;
+      }
+
+    } else if (this.state.essential_workers) {
+      let values = this.state.essential_workers;
+      payload.essential_workers = {
+        employer: values.employer,
+        occupation: parseInt(values.occupation),
+      };
+      if (values.occupation === "24") {
+        payload.essential_workers.other_occupation = values.other_occupation;
+      }
+    } else if (this.state.healthcare_workers) {
+      let values = this.state.healthcare_workers;
+      payload.healthcare_workers = {
+        employer: values.employer,
+        ltc: parseInt(values.ltc),
+        occupation: parseInt(values.occupation),
+      };
+      if (values.occupation === "47") {
+        payload.healthcare_workers.other_occupation = values.other_occupation;
+      }
+    } else if (this.state.educators) {
+      let values = this.state.educators;
+      payload.educators = {
+        employer: parseInt(values.employer),
+        occupation: parseInt(values.occupation),
+      };
+      if (values.employer === "22") {
+        payload.educators.other_employer = values.other_employer;
+      }
+      if (values.occupation === "12") {
+        payload.educators.other_occupation = values.other_occupation;
+      }
+
     }
 
     let submission = {
@@ -159,7 +206,7 @@ class VaccineInterestForm extends Component {
 
     return API.post("regPublish", "/regPublish", submission)
       .then(result => {
-        console.log(result)
+        this.setState({step: 'confirmation'});
       })
       .then(error => {
         console.log(error)

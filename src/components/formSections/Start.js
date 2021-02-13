@@ -481,10 +481,6 @@ function Start(props) {
                   </Form.Text>
                 }
 
-                {/* <Form.Text muted>
-                  {t('home_phone_help_text')}
-                </Form.Text> */}
-
               </Form.Group>
             </Form.Row>
 
