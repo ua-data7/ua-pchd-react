@@ -72,7 +72,7 @@ class Educator extends Component {
             <Form.Row className="mt-4">
               <Form.Group as={Col} md="6" sm="12">
                 <Form.Label>
-                  {t('educator_employer')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('educator_employer')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <Form.Control as="select"
                               custom
@@ -98,7 +98,7 @@ class Educator extends Component {
               <Form.Row>
                 <Form.Group as={Col} md="6" sm="12">
                   <Form.Label>
-                    {t('educator_employer')} <span className="pc-color-text-secondary-dark">*</span>
+                    <span className="question">{t('educator_employer')}</span> <span className="pc-color-text-secondary-dark">*</span>
                   </Form.Label>
                   <Form.Control name="other_employer"
                                 onChange={handleChange}
@@ -115,7 +115,7 @@ class Educator extends Component {
             <Form.Row>
               <Form.Group as={Col} md="6" sm="12">
                 <Form.Label>
-                  {t('education_occupation')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('education_occupation')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <Form.Control as="select"
                               custom
@@ -141,7 +141,7 @@ class Educator extends Component {
               <Form.Row>
                 <Form.Group as={Col} md="6" sm="12">
                   <Form.Label>
-                    {t('education_occupation')} <span className="pc-color-text-secondary-dark">*</span>
+                    <span className="question">{t('education_occupation')}</span> <span className="pc-color-text-secondary-dark">*</span>
                   </Form.Label>
                   <Form.Control name="other_occupation"
                                 onChange={handleChange}

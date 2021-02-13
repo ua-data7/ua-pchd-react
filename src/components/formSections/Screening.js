@@ -80,7 +80,7 @@ class Screening extends Component {
             <Form.Row className="mt-5">
               <Form.Group as={Col}>
                 <Form.Label>
-                {t('congregate_housing_status')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('congregate_housing_status')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <div className="mt-3">
                   {Object.keys(this.props.choices.congregate).map((key, index) => 
@@ -111,7 +111,7 @@ class Screening extends Component {
             <Form.Row>
               <Form.Group as={Col} className="mt-3">
                 <Form.Label>
-                {t('accchs_status')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('accchs_status')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <div className="mt-2">
                   {Object.keys(this.props.choices.ahcccs).map((key, index) => 
@@ -142,7 +142,7 @@ class Screening extends Component {
             <Form.Row>
               <Form.Group as={Col} className="mt-3">
                 <Form.Label>
-                  {t('health_conditions')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('health_conditions')}</span>
                 </Form.Label>
                 <div className="mt-2">
                   {Object.keys(this.props.choices.health_conditions).map((key, index) => 
@@ -175,7 +175,7 @@ class Screening extends Component {
                 <Form.Row>
                   <Form.Group as={Col} className="mt-3">
                     <Form.Label>
-                      {t('occupation_screening')} <span className="pc-color-text-secondary-dark">*</span>
+                      <span className="question">{t('occupation_screening')}</span> <span className="pc-color-text-secondary-dark">*</span>
                     </Form.Label>
                     <div className="mt-2">
                       {Object.keys(this.props.choices.occupations).map((key, index) => 

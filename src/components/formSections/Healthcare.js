@@ -60,7 +60,7 @@ class Healthcare extends Component {
             <Form.Row className="mt-5">
               <Form.Group as={Col} md="6" sm="12">
                 <Form.Label>
-                  {t('hcw_occupation')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('hcw_occupation')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <Form.Control as="select"
                               custom
@@ -86,7 +86,7 @@ class Healthcare extends Component {
               <Form.Row>
                 <Form.Group as={Col} md="6" sm="12">
                   <Form.Label>
-                    {t('other_hcw_occupation')} <span className="pc-color-text-secondary-dark">*</span>
+                    <span className="question">{t('other_hcw_occupation')}</span> <span className="pc-color-text-secondary-dark">*</span>
                   </Form.Label>
                   <Form.Control name="other_occupation"
                                 onChange={handleChange}
@@ -103,7 +103,7 @@ class Healthcare extends Component {
             <Form.Row>
               <Form.Group as={Col}>
                 <Form.Label>
-                {t('ltc')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('ltc')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <div className="mb-3">
                   {Object.keys(this.props.choices.ltc).map((key, index) => 
@@ -133,7 +133,7 @@ class Healthcare extends Component {
             <Form.Row>
               <Form.Group as={Col} md="6" sm="12">
                 <Form.Label>
-                  {t('hcw_employer')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('hcw_employer')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <Form.Control name="employer"
                               onChange={handleChange}

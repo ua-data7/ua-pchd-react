@@ -55,7 +55,7 @@ class EssentialServices extends Component {
             <Form.Row className="mt-5">
               <Form.Group as={Col} md="6" sm="12">
                 <Form.Label>
-                  {t('essential_occupation')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('essential_occupation')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <Form.Control as="select"
                               custom
@@ -81,7 +81,7 @@ class EssentialServices extends Component {
               <Form.Row>
                 <Form.Group as={Col} md="6" sm="12">
                   <Form.Label>
-                    {t('other_essential_occupation')} <span className="pc-color-text-secondary-dark">*</span>
+                    <span className="question">{t('other_essential_occupation')}</span> <span className="pc-color-text-secondary-dark">*</span>
                   </Form.Label>
                   <Form.Control name="other_occupation"
                                 onChange={handleChange}
@@ -98,7 +98,7 @@ class EssentialServices extends Component {
             <Form.Row>
               <Form.Group as={Col} md="6" sm="12">
                 <Form.Label>
-                  {t('essential_employer')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('essential_employer')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <Form.Control name="employer"
                               onChange={handleChange}

@@ -61,7 +61,7 @@ class ProtectiveServices extends Component {
             <Form.Row className="mt-5">
               <Form.Group as={Col} md="6" sm="12">
                 <Form.Label>
-                  {t('protective_employer')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('protective_employer')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <Form.Control as="select"
                               custom
@@ -87,7 +87,7 @@ class ProtectiveServices extends Component {
               <Form.Row>
                 <Form.Group as={Col} md="6" sm="12">
                   <Form.Label>
-                    {t('protective_employer')} <span className="pc-color-text-secondary-dark">*</span>
+                    <span className="question">{t('protective_employer')}</span> <span className="pc-color-text-secondary-dark">*</span>
                   </Form.Label>
                   <Form.Control name="other_employer"
                                 onChange={handleChange}
@@ -104,7 +104,7 @@ class ProtectiveServices extends Component {
             <Form.Row>
               <Form.Group as={Col} md="6" sm="12">
                 <Form.Label>
-                  {t('protective_occupation')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('protective_occupation')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <Form.Control as="select"
                               custom
@@ -130,7 +130,7 @@ class ProtectiveServices extends Component {
               <Form.Row>
                 <Form.Group as={Col} md="6" sm="12">
                   <Form.Label>
-                    {t('protect_other_occupation')} <span className="pc-color-text-secondary-dark">*</span>
+                    <span className="question">{t('protect_other_occupation')}</span> <span className="pc-color-text-secondary-dark">*</span>
                   </Form.Label>
                   <Form.Control name="other_occupation"
                                 onChange={handleChange}

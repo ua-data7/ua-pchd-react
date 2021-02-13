@@ -220,7 +220,7 @@ function Start(props) {
             <Form.Row className="mt-5">
               <Form.Group as={Col} md="4" sm="6" xs="12">
                 <Form.Label>
-                  {t('first_name')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('first_name')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <Form.Control placeholder={t('first_name')}
                               name="first_name"
@@ -235,7 +235,7 @@ function Start(props) {
 
               <Form.Group as={Col} md="4" sm="6" xs="12">
                 <Form.Label>
-                  {t('last_name')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('last_name')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <Form.Control placeholder={t('last_name')}
                               name="last_name"
@@ -250,14 +250,14 @@ function Start(props) {
 
               <Form.Group as={Col} md="3" sm="6" xs="6">
                 <Form.Label>
-                  {t('middle_name')}
+                  <span className="question">{t('middle_name')}</span>
                 </Form.Label>
                 <Form.Control/>
               </Form.Group>
 
               <Form.Group as={Col} md="1" sm="6" xs="6">
                 <Form.Label>
-                  {t('suffix')}
+                  <span className="question">{t('suffix')}</span>
                 </Form.Label>
                 <Form.Control/>
               </Form.Group>
@@ -265,7 +265,7 @@ function Start(props) {
             </Form.Row>
             
             <Form.Label>
-              {t('dob')} <span className="pc-color-text-secondary-dark">*</span>
+              <span className="question">{t('dob')}</span> <span className="pc-color-text-secondary-dark">*</span>
             </Form.Label>
             
             <Form.Row>   
@@ -334,7 +334,7 @@ function Start(props) {
             <Form.Row className="mt-2">
               <Form.Group as={Col}>
                 <Form.Label>
-                  {t('sex')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('sex')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <div className="mb-3">
                   {Object.keys(props.choices.sex).map((key, index) => 
@@ -364,7 +364,7 @@ function Start(props) {
             <Form.Row>
               <Form.Group as={Col} lg="4" md="6">
                 <Form.Label>
-                  {t('email')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('email')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <Form.Control type="email"
                               placeholder="Enter email"
@@ -394,7 +394,7 @@ function Start(props) {
 
             <Form.Group>
                 <Form.Label>
-                  {t('local_street_address')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('local_street_address')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <Form.Control placeholder="1234 Main St"
                               name="residential_address"
@@ -410,7 +410,7 @@ function Start(props) {
             <Form.Row>
                 <Form.Group as={Col} md="6" xs="12">
                   <Form.Label>
-                    {t('city')} <span className="pc-color-text-secondary-dark">*</span>
+                    <span className="question">{t('city')}</span> <span className="pc-color-text-secondary-dark">*</span>
                   </Form.Label>
                   <Form.Control name="city"
                                 onChange={handleChange}
@@ -441,7 +441,7 @@ function Start(props) {
 
                 <Form.Group as={Col} md="3" xs="6">
                   <Form.Label>
-                    {t('zip_code')} <span className="pc-color-text-secondary-dark">*</span>
+                    <span className="question">{t('zip_code')}</span> <span className="pc-color-text-secondary-dark">*</span>
                   </Form.Label>
                   <Form.Control name="zip"
                                 onChange={e => {
@@ -460,7 +460,7 @@ function Start(props) {
             <Form.Row className="mt-3">
               <Form.Group as={Col}>
                 <Form.Label>
-                  {t('phone_number')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('phone_number')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
 
                 <PhoneInput
@@ -487,7 +487,7 @@ function Start(props) {
             <Form.Row className="mt-3">
               <Form.Group as={Col}>
                 <Form.Label>
-                {t('already_recieved')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('already_recieved')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <Form.Text>{t('already_received_yes_help_text')}</Form.Text>
                 <Form.Text>{t('already_received_no_help_text')}</Form.Text>
@@ -520,7 +520,7 @@ function Start(props) {
                 <Form.Row>
                   <Form.Group as={Col}>
                     <Form.Label>
-                      {t('which_received')} <span className="pc-color-text-secondary-dark">*</span>
+                      <span className="question">{t('which_received')}</span> <span className="pc-color-text-secondary-dark">*</span>
                     </Form.Label>
                     <div className="mb-3">
 
@@ -549,7 +549,7 @@ function Start(props) {
                 </Form.Row>
 
                 <Form.Label>
-                  {t('date_received')}
+                  <span className="question">{t('date_received')}</span>
                 </Form.Label>
                 <Form.Row>
                   <Form.Group as={Col} md="4" sm="6" xs="12">
@@ -573,7 +573,7 @@ function Start(props) {
                 <Form.Row>
                   <Form.Group as={Col}>
                     <Form.Label>
-                      {t('where_received')} <span className="pc-color-text-secondary-dark">*</span>
+                      <span className="question">{t('where_received')}</span> <span className="pc-color-text-secondary-dark">*</span>
                     </Form.Label>
                     <div className="mb-3">
                       {Object.keys(props.choices.locations).map((key, index) => 
@@ -604,7 +604,7 @@ function Start(props) {
                   <Form.Row>
                     <Form.Group as={Col} md="4" sm="6" xs="12">
                       <Form.Label>
-                        Please list the location: <span className="pc-color-text-secondary-dark">*</span>
+                        <span className="question">Please list the location:</span> <span className="pc-color-text-secondary-dark">*</span>
                       </Form.Label>
                       <Form.Control name="first_dose_other_loc"
                                     onChange={handleChange}

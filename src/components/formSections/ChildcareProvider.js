@@ -54,7 +54,7 @@ class ChildcareProvider extends Component {
             <Form.Row className="mt-4">
               <Form.Group as={Col} md="6" sm="12">
                 <Form.Label>
-                  {t('childcare_employer')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('childcare_employer')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <Form.Control name="employer"
                               onChange={handleChange}
@@ -70,7 +70,7 @@ class ChildcareProvider extends Component {
             <Form.Row>
               <Form.Group as={Col}>
                 <Form.Label>
-                {t('childcare_license')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('childcare_license')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <div className="mb-3">
                   {Object.keys(this.props.choices.childcare_license).map((key, index) => 
@@ -100,7 +100,7 @@ class ChildcareProvider extends Component {
             <Form.Row>
               <Form.Group as={Col} md="6" sm="12">
                 <Form.Label>
-                  {t('childcare_occupation')} <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('childcare_occupation')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <Form.Control name="occupation"
                               onChange={handleChange}
