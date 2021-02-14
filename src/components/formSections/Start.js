@@ -101,6 +101,7 @@ function Start(props) {
         .required(requiredMessage),
       city: yup
         .string()
+        .trim()
         .required(requiredMessage),
       state: yup
         .string()
@@ -179,8 +180,8 @@ function Start(props) {
           first_name: "",
           last_name: "",
           dob_month: "",
-          dob_date: null,
-          dob_year: null,
+          dob_date: "",
+          dob_year: "",
           dob: null,
           sex: "",
           email: "",
@@ -288,11 +289,14 @@ function Start(props) {
                 </Col>
 
                 <Col lg="2" md="2" sm="3" xs="3">
-                  <Form.Control type="number"
+                  <Form.Control type="text"
                                 placeholder="Date"
                                 name="dob_date"
                                 onChange={handleChange}
+                                value={values.dob_date}
+                                onChange={event => setFieldValue("dob_date", event.target.value.replace(/\D/,''))}
                                 onBlur={handleBlur}
+                                maxlength="2"
                                 isInvalid={touched.dob_date && errors.dob_date}>
                   </Form.Control>
                   <Form.Control.Feedback type="invalid">
@@ -301,11 +305,13 @@ function Start(props) {
                 </Col>
 
                 <Col lg="2" md="2" sm="3" xs="3">
-                  <Form.Control type="number"
+                  <Form.Control type="text"
+                                maxlength="4"
                                 name="dob_year"
                                 placeholder="Year"
-                                onChange={handleChange}
+                                onChange={event => setFieldValue("dob_year", event.target.value.replace(/\D/,''))}
                                 onBlur={handleBlur}
+                                value={values.dob_year}
                                 isInvalid={touched.dob_year && errors.dob_year}>
                   </Form.Control>
                   <Form.Control.Feedback type="invalid">
@@ -424,7 +430,7 @@ function Start(props) {
 
                 <Form.Group as={Col} md="3" xs="6">
                   <Form.Label>
-                    {t('state')} <span className="pc-color-text-secondary-dark">*</span>
+                    <span className="question">{t('state')}</span> <span className="pc-color-text-secondary-dark">*</span>
                   </Form.Label>
                   <Form.Control as="select"
                                 placeholder="Select state"
@@ -446,8 +452,10 @@ function Start(props) {
                   <Form.Control name="zip"
                                 onChange={e => {
                                   setFieldTouched('zip');
-                                  handleChange(e);
+                                  setFieldValue("zip", e.target.value.replace(/\D/,''))
                                 }}
+                                value={values.zip}
+                                maxlength="5"
                                 onBlur={handleBlur}
                                 isInvalid={touched.zip && errors.zip}>
                   </Form.Control>
