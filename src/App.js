@@ -90,7 +90,7 @@ class App extends Component {
           {step === 'form' &&  this.renderForm()}
         </div>
 
-        <footer className='mt-auto py-3 pc-color-gray-lightest'>
+        <footer className='footer mt-auto py-3 pc-color-gray-lightest'>
           <div className="row">
             <div className="container centered">
               2021 Pima County

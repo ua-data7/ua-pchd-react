@@ -1,6 +1,7 @@
 .App {
     padding-top: 30px;
     padding-bottom: 30px;
+    min-height: 100%;
 }
   
 .centered {
