@@ -228,7 +228,8 @@ function Start(props) {
                               onChange={handleChange}
                               value={values.first_name}
                               onBlur={handleBlur}
-                              isInvalid={touched.first_name && errors.first_name}/>
+                              isInvalid={touched.first_name && errors.first_name}
+                              maxLength="50"/>
                 <Form.Control.Feedback type="invalid">
                   {errors.first_name}
                 </Form.Control.Feedback>
@@ -243,7 +244,8 @@ function Start(props) {
                               onChange={handleChange}
                               value={values.last_name}
                               onBlur={handleBlur}
-                              isInvalid={touched.last_name && errors.last_name}/>
+                              isInvalid={touched.last_name && errors.last_name}
+                              maxLength="50"/>
                 <Form.Control.Feedback type="invalid">
                   {errors.last_name}
                 </Form.Control.Feedback>
@@ -253,14 +255,14 @@ function Start(props) {
                 <Form.Label>
                   <span className="question">{t('middle_name')}</span>
                 </Form.Label>
-                <Form.Control/>
+                <Form.Control maxLength="50"/>
               </Form.Group>
 
               <Form.Group as={Col} md="1" sm="6" xs="6">
                 <Form.Label>
                   <span className="question">{t('suffix')}</span>
                 </Form.Label>
-                <Form.Control/>
+                <Form.Control maxLength="50"/>
               </Form.Group>
               
             </Form.Row>
@@ -296,7 +298,7 @@ function Start(props) {
                                 value={values.dob_date}
                                 onChange={event => setFieldValue("dob_date", event.target.value.replace(/\D/,''))}
                                 onBlur={handleBlur}
-                                maxlength="2"
+                                maxLength="2"
                                 isInvalid={touched.dob_date && errors.dob_date}>
                   </Form.Control>
                   <Form.Control.Feedback type="invalid">
@@ -306,7 +308,7 @@ function Start(props) {
 
                 <Col lg="2" md="2" sm="3" xs="3">
                   <Form.Control type="text"
-                                maxlength="4"
+                                maxLength="4"
                                 name="dob_year"
                                 placeholder="Year"
                                 onChange={event => setFieldValue("dob_year", event.target.value.replace(/\D/,''))}
@@ -380,7 +382,8 @@ function Start(props) {
                                 handleChange(e);
                               }}
                               onBlur={handleBlur}
-                              isInvalid={touched.email && errors.email}>
+                              isInvalid={touched.email && errors.email}
+                              maxLength="150">
                 </Form.Control>
                 <Form.Control.Feedback type="invalid">
                   {errors.email}
@@ -406,7 +409,8 @@ function Start(props) {
                               name="residential_address"
                               onChange={handleChange}
                               onBlur={handleBlur}
-                              isInvalid={touched.residential_address && errors.residential_address}>
+                              isInvalid={touched.residential_address && errors.residential_address}
+                              maxLength="60">
                 </Form.Control>
                 <Form.Control.Feedback type="invalid">
                   {errors.residential_address}
@@ -421,7 +425,8 @@ function Start(props) {
                   <Form.Control name="city"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                isInvalid={touched.city && errors.city}>
+                                isInvalid={touched.city && errors.city}
+                                maxLength="40">
                   </Form.Control>
                   <Form.Control.Feedback type="invalid">
                     {errors.city}
@@ -455,7 +460,7 @@ function Start(props) {
                                   setFieldValue("zip", e.target.value.replace(/\D/,''))
                                 }}
                                 value={values.zip}
-                                maxlength="5"
+                                maxLength="5"
                                 onBlur={handleBlur}
                                 isInvalid={touched.zip && errors.zip}>
                   </Form.Control>
@@ -618,7 +623,8 @@ function Start(props) {
                                     onChange={handleChange}
                                     value={values.first_dose_other_loc}
                                     onBlur={handleBlur}
-                                    isInvalid={touched.first_dose_other_loc && errors.first_dose_other_loc}/>
+                                    isInvalid={touched.first_dose_other_loc && errors.first_dose_other_loc}
+                                    maxLength="100"/>
                       <Form.Control.Feedback type="invalid">
                         {errors.first_dose_other_loc}
                       </Form.Control.Feedback>
