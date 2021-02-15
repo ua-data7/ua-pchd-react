@@ -37,6 +37,7 @@ class VaccineInterestForm extends Component {
   }
 
   async componentDidMount() {
+    window.scrollTo(0, 0);
     return API.get("enumValues", "/enumValues")
 
     .then(choices => {

@@ -60,7 +60,8 @@ class ChildcareProvider extends Component {
                               onChange={handleChange}
                               value={values.employer}
                               onBlur={handleBlur}
-                              isInvalid={touched.employer && errors.employer}/>
+                              isInvalid={touched.employer && errors.employer}
+                              maxLength="200"/>
                 <Form.Control.Feedback type="invalid">
                   {errors.employer}
                 </Form.Control.Feedback>
@@ -106,7 +107,8 @@ class ChildcareProvider extends Component {
                               onChange={handleChange}
                               value={values.occupation}
                               onBlur={handleBlur}
-                              isInvalid={touched.occupation && errors.occupation}/>
+                              isInvalid={touched.occupation && errors.occupation}
+                              maxLength="200"/>
                 <Form.Control.Feedback type="invalid">
                   {errors.occupation}
                 </Form.Control.Feedback>

@@ -93,7 +93,8 @@ class ProtectiveServices extends Component {
                                 onChange={handleChange}
                                 value={values.other_employer}
                                 onBlur={handleBlur}
-                                isInvalid={touched.other_employer && errors.other_employer}/>
+                                isInvalid={touched.other_employer && errors.other_employer}
+                                maxLength="100"/>
                   <Form.Control.Feedback type="invalid">
                     {errors.other_employer}
                   </Form.Control.Feedback>
@@ -136,7 +137,8 @@ class ProtectiveServices extends Component {
                                 onChange={handleChange}
                                 value={values.other_occupation}
                                 onBlur={handleBlur}
-                                isInvalid={touched.other_occupation && errors.other_occupation}/>
+                                isInvalid={touched.other_occupation && errors.other_occupation}
+                                maxLength="200"/>
                   <Form.Control.Feedback type="invalid">
                     {errors.other_occupation}
                   </Form.Control.Feedback>

@@ -92,7 +92,8 @@ class Healthcare extends Component {
                                 onChange={handleChange}
                                 value={values.other_occupation}
                                 onBlur={handleBlur}
-                                isInvalid={touched.other_occupation && errors.other_occupation}/>
+                                isInvalid={touched.other_occupation && errors.other_occupation}
+                                maxLength="200"/>
                   <Form.Control.Feedback type="invalid">
                     {errors.other_occupation}
                   </Form.Control.Feedback>
@@ -139,7 +140,8 @@ class Healthcare extends Component {
                               onChange={handleChange}
                               value={values.employer}
                               onBlur={handleBlur}
-                              isInvalid={touched.employer && errors.employer}/>
+                              isInvalid={touched.employer && errors.employer}
+                              maxLength="100"/>
                 <Form.Control.Feedback type="invalid">
                   {errors.employer}
                 </Form.Control.Feedback>
