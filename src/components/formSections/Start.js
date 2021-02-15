@@ -33,16 +33,16 @@ const BirthdayCheck = () => {
         if (date.isValid()) {
           var age = moment().diff(date, 'years');
           if (age < 16) {
-            setStatus({dob_valid: 'Must be 16 to register!'});
+            setStatus({dob_valid: 'Persons under the age of 16 are not eligible for the vaccine.'});
           } else if (age > 120) {
-            setStatus({dob_valid: 'Double check dob.'});
+            setStatus({dob_valid: 'Please check the birthday provided and correct any errors.'});
           } else {
             setFieldValue('age',  age);
             setFieldValue('dob',  date);  
             setStatus({dob_valid: ''}); 
           }  
         } else {
-          setStatus({dob_valid: 'Invalid!'});
+          setStatus({dob_valid: 'Please check the birthday provided and correct any errors.'});
           setFieldValue('dob', null);
         }
         
@@ -108,10 +108,10 @@ function Start(props) {
         .required(requiredMessage),
       zip: yup
         .string()
-        .matches(/^[0-9]+$/, "Must be only digits")
+        .matches(/^[0-9]+$/, "Must be only digits.")
         .required(requiredMessage)
-        .min(5, 'Must be exactly 5 digits')
-        .max(5, 'Must be exactly 5 digits'),
+        .min(5, 'Must be exactly 5 digits.')
+        .max(5, 'Must be exactly 5 digits.'),
       phone: yup
         .string()
         .required(requiredMessage)
@@ -218,6 +218,12 @@ function Start(props) {
             <p>
               {t('form_disclaimer')}
             </p>
+
+            <p>
+              <b className="pc-color-text-secondary-dark">{t('form_instructions_2')}</b>
+            </p>
+
+            
             <Form.Row className="mt-5">
               <Form.Group as={Col} md="4" sm="6" xs="12">
                 <Form.Label>
