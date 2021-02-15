@@ -22,9 +22,11 @@ class ChildcareProvider extends Component {
         .required("Required."),
       employer: yup
         .string()
+        .trim()
         .required('Required.'),
       occupation: yup
         .string()
+        .trim()
         .required('Required.'),
     });
    

@@ -24,10 +24,11 @@ class EssentialServices extends Component {
         .string()
         .when("occupation", {
           is: "24",
-          then: yup.string().required('Required.')
+          then: yup.string().trim().required('Required.')
       }),
       employer: yup
         .string()
+        .trim()
         .required('Required.'),
     });
    

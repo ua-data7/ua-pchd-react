@@ -23,7 +23,7 @@ class ProtectiveServices extends Component {
         .string()
         .when("employer", {
           is: "51",
-          then: yup.string().required('Required.')
+          then: yup.string().trim().required('Required.')
       }),
       occupation: yup
         .string()
@@ -32,7 +32,7 @@ class ProtectiveServices extends Component {
         .string()
         .when("occupation", {
           is: "9",
-          then: yup.string().required('Required.')
+          then: yup.string().trim().required('Required.')
       }),
     });
 

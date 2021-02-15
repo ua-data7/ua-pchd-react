@@ -23,10 +23,11 @@ class Healthcare extends Component {
         .string()
         .when("occupation", {
           is: "47",
-          then: yup.string().required('Required.')
+          then: yup.string().trim().required('Required.')
       }),
       employer: yup
         .string()
+        .trim()
         .required('Required.'),
       ltc: yup
         .mixed()

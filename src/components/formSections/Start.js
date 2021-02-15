@@ -64,9 +64,11 @@ function Start(props) {
     const vaccineInterestSchema = yup.object({
       first_name: yup
         .string()
+        .trim()
         .required(requiredMessage),
       last_name: yup
         .string()
+        .trim()
         .required(requiredMessage),
       dob_month: yup
         .string()
@@ -98,6 +100,7 @@ function Start(props) {
         .required(requiredMessage),
       residential_address: yup
         .string()
+        .trim()
         .required(requiredMessage),
       city: yup
         .string()
@@ -142,7 +145,7 @@ function Start(props) {
         .string()
         .when("first_dose_loc", {
           is: '8',
-          then: yup.string().required(requiredMessage)
+          then: yup.string().trim().required(requiredMessage)
         })
     });
 

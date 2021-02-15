@@ -31,7 +31,7 @@ class Educator extends Component {
         .string()
         .when("employer", {
           is: "22",
-          then: yup.string().required('Required.')
+          then: yup.string().trim().required('Required.')
       }),
       occupation: yup
         .string()
@@ -40,7 +40,7 @@ class Educator extends Component {
         .string()
         .when("occupation", {
           is: "12",
-          then: yup.string().required('Required.')
+          then: yup.string().trim().required('Required.')
       }),
     });
    
