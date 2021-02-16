@@ -301,7 +301,7 @@ function Start(props) {
 
                 <Col lg="2" md="2" sm="3" xs="3">
                   <Form.Control type="text"
-                                placeholder="Date"
+                                placeholder="Day"
                                 name="dob_date"
                                 onChange={handleChange}
                                 value={values.dob_date}
