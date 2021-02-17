@@ -1,8 +1,11 @@
-import React, { Component, ref } from "react";
+import React, { useState } from "react";
 import { Button, Form, Col, Alert, InputGroup } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
-import { stateOptions, monthOptions, vaccineTypeOptions } from "./Choices";
+import { stateOptions, monthOptions } from "./Choices";
+import { Typeahead, AsyncTypeahead} from 'react-bootstrap-typeahead';
+import { API } from 'aws-amplify';
 import moment from 'moment';
+import axios from 'axios';
 
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
@@ -16,6 +19,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import { CalendarEvent } from 'react-bootstrap-icons';
 
 
+/**
+ * After user has entered values for all birthday fields:
+ * - Check if date entered is a valid date
+ * - Calculate age
+ * - Validate if within age range of 16-120
+ */
 const BirthdayCheck = () => {
 
   const {values, setFieldValue, setStatus} = useFormikContext();
@@ -52,12 +61,161 @@ const BirthdayCheck = () => {
   return null;
 };
 
+/**
+ * After user has entered zip code, check if zip code is valid and require user
+ * confirmation to submit an unvalidated zip code.
+ */
+const ZipcodeCheck = () => {
 
+  const {values, setFieldValue, setStatus} = useFormikContext();
+  
+  React.useEffect(() => {
+
+      if (values && values.zip.length === 5) {
+        
+        let request = {
+          queryStringParameters: {zipcode: values.zip},
+        }
+        
+        return API.get("zipCheck", "/zipCheck", request)
+          .then(result => {
+            console.log(result);
+            if (!result.valid) {
+              setFieldValue("zip_valid", false);
+              setStatus({zip_error: 'The ZIP code you entered could not be found. Please update the ZIP code, or confirm what you entered is correct.'});
+            } else {
+              setFieldValue("zip_valid", true);
+              setStatus({zip_error: ''});
+            }
+          })
+          .then(error => {
+            console.log(error)
+          });
+      } else {
+        setStatus({zip_error: ''});
+      }
+  }, [values.zip]);
+
+  return null;
+};
+
+/**
+ * Query ESRI findAddressCandidates API endpoint to populate typeahead dropdown 
+ * when user types into Local Street Address field.
+ */
+// const AddressCheck = () => {
+
+//   const {values, setFieldValue, setStatus} = useFormikContext();
+
+//   React.useEffect(() => {
+
+//       if (values && values.residential_address.length > 3) {
+//         return axios.get("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates", {
+//           params: {
+//             outFields: "City,Country,Postal,ShortLabel",
+//             singleLine: values.residential_address,
+//             f: "json"
+//           }
+//         })
+//           .then(result => {
+//             console.log(result);
+//           })
+//           .then(error => {
+//             console.log(error)
+//           });
+//       } 
+//   }, [values.residential_address]);
+
+//   return null;
+// };
 
 
 function Start(props) {
 
     const { t, language } = props;
+    const [addressLoading, setAddressLoading] = useState(false);
+    const [addressOptions, setAddressOptions] = useState([]);
+    const filterAddressBy = () => true;
+
+    const CustomDatepickerInput = React.forwardRef((props, ref) => {
+      return (
+        <InputGroup className="mb-3">
+          <InputGroup.Prepend>
+            <InputGroup.Text id="basic-addon1">
+              <CalendarEvent onClick={props.onClick}></CalendarEvent>
+            </InputGroup.Text>
+          </InputGroup.Prepend>
+          <Form.Control
+            name={props.name}
+            value={props.value}
+            onClick={props.onClick}
+            onBlur={props.onBlur}
+            isInvalid={props.isInvalid}
+            placeholder="Select Date"
+            className="datepicker"
+          />
+          <Form.Control.Feedback type="invalid">
+            {props.errors.first_dose_date}
+          </Form.Control.Feedback>
+        </InputGroup>
+      );
+    });
+    
+
+    const handleSearch = (query) => {
+      setAddressLoading(true);
+
+      axios.get("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest", {
+        params: {
+          text: query,
+          f: "json",
+          location: "-111.664,34.293" ,
+          maxSuggestions: 5,
+          forStorage: false,
+          countryCode: 'USA',
+          category: 'Street Address'
+        }
+      })
+        .then(results => {
+          // console.log(results.data.suggestions);
+          
+          const options = results.data.suggestions.map((result) => ({
+            address: result.text,
+          }));
+
+          setAddressOptions(options);
+          setAddressLoading(false);
+        })
+        .catch(error => {
+          console.log(error)
+        });
+
+      // axios.get("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates", {
+      //   params: {
+      //     outFields: "City,Country,Postal,ShortLabel",
+      //     address: query,
+      //     f: "json",
+      //     // maxLocations: '10',
+      //     forStorage: false,
+      //     sourceCountry: 'USA',
+      //     category: 'Address'
+      //   }
+      // })
+        // .then(results => {
+        //   console.log(results.data.candidates);
+          
+        //   const options = results.data.candidates.map((result) => ({
+        //     address: result.address,
+        //   }));
+  
+        //   setAddressOptions(options);
+        //   setAddressLoading(false);
+        // })
+        // .catch(error => {
+        //   console.log(error)
+        // });
+  
+    };
 
     const requiredMessage = (language === 'en' ?  'Required.' : 'Obligatorio.');
 
@@ -115,6 +273,9 @@ function Start(props) {
         .required(requiredMessage)
         .min(5, 'Must be exactly 5 digits.')
         .max(5, 'Must be exactly 5 digits.'),
+      zip_valid: yup
+        .boolean()
+        .oneOf([true], 'Must provide a valid zipcode.'),
       phone: yup
         .string()
         .required(requiredMessage)
@@ -148,31 +309,6 @@ function Start(props) {
           then: yup.string().trim().required(requiredMessage)
         })
     });
-
-
-    const CustomDatepickerInput = React.forwardRef((props, ref) => {
-      return (
-        <InputGroup className="mb-3">
-          <InputGroup.Prepend>
-            <InputGroup.Text id="basic-addon1">
-              <CalendarEvent onClick={props.onClick}></CalendarEvent>
-            </InputGroup.Text>
-          </InputGroup.Prepend>
-          <Form.Control
-            name={props.name}
-            value={props.value}
-            onClick={props.onClick}
-            onBlur={props.onBlur}
-            isInvalid={props.isInvalid}
-            placeholder="Select Date"
-            className="datepicker"
-          />
-          <Form.Control.Feedback type="invalid">
-            {props.errors.first_dose_date}
-          </Form.Control.Feedback>
-        </InputGroup>
-      );
-    });
   
    
     return (
@@ -192,6 +328,7 @@ function Start(props) {
           city: "",
           state: "",
           zip: "",
+          zip_valid: false,
           phone: "",
           received_first_dose: "",
           vaccine_type: "",
@@ -207,6 +344,7 @@ function Start(props) {
           handleBlur,
           setFieldValue,
           setFieldTouched,
+          setStatus,
           values,
           touched,
           errors,
@@ -411,19 +549,41 @@ function Start(props) {
             </Alert>
 
             <Form.Group>
-                <Form.Label>
-                  <span className="question">{t('local_street_address')}</span> <span className="pc-color-text-secondary-dark">*</span>
-                </Form.Label>
-                <Form.Control placeholder="1234 Main St"
-                              name="residential_address"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              isInvalid={touched.residential_address && errors.residential_address}
-                              maxLength="60">
-                </Form.Control>
-                <Form.Control.Feedback type="invalid">
-                  {errors.residential_address}
-                </Form.Control.Feedback>
+              <Form.Label>
+                <span className="question">{t('local_street_address')}</span> <span className="pc-color-text-secondary-dark">*</span>
+              </Form.Label>
+              <Form.Control placeholder="1234 Main St"
+                            name="residential_address"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            isInvalid={touched.residential_address && errors.residential_address}
+                            maxLength="60">
+              </Form.Control>
+              {/* <AsyncTypeahead
+                id="residential_address"
+                name="residential_address"
+                onInputChange={(text, event) => setFieldValue('residential_address', text)}
+                onChange={(selected) => {
+                  const value = selected[0].text;
+                  setFieldValue('title', value);
+                }}
+                handleBlur={handleBlur}
+                filterBy={filterAddressBy}
+                addressLoading={addressLoading}
+                labelKey="address"
+                minLength={3}
+                onSearch={handleSearch}
+                options={addressOptions}
+                placeholder="1234 Main St."
+                renderMenuItemChildren={(option, props) => (
+                  <>
+                    <span>{option.address}</span>
+                  </>
+                )}
+              /> */}
+              <Form.Control.Feedback type="invalid">
+                {errors.residential_address}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Row>
@@ -477,7 +637,25 @@ function Start(props) {
                     {errors.zip}
                   </Form.Control.Feedback>
                 </Form.Group>
+                <Form.Text className="pl-1">
+                  { status.zip_error && <>
+                    <span className="pc-color-text-secondary-dark">
+                      {status.zip_error}
+                      
+                    </span>
+                    <div>
+                      <Button size="sm" 
+                              className="mt-3"
+                              variant="outline-primary"
+                              onClick={() => {setFieldValue("zip_valid", true); setStatus({zip_error: ''}); }}>
+                        Zip Code is Correct
+                      </Button> 
+                    </div>
+                  </>}
+                </Form.Text>
             </Form.Row>
+
+          
 
             <Form.Row className="mt-3">
               <Form.Group as={Col}>
@@ -648,7 +826,9 @@ function Start(props) {
               Next
             </Button>
 
+            {/* <AddressCheck></AddressCheck> */}
             <BirthdayCheck></BirthdayCheck>
+            <ZipcodeCheck></ZipcodeCheck>
             <FormikErrorFocus />
           </Form>
         )}

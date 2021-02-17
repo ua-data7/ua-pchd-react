@@ -9,8 +9,12 @@ class ErrorFocus extends React.Component {
       
       let selector = null;
 
+      console.log(keys[0])
+
       if (keys[0] === 'dob') {
         selector = `[name="dob_month"]`;
+      } else if (keys[0] === 'zip_valid') {
+        selector = `[name="zip"]`;
       } else {
         selector = `[name="${keys[0]}"]`;
       }
