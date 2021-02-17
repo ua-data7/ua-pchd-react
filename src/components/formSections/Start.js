@@ -372,7 +372,7 @@ function Start(props) {
                 </Form.Label>
                 <Form.Control placeholder={t('first_name')}
                               name="first_name"
-                              onChange={handleChange}
+                              onChange={event => setFieldValue("first_name", event.target.value.replace(/[^a-zA-Z]/,''))}
                               value={values.first_name}
                               onBlur={handleBlur}
                               isInvalid={touched.first_name && errors.first_name}
@@ -388,7 +388,7 @@ function Start(props) {
                 </Form.Label>
                 <Form.Control placeholder={t('last_name')}
                               name="last_name"
-                              onChange={handleChange}
+                              onChange={event => setFieldValue("last_name", event.target.value.replace(/[^a-zA-Z]/,''))}
                               value={values.last_name}
                               onBlur={handleBlur}
                               isInvalid={touched.last_name && errors.last_name}
