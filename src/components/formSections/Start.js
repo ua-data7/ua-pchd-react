@@ -223,10 +223,12 @@ function Start(props) {
       first_name: yup
         .string()
         .trim()
+        .matches(/^[a-zA-Z ]*$/, 'Name cannot contain any special characters.')
         .required(requiredMessage),
       last_name: yup
         .string()
         .trim()
+        .matches(/^[a-zA-Z ]*$/, 'Name cannot contain any special characters.')
         .required(requiredMessage),
       dob_month: yup
         .string()
@@ -372,7 +374,7 @@ function Start(props) {
                 </Form.Label>
                 <Form.Control placeholder={t('first_name')}
                               name="first_name"
-                              onChange={event => setFieldValue("first_name", event.target.value.replace(/[^a-zA-Z]/,''))}
+                              onChange={event => setFieldValue("first_name", event.target.value.replace(/[^a-zA-Z\s]/g,''))}
                               value={values.first_name}
                               onBlur={handleBlur}
                               isInvalid={touched.first_name && errors.first_name}
@@ -388,7 +390,7 @@ function Start(props) {
                 </Form.Label>
                 <Form.Control placeholder={t('last_name')}
                               name="last_name"
-                              onChange={event => setFieldValue("last_name", event.target.value.replace(/[^a-zA-Z]/,''))}
+                              onChange={event => setFieldValue("last_name", event.target.value.replace(/[^a-zA-Z\s]/g,''))}
                               value={values.last_name}
                               onBlur={handleBlur}
                               isInvalid={touched.last_name && errors.last_name}
@@ -443,7 +445,7 @@ function Start(props) {
                                 name="dob_date"
                                 onChange={handleChange}
                                 value={values.dob_date}
-                                onChange={event => setFieldValue("dob_date", event.target.value.replace(/\D/,''))}
+                                onChange={event => setFieldValue("dob_date", event.target.value.replace(/\D/g,''))}
                                 onBlur={handleBlur}
                                 maxLength="2"
                                 isInvalid={touched.dob_date && errors.dob_date}>
@@ -458,7 +460,7 @@ function Start(props) {
                                 maxLength="4"
                                 name="dob_year"
                                 placeholder="Year"
-                                onChange={event => setFieldValue("dob_year", event.target.value.replace(/\D/,''))}
+                                onChange={event => setFieldValue("dob_year", event.target.value.replace(/\D/g,''))}
                                 onBlur={handleBlur}
                                 value={values.dob_year}
                                 isInvalid={touched.dob_year && errors.dob_year}>
@@ -522,12 +524,13 @@ function Start(props) {
                   <span className="question">{t('email')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <Form.Control type="email"
-                              placeholder="Enter email"
+                              placeholder="Enter email" 
                               name="email"
                               onChange={e => {
                                 setFieldTouched('email');
-                                handleChange(e);
+                                setFieldValue("email", e.target.value.replace(/[^\x00-\x7F]/g,''));
                               }}
+                              value={values.email}
                               onBlur={handleBlur}
                               isInvalid={touched.email && errors.email}
                               maxLength="150">
