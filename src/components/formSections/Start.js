@@ -631,7 +631,7 @@ function Start(props) {
                                 value={values.zip}
                                 maxLength="5"
                                 onBlur={handleBlur}
-                                isInvalid={touched.zip && errors.zip}>
+                                isInvalid={touched.zip && (errors.zip || errors.zip_valid)}>
                   </Form.Control>
                   <Form.Control.Feedback type="invalid">
                     {errors.zip}
