@@ -95,7 +95,7 @@ class Educator extends Component {
                               isInvalid={touched.employer && !!errors.employer}
                               onChange={handleChange}
                               onBlur={handleBlur}>
-                    <option value="" disabled>Select Employer</option>
+                    <option value="" disabled>{t('select_employer')}</option>
                     {Object.keys(this.props.choices.educator_employer).map((key, index) => 
                       <option key={key} value={key}>
                         { this.props.language === 'es' ? this.props.choices.educator_employer[key].esp : this.props.choices.educator_employer[key].eng}
@@ -139,7 +139,7 @@ class Educator extends Component {
                               isInvalid={touched.occupation && !!errors.occupation}
                               onChange={handleChange}
                               onBlur={handleBlur}>
-                  <option value="" disabled>Select Occupation</option>
+                  <option value="" disabled>{t('select_occupation')}</option>
                   {Object.keys(this.props.choices.educator_occupation).map((key, index) => 
                     <option key={key} value={key}>
                       { this.props.language === 'es' ? this.props.choices.educator_occupation[key].esp : this.props.choices.educator_occupation[key].eng}

@@ -37,7 +37,7 @@
     "yes_no_answer_0": "No",
     "yes_no_answer_1": "Sí",
     "accchs_status": "¿Está inscrito en Cuidado a largo plazo de Arizona/AHCCCS?",
-    "health_conditions": "¿Le han diagnosticado alguna de las siguientes condiciones de salud?",
+    "health_conditions": "¿Le han diagnosticado alguna de las siguientes condiciones de salud? Seleccione todas las que apliquen.",
     "health_conditions_answer_1": "Cáncer",
     "health_conditions_answer_2": "Enfermedad renal cr�nica",
     "health_conditions_answer_3": "EPOC (enfermedad pulmonar obstructiva cr�nica)",
@@ -189,5 +189,7 @@
     "none_of_above": "Ninguna de las anteriores",
     "email_placeholder": "Correo electrónico",
     "first_dose_date_placeholder": "Favor de seleccionar la fecha",
-    "first_does_other_location": "Favor de indicar la ubicación:"
+    "first_does_other_location": "Favor de indicar la ubicación:",
+    "select_employer": "Seleccione empleador",
+    "select_occupation": "Seleccione ocupación"
 }

@@ -79,7 +79,7 @@ class EssentialServices extends Component {
                               isInvalid={touched.occupation && !!errors.occupation}
                               onChange={handleChange}
                               onBlur={handleBlur}>
-                  <option value="" disabled>Select Occupation</option>
+                  <option value="" disabled>{t('select_occupation')}</option>
                   {Object.keys(this.props.choices.essential_occupation).map((key, index) => 
                     <option key={key} value={key}>
                       { this.props.language === 'es' ? this.props.choices.essential_occupation[key].esp : this.props.choices.essential_occupation[key].eng}

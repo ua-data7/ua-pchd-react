@@ -26,7 +26,7 @@
     "yes_no_answer_0": "No",
     "yes_no_answer_1": "Yes",
     "accchs_status": "Are you enrolled in Arizona Long-Term Care/AHCCCS?",
-    "health_conditions": "Have you been diagnosed with any of the following health conditions?",
+    "health_conditions": "Have you been diagnosed with any of the following health conditions? Select all that apply.",
     "health_conditions_answer_1": "Cancer",
     "health_conditions_answer_2": "Chronic kidney disease",
     "health_conditions_answer_3": "COPD (chronic obstructive pulmonary disease)",
@@ -180,5 +180,7 @@
     "none_of_above": "None of the Above",
     "email_placeholder": "Email",
     "first_dose_date_placeholder": "Select Date",
-    "first_does_other_location": "Please list the location:"
+    "first_does_other_location": "Please list the location:",
+    "select_employer": "Select employer",
+    "select_occupation": "Select occupation"
 }

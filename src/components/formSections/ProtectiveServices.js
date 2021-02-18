@@ -85,7 +85,7 @@ class ProtectiveServices extends Component {
                               isInvalid={touched.employer && !!errors.employer}
                               onChange={handleChange}
                               onBlur={handleBlur}>
-                  <option value="" disabled>Select employer</option>
+                  <option value="" disabled>{t('select_employer')}</option>
                   {Object.keys(this.props.choices.protective_employer).map((key, index) => 
                     <option key={key} value={key}>
                       { this.props.language === 'es' ? this.props.choices.protective_employer[key].esp : this.props.choices.protective_employer[key].eng}
@@ -129,7 +129,7 @@ class ProtectiveServices extends Component {
                               isInvalid={touched.occupation && !!errors.occupation}
                               onChange={handleChange}
                               onBlur={handleBlur}>
-                  <option value="" disabled>Select Occupation</option>
+                  <option value="" disabled>{t('select_occupation')}</option>
                   {Object.keys(this.props.choices.protective_occupation).map((key, index) => 
                     <option key={key} value={key}>
                       { this.props.language === 'es' ? this.props.choices.protective_occupation[key].esp : this.props.choices.protective_occupation[key].eng}
