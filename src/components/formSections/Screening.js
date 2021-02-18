@@ -74,6 +74,12 @@ class Screening extends Component {
           errors,
         }) => (
 
+          <>
+          <Button variant="primary"
+              onClick={() => this.props.prevStep('start', values)}>
+            Back
+          </Button>
+
           <Form noValidate onSubmit={handleSubmit} autoComplete="off" context={ age }>
             {/* <p>All questions with * are required.</p> */}
             

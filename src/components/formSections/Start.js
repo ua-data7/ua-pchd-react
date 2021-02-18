@@ -317,9 +317,11 @@ function Start(props) {
       <Formik
         validationSchema={vaccineInterestSchema}
         onSubmit={props.handleStartSubmit}
-        initialValues={{
+        initialValues={props.start !== null ? props.start : {
           first_name: "",
           last_name: "",
+          middle_name: "",
+          suffix:"",
           dob_month: "",
           dob_date: "",
           dob_year: "",
@@ -404,14 +406,20 @@ function Start(props) {
                 <Form.Label>
                   <span className="question">{t('middle_name')}</span>
                 </Form.Label>
-                <Form.Control maxLength="50"/>
+                <Form.Control maxLength="50"
+                              name="middle_name"
+                              onChange={handleChange}
+                              value={values.middle_name}/>
               </Form.Group>
 
               <Form.Group as={Col} md="1" sm="6" xs="6">
                 <Form.Label>
                   <span className="question">{t('suffix')}</span>
                 </Form.Label>
-                <Form.Control maxLength="50"/>
+                <Form.Control maxLength="50"
+                              name="suffix"
+                              onChange={handleChange}
+                              value={values.suffix}/>
               </Form.Group>
               
             </Form.Row>
@@ -443,7 +451,6 @@ function Start(props) {
                   <Form.Control type="text"
                                 placeholder="Day"
                                 name="dob_date"
-                                onChange={handleChange}
                                 value={values.dob_date}
                                 onChange={event => setFieldValue("dob_date", event.target.value.replace(/\D/g,''))}
                                 onBlur={handleBlur}
@@ -481,9 +488,6 @@ function Start(props) {
                     }
                   </Form.Text>
                 </Form.Group>
-                {/* <Form.Text muted className="pl-1">
-                  { status.dob_valid }
-                </Form.Text> */}
             </Form.Row>
 
             <input type="hidden" name="dob"></input>
@@ -503,7 +507,9 @@ function Start(props) {
                                 name="sex"
                                 value={key}
                                 isInvalid={touched.sex && !!errors.sex}
-                                onChange={handleChange}/>
+                                onChange={handleChange}
+                                checked={values.sex === key}
+                                />
                       <Form.Check.Label>
                         { props.language === 'es' ? props.choices.sex[key].esp : props.choices.sex[key].eng}
                       </Form.Check.Label>
@@ -557,6 +563,7 @@ function Start(props) {
               </Form.Label>
               <Form.Control placeholder="1234 Main St"
                             name="residential_address"
+                            value={values.residential_address}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             isInvalid={touched.residential_address && errors.residential_address}
@@ -595,6 +602,7 @@ function Start(props) {
                     <span className="question">{t('city')}</span> <span className="pc-color-text-secondary-dark">*</span>
                   </Form.Label>
                   <Form.Control name="city"
+                                value={values.city}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 isInvalid={touched.city && errors.city}
@@ -610,6 +618,7 @@ function Start(props) {
                     <span className="question">{t('state')}</span> <span className="pc-color-text-secondary-dark">*</span>
                   </Form.Label>
                   <Form.Control as="select"
+                                value={values.state}
                                 placeholder="Select state"
                                 name="state"
                                 onChange={handleChange}
@@ -701,6 +710,7 @@ function Start(props) {
                     type="radio"
                     label={t('yes_no_answer_0')}
                     value={false}
+                    checked={values.received_first_dose === 'false'}
                     isInvalid={touched.received_first_dose && !!errors.received_first_dose}
                     onChange={handleChange}
                   />
@@ -710,6 +720,7 @@ function Start(props) {
                     type="radio"
                     label={t('yes_no_answer_1')}
                     value={true}
+                    checked={values.received_first_dose === 'true'}
                     isInvalid={touched.received_first_dose && !!errors.received_first_dose}
                     onChange={handleChange}
                     feedback={errors.received_first_dose}
@@ -735,6 +746,7 @@ function Start(props) {
                                     type="radio" 
                                     name="vaccine_type"
                                     value={key}
+                                    checked={values.vaccine_type === key}
                                     isInvalid={touched.vaccine_type && !!errors.vaccine_type}
                                     onChange={handleChange}/>
                           <Form.Check.Label>
@@ -787,6 +799,7 @@ function Start(props) {
                                     type="radio" 
                                     name="first_dose_loc"
                                     value={key}
+                                    checked={values.first_dose_loc === key}
                                     isInvalid={touched.first_dose_loc && !!errors.first_dose_loc}
                                     onChange={handleChange}/>
                           <Form.Check.Label>

@@ -67,8 +67,10 @@ class VaccineInterestForm extends Component {
     });
   }
 
-  prevStep() {
-    
+  prevStep(step, values) {
+    this.setState({
+      step: step,
+    });
   }
 
   handleStartSubmit(e) {
@@ -238,7 +240,8 @@ class VaccineInterestForm extends Component {
                  age={this.state.start.age}
                  onCaptchaUpdate={this.onCaptchaUpdate}
                  captcha={this.state.captcha}
-                 submitting={this.state.submitting}>
+                 submitting={this.state.submitting}
+                 prevStep={this.prevStep}>
       </Screening>
     );
   }
