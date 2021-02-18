@@ -122,6 +122,7 @@ class VaccineInterestForm extends Component {
     const screening = this.state.screening;
 
     const payload = {
+      recaptcha_token: this.state.captcha,
       first_name: start.first_name,
       last_name: start.last_name,
       dob: start.dob.format('YYYY-MM-DD'),
