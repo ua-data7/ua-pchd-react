@@ -136,6 +136,62 @@ function Start(props) {
     });
     
 
+    const handleSearch = (query) => {
+      setAddressLoading(true);
+
+      axios.get("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest", {
+        params: {
+          text: query,
+          f: "json",
+          location: "-111.664,34.293" ,
+          maxSuggestions: 5,
+          forStorage: false,
+          countryCode: 'USA',
+          category: 'Street Address'
+        }
+      })
+        .then(results => {
+          // console.log(results.data.suggestions);
+          
+          const options = results.data.suggestions.map((result) => ({
+            address: result.text,
+            magicKey: result.magicKey,
+          }));
+
+          setAddressOptions(options);
+          setAddressLoading(false);
+        })
+        .catch(error => {
+          console.log(error)
+        });
+
+      // axios.get("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates", {
+      //   params: {
+      //     outFields: "City,Country,Postal,ShortLabel",
+      //     address: query,
+      //     f: "json",
+      //     // maxLocations: '10',
+      //     forStorage: false,
+      //     sourceCountry: 'USA',
+      //     category: 'Address'
+      //   }
+      // })
+        // .then(results => {
+        //   console.log(results.data.candidates);
+          
+        //   const options = results.data.candidates.map((result) => ({
+        //     address: result.address,
+        //   }));
+  
+        //   setAddressOptions(options);
+        //   setAddressLoading(false);
+        // })
+        // .catch(error => {
+        //   console.log(error)
+        // });
+  
+    };
+
     const requiredMessage = (language === 'en' ?  'Required.' : 'Obligatorio.');
 
     const vaccineInterestSchema = yup.object({
@@ -230,6 +286,7 @@ function Start(props) {
           then: yup.string().trim().required(requiredMessage)
         })
     });
+
   
    
     return (
@@ -487,6 +544,51 @@ function Start(props) {
                             isInvalid={touched.residential_address && errors.residential_address}
                             maxLength="60">
               </Form.Control>
+              {/* <AsyncTypeahead
+                id="address"
+                name="residential_address"
+                onChange={(selected) => {
+                  if (selected.length) {
+                    setAddressLoading(true);
+                    const value = selected[0];
+                    axios.get("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates", {
+                      params: {
+                        outFields: "City,RegionAbbr,Postal,ShortLabel",
+                        magicKey: value.magicKey,
+                        SingleLine: value.address,
+                        f: "json",
+                      }
+                    })
+                      .then(results => {
+                        console.log(results.data.candidates[0])
+                        let result = results.data.candidates[0].attributes;
+                        setFieldValue("address", result.ShortLabel);
+                        setFieldValue("city", result.City);
+                        setFieldValue("state", result.RegionAbbr);
+                        setFieldValue("zip", result.Postal);
+
+
+                        setAddressLoading(false);
+                      })
+                      .catch(error => {
+                        console.log(error)
+                      });
+                  }
+                }}
+                handleBlur={handleBlur}
+                filterBy={filterAddressBy}
+                addressLoading={addressLoading}
+                labelKey="address"
+                minLength={3}
+                onSearch={handleSearch}
+                options={addressOptions}
+                placeholder="1234 Main St."
+                renderMenuItemChildren={(option, props) => (
+                  <>
+                    <span>{option.address}</span>
+                  </>
+                )}
+              /> */}
               <Form.Control.Feedback type="invalid">
                 {errors.residential_address}
               </Form.Control.Feedback>
