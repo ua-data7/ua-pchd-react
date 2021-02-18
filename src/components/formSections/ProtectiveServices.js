@@ -68,7 +68,7 @@ class ProtectiveServices extends Component {
 
           <Button variant="primary"
               onClick={() => this.props.prevStep('screening', values)}>
-            Back
+            {t('back')}
           </Button>
 
           <Form noValidate onSubmit={handleSubmit} autocomplete="off">
@@ -171,7 +171,7 @@ class ProtectiveServices extends Component {
                     type="submit"
                     className="mt-4 mb-5"
                     disabled={this.props.captcha === null || this.props.submitting}>
-              Submit
+              {t('submit')}
             </Button>
             <FormikErrorFocus/>
           </Form>

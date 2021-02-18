@@ -77,7 +77,7 @@ class Screening extends Component {
           <>
           <Button variant="primary"
               onClick={() => this.props.prevStep('start', values)}>
-            Back
+            {t('back')}
           </Button>
 
           <Form noValidate onSubmit={handleSubmit} autoComplete="off" context={ age }>
@@ -235,13 +235,13 @@ class Screening extends Component {
                               type="submit"
                               className="mt-4 mb-5"
                               disabled={this.props.captcha === null || this.props.submitting}>
-                        Submit
+                        {t('submit')}
                       </Button>
                     </>
                   :
                     <>
                       <Button variant="primary" type="submit" className="mt-5 mb-5">
-                        Next
+                        {t('next')}
                       </Button>
                     </>
                 }
@@ -259,7 +259,7 @@ class Screening extends Component {
                         type="submit"
                         className="mt-4 mb-5"
                         disabled={this.props.captcha === null || this.props.submitting}>
-                  Submit
+                  {t('submit')}
                 </Button>
               </>
             }

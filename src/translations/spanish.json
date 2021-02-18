@@ -191,5 +191,8 @@
     "first_dose_date_placeholder": "Favor de seleccionar la fecha",
     "first_does_other_location": "Favor de indicar la ubicación:",
     "select_employer": "Seleccione empleador",
-    "select_occupation": "Seleccione ocupación"
+    "select_occupation": "Seleccione ocupación",
+    "next": "Siguiente",
+    "back": "Anterior",
+    "submit": "Enviar"
 }

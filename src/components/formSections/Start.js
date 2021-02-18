@@ -68,9 +68,10 @@ const BirthdayCheck = (props) => {
  * After user has entered zip code, check if zip code is valid and require user
  * confirmation to submit an unvalidated zip code.
  */
-const ZipcodeCheck = () => {
+const ZipcodeCheck = (props) => {
 
   const {values, setFieldValue, setStatus} = useFormikContext();
+  const { language } = props;
   
   React.useEffect(() => {
 
@@ -85,7 +86,7 @@ const ZipcodeCheck = () => {
             console.log(result);
             if (!result.valid) {
               setFieldValue("zip_valid", false);
-              setStatus({zip_error: 'The ZIP code you entered could not be found. Please update the ZIP code, or confirm what you entered is correct.'});
+              setStatus({zip_error: language === 'en' ? 'The ZIP code you entered could not be found. Please update the ZIP code, or confirm what you entered is correct.' : 'No se pudo encontrar el código postal que ingresó. Actualice el código postal o confirme que lo que ingresó es correcto.'});
             } else {
               setFieldValue("zip_valid", true);
               setStatus({zip_error: ''});
@@ -734,7 +735,7 @@ function Start(props) {
             }
 
             <Button variant="primary" type="submit" className="mt-5">
-              Next
+              {t('next')}
             </Button>
 
             <BirthdayCheck></BirthdayCheck>

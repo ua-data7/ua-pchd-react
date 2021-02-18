@@ -68,7 +68,7 @@ class Healthcare extends Component {
 
           <Button variant="primary"
                   onClick={() => this.props.prevStep('screening', values)}>
-            Back
+            {t('back')}
           </Button>
 
 
@@ -176,7 +176,7 @@ class Healthcare extends Component {
                     type="submit"
                     className="mt-4 mb-5"
                     disabled={this.props.captcha === null || this.props.submitting}>
-              Submit
+              {t('submit')}
             </Button>
             <FormikErrorFocus/>
           </Form>

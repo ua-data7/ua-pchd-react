@@ -182,5 +182,8 @@
     "first_dose_date_placeholder": "Select Date",
     "first_does_other_location": "Please list the location:",
     "select_employer": "Select employer",
-    "select_occupation": "Select occupation"
+    "select_occupation": "Select occupation",
+    "next": "Next",
+    "back": "Back",
+    "submit": "Submit"
 }
