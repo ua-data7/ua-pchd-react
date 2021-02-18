@@ -29,16 +29,24 @@ class ChildcareProvider extends Component {
         .trim()
         .required('Required.'),
     });
+
+    let initialValues;
+
+    if (this.props.childcare_providers !== null) {
+      initialValues = this.props.childcare_providers;
+    } else {
+      initialValues = {
+        employer: "",
+        license: "",
+        occupation: "",
+      };
+    }
    
     return (
       <Formik
         validationSchema={schema}
         onSubmit={this.props.handleSubmit}
-        initialValues={{
-          employer: "",
-          license: "",
-          occupation: "",
-        }}
+        initialValues={initialValues}
       >
         {({
           handleSubmit,
@@ -50,6 +58,11 @@ class ChildcareProvider extends Component {
           isValid,
           errors,
         }) => (
+          <>
+          <Button variant="primary"
+              onClick={() => this.props.prevStep('screening', values)}>
+            Back
+          </Button>
 
           <Form noValidate onSubmit={handleSubmit} autocomplete="off">
 
@@ -83,6 +96,7 @@ class ChildcareProvider extends Component {
                       <Form.Check.Input 
                                 type="radio" 
                                 name="license"
+                                checked={values.license === key}
                                 value={key}
                                 isInvalid={touched.license && !!errors.license}
                                 onChange={handleChange}/>
@@ -131,6 +145,7 @@ class ChildcareProvider extends Component {
             </Button>
             <FormikErrorFocus/>
           </Form>
+          </>
         )}
       </Formik>
     );

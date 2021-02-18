@@ -31,16 +31,24 @@ class EssentialServices extends Component {
         .trim()
         .required('Required.'),
     });
+
+    let initialValues;
+
+    if (this.props.essential_workers !== null) {
+      initialValues = this.props.essential_workers;
+    } else {
+      initialValues = {
+        employer: "",
+        occupation: "",
+        other_occupation: "",
+      };
+    }
    
     return (
       <Formik
         validationSchema={schema}
         onSubmit={this.props.handleSubmit}
-        initialValues={{
-          employer: "",
-          occupation: "",
-          other_occupation: "",
-        }}
+        initialValues={initialValues}
       >
         {({
           handleSubmit,
@@ -50,6 +58,12 @@ class EssentialServices extends Component {
           touched,
           errors,
         }) => (
+          <>
+
+          <Button variant="primary"
+              onClick={() => this.props.prevStep('screening', values)}>
+            Back
+          </Button>
 
           <Form noValidate onSubmit={handleSubmit} autoComplete="off">
         
@@ -60,7 +74,7 @@ class EssentialServices extends Component {
                 </Form.Label>
                 <Form.Control as="select"
                               custom
-                              defaultValue=""
+                              value={values.occupation}
                               name="occupation"
                               isInvalid={touched.occupation && !!errors.occupation}
                               onChange={handleChange}
@@ -129,6 +143,7 @@ class EssentialServices extends Component {
             </Button>
             <FormikErrorFocus/>
           </Form>
+          </>
         )}
       </Formik>
 

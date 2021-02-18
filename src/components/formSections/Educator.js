@@ -43,18 +43,26 @@ class Educator extends Component {
           then: yup.string().trim().required('Required.')
       }),
     });
+
+    let initialValues;
+
+    if (this.props.educators !== null) {
+      initialValues = this.props.educators;
+    } else {
+      initialValues = {
+        employer: "",
+        other_employer: "",
+        occupation: "",
+        other_occupation: "",
+      };
+    }
    
     return (
 
       <Formik
         validationSchema={schema}
         onSubmit={this.props.handleSubmit}
-        initialValues={{
-          employer: "",
-          other_employer: "",
-          occupation: "",
-          other_occupation: "",
-        }}
+        initialValues={initialValues}
       >
         {({
           handleSubmit,
@@ -66,6 +74,12 @@ class Educator extends Component {
           isValid,
           errors,
         }) => (
+          <>
+
+          <Button variant="primary"
+              onClick={() => this.props.prevStep('screening', values)}>
+            Back
+          </Button>
 
           <Form noValidate onSubmit={handleSubmit} autoComplete="off">
 
@@ -76,7 +90,7 @@ class Educator extends Component {
                 </Form.Label>
                 <Form.Control as="select"
                               custom
-                              defaultValue=""
+                              value={values.employer}
                               name="employer"
                               isInvalid={touched.employer && !!errors.employer}
                               onChange={handleChange}
@@ -120,7 +134,7 @@ class Educator extends Component {
                 </Form.Label>
                 <Form.Control as="select"
                               custom
-                              defaultValue=""
+                              value={values.occupation}
                               name="occupation"
                               isInvalid={touched.occupation && !!errors.occupation}
                               onChange={handleChange}
@@ -171,6 +185,7 @@ class Educator extends Component {
             </Button>
             <FormikErrorFocus/>
           </Form>
+          </>
         )}
       </Formik>
 

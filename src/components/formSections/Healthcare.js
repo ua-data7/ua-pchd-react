@@ -34,18 +34,26 @@ class Healthcare extends Component {
         .oneOf(Object.keys(this.props.choices.ltc))
         .required("Required."),
     });
+
+    let initialValues;
+
+    if (this.props.healthcare_workers !== null) {
+      initialValues = this.props.healthcare_workers;
+    } else {
+      initialValues = {
+        employer: "",
+        occupation: "",
+        other_occupation: "",
+        ltc: "",
+      };
+    }
    
    
     return (
       <Formik
         validationSchema={schema}
         onSubmit={this.props.handleSubmit}
-        initialValues={{
-          employer: "",
-          occupation: "",
-          other_occupation: "",
-          ltc: "",
-        }}
+        initialValues={initialValues}
       >
         {({
           handleSubmit,
@@ -56,6 +64,14 @@ class Healthcare extends Component {
           errors,
         }) => (
 
+          <>
+
+          <Button variant="primary"
+                  onClick={() => this.props.prevStep('screening', values)}>
+            Back
+          </Button>
+
+
           <Form noValidate onSubmit={handleSubmit} autoComplete="off">
 
             <Form.Row className="mt-5">
@@ -65,8 +81,8 @@ class Healthcare extends Component {
                 </Form.Label>
                 <Form.Control as="select"
                               custom
-                              defaultValue=""
                               name="occupation"
+                              value={values.occupation}
                               isInvalid={touched.occupation && !!errors.occupation}
                               onChange={handleChange}
                               onBlur={handleBlur}>
@@ -116,6 +132,7 @@ class Healthcare extends Component {
                                 type="radio" 
                                 name="ltc"
                                 value={key}
+                                checked={values.ltc === key}
                                 isInvalid={touched.ltc && !!errors.ltc}
                                 onChange={handleChange}/>
                       <Form.Check.Label>
@@ -163,6 +180,8 @@ class Healthcare extends Component {
             </Button>
             <FormikErrorFocus/>
           </Form>
+
+          </>
         )}
       </Formik>
 

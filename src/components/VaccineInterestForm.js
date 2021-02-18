@@ -24,7 +24,7 @@ class VaccineInterestForm extends Component {
       step: 'start',
       start: null,
       screening: null,
-      educator: null,
+      educators: null,
       protective_services: null,
       essential_workers: null,
       childcare_providers: null,
@@ -151,14 +151,14 @@ class VaccineInterestForm extends Component {
       payload['health_conditions'] = screening.health_conditions.map(val => parseInt(val, 10))
     }
 
-    if (this.state.childcare_providers) {
+    if (screening.occupation === '1') {
       let values = this.state.childcare_providers;
       payload.childcare_providers = {
         employer: values.employer,
         occupation: values.occupation,
         license: parseInt(values.license)
       };
-    } else if (this.state.protective_services) {
+    } else if (screening.occupation === '3' || screening.occupation === '7') {
       let values = this.state.protective_services;
       payload.protective_services = {
         employer: parseInt(values.employer),
@@ -171,7 +171,7 @@ class VaccineInterestForm extends Component {
         payload.protective_services.other_occupation = values.other_occupation;
       }
 
-    } else if (this.state.essential_workers) {
+    } else if (screening.occupation === '4') {
       let values = this.state.essential_workers;
       payload.essential_workers = {
         employer: values.employer,
@@ -180,7 +180,7 @@ class VaccineInterestForm extends Component {
       if (values.occupation === "24") {
         payload.essential_workers.other_occupation = values.other_occupation;
       }
-    } else if (this.state.healthcare_workers) {
+    } else if (screening.occupation === '5' || screening.occupation === '6') {
       let values = this.state.healthcare_workers;
       payload.healthcare_workers = {
         employer: values.employer,
@@ -190,7 +190,7 @@ class VaccineInterestForm extends Component {
       if (values.occupation === "47") {
         payload.healthcare_workers.other_occupation = values.other_occupation;
       }
-    } else if (this.state.educators) {
+    } else if (screening.occupation === '2') {
       let values = this.state.educators;
       payload.educators = {
         employer: parseInt(values.employer),
@@ -261,7 +261,9 @@ class VaccineInterestForm extends Component {
                 onCaptchaUpdate={this.onCaptchaUpdate}
                 captcha={this.state.captcha}
                 updateStep={this.updateStep}
-                submitting={this.state.submitting}>            
+                submitting={this.state.submitting}
+                prevStep={this.prevStep}
+                educators={this.state.educators}>            
       </Educator>
     );
   }
@@ -274,7 +276,9 @@ class VaccineInterestForm extends Component {
                          onCaptchaUpdate={this.onCaptchaUpdate}
                          captcha={this.state.captcha}
                          updateStep={this.updateStep}
-                         submitting={this.state.submitting}>            
+                         submitting={this.state.submitting}
+                         prevStep={this.prevStep}
+                         childcare_providers={this.state.childcare_providers}>            
       </ChildcareProvider>
     );
   }
@@ -287,7 +291,9 @@ class VaccineInterestForm extends Component {
                           onCaptchaUpdate={this.onCaptchaUpdate}
                           captcha={this.state.captcha}
                           updateStep={this.updateStep}
-                          submitting={this.state.submitting}>            
+                          submitting={this.state.submitting}
+                          prevStep={this.prevStep}
+                          protective_services={this.state.protective_services}>            
       </ProtectiveServices>
     );
   }
@@ -300,7 +306,9 @@ class VaccineInterestForm extends Component {
                          onCaptchaUpdate={this.onCaptchaUpdate}
                          captcha={this.state.captcha}
                          updateStep={this.updateStep}
-                         submitting={this.state.submitting}>            
+                         submitting={this.state.submitting}
+                         prevStep={this.prevStep}
+                         essential_workers={this.state.essential_workers}>            
       </EssentialServices>
     );
   }
@@ -313,7 +321,9 @@ class VaccineInterestForm extends Component {
                   onCaptchaUpdate={this.onCaptchaUpdate}
                   captcha={this.state.captcha}
                   updateStep={this.updateStep}
-                  submitting={this.state.submitting}>            
+                  submitting={this.state.submitting}
+                  prevStep={this.prevStep}
+                  healthcare_workers={this.state.healthcare_workers}>            
       </Healthcare>
     );
   }

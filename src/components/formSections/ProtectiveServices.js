@@ -36,16 +36,24 @@ class ProtectiveServices extends Component {
       }),
     });
 
+    let initialValues;
+
+    if (this.props.protective_services !== null) {
+      initialValues = this.props.protective_services;
+    } else {
+      initialValues = {
+        employer: "",
+        other_employer: "",
+        occupation: "",
+        other_occupation: "",
+      };
+    }
+
     return (
       <Formik
         validationSchema={schema}
         onSubmit={this.props.handleSubmit}
-        initialValues={{
-          employer: "",
-          other_employer: "",
-          occupation: "",
-          other_occupation: "",
-        }}
+        initialValues={initialValues}
       >
         {({
           handleSubmit,
@@ -55,6 +63,13 @@ class ProtectiveServices extends Component {
           touched,
           errors,
         }) => (
+          
+          <>
+
+          <Button variant="primary"
+              onClick={() => this.props.prevStep('screening', values)}>
+            Back
+          </Button>
 
           <Form noValidate onSubmit={handleSubmit} autocomplete="off">
 
@@ -65,7 +80,7 @@ class ProtectiveServices extends Component {
                 </Form.Label>
                 <Form.Control as="select"
                               custom
-                              defaultValue=""
+                              value={values.employer}
                               name="employer"
                               isInvalid={touched.employer && !!errors.employer}
                               onChange={handleChange}
@@ -109,7 +124,7 @@ class ProtectiveServices extends Component {
                 </Form.Label>
                 <Form.Control as="select"
                               custom
-                              defaultValue=""
+                              value={values.occupation}
                               name="occupation"
                               isInvalid={touched.occupation && !!errors.occupation}
                               onChange={handleChange}
@@ -160,6 +175,7 @@ class ProtectiveServices extends Component {
             </Button>
             <FormikErrorFocus/>
           </Form>
+          </>
         )}
       </Formik>
     );
