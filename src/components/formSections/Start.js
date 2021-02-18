@@ -16,7 +16,7 @@ import FormikErrorFocus from "../FormikErrorFocus";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { CalendarEvent } from 'react-bootstrap-icons';
+import { CalendarEvent, ArrowRight } from 'react-bootstrap-icons';
 
 
 /**
@@ -734,8 +734,8 @@ function Start(props) {
               </>
             }
 
-            <Button variant="primary" type="submit" className="mt-5">
-              {t('next')}
+            <Button className="pc-color-primary-alt-darkest" type="submit" className="mt-5">
+              {t('next')} <ArrowRight></ArrowRight>
             </Button>
 
             <BirthdayCheck></BirthdayCheck>

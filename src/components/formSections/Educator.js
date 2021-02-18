@@ -8,6 +8,7 @@ import FormikErrorFocus from "../FormikErrorFocus";
 
 import ReCAPTCHA from "react-google-recaptcha";
 import { recaptcha_site_key } from "../../config";
+import { ArrowLeft, Check } from 'react-bootstrap-icons';
 
 class Educator extends Component {
 
@@ -78,7 +79,7 @@ class Educator extends Component {
 
           <Button variant="primary"
               onClick={() => this.props.prevStep('screening', values)}>
-            {t('back')}
+            <ArrowLeft></ArrowLeft> {t('back')}
           </Button>
 
           <Form noValidate onSubmit={handleSubmit} autoComplete="off">
@@ -181,7 +182,7 @@ class Educator extends Component {
                     type="submit"
                     className="mt-4 mb-5"
                     disabled={this.props.captcha === null || this.props.submitting}>
-              {t('submit')}
+              {t('submit')} <Check></Check>
             </Button>
             <FormikErrorFocus/>
           </Form>

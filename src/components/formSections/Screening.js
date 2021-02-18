@@ -9,6 +9,8 @@ import FormikErrorFocus from "../FormikErrorFocus";
 import ReCAPTCHA from "react-google-recaptcha";
 import { age_threshold, recaptcha_site_key } from "../../config";
 
+import { ArrowLeft, ArrowRight, Check } from 'react-bootstrap-icons';
+
 class Screening extends Component {
 
   constructor(props) {
@@ -77,7 +79,7 @@ class Screening extends Component {
           <>
           <Button variant="primary"
               onClick={() => this.props.prevStep('start', values)}>
-            {t('back')}
+            <ArrowLeft></ArrowLeft> {t('back')}
           </Button>
 
           <Form noValidate onSubmit={handleSubmit} autoComplete="off" context={ age }>
@@ -235,13 +237,13 @@ class Screening extends Component {
                               type="submit"
                               className="mt-4 mb-5"
                               disabled={this.props.captcha === null || this.props.submitting}>
-                        {t('submit')}
+                        {t('submit')} <Check></Check>
                       </Button>
                     </>
                   :
                     <>
                       <Button variant="primary" type="submit" className="mt-5 mb-5">
-                        {t('next')}
+                        {t('next')} <ArrowRight></ArrowRight>
                       </Button>
                     </>
                 }
@@ -259,7 +261,7 @@ class Screening extends Component {
                         type="submit"
                         className="mt-4 mb-5"
                         disabled={this.props.captcha === null || this.props.submitting}>
-                  {t('submit')}
+                  {t('submit')} <Check></Check>
                 </Button>
               </>
             }
