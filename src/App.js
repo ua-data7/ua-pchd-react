@@ -96,9 +96,9 @@ class App extends Component {
         </div>
 
         <footer className='footer mt-auto py-3 pc-color-gray-lightest'>
-          <div className="row">
-            <div className="container centered">
-              2021 Pima County
+          <div className="row centered">
+            <div className="container centered m-4">
+              If you need assistance, call&nbsp;<a href="tel:520-222-0119">520-222-0119</a>.
             </div>
           </div>
         </footer>
