@@ -57,7 +57,6 @@ class Screening extends Component {
     return (
 
       
-
       <Formik
         validationSchema={schema}
         onSubmit={this.props.handleScreeningSubmit}
@@ -99,7 +98,8 @@ class Screening extends Component {
                                 name="congregate_housing"
                                 value={key}
                                 isInvalid={touched.congregate_housing && !!errors.congregate_housing}
-                                onChange={handleChange}/>
+                                onChange={handleChange}
+                                checked={values.congregate_housing === key}/>
                       <Form.Check.Label>
                         { this.props.language === 'es' ? this.props.choices.congregate[key].esp : this.props.choices.congregate[key].eng}
                       </Form.Check.Label> 
@@ -130,7 +130,8 @@ class Screening extends Component {
                                 name="accchs"
                                 value={key}
                                 isInvalid={touched.accchs && !!errors.accchs}
-                                onChange={handleChange}/>
+                                onChange={handleChange}
+                                checked={values.accchs === key}/>
                       <Form.Check.Label>
                         { this.props.language === 'es' ? this.props.choices.ahcccs[key].esp : this.props.choices.ahcccs[key].eng}
                       </Form.Check.Label> 
@@ -161,7 +162,8 @@ class Screening extends Component {
                                 name="health_conditions"
                                 value={key}
                                 isInvalid={touched.health_conditions && !!errors.health_conditions}
-                                onChange={handleChange}/>
+                                onChange={handleChange}
+                                checked={values.health_conditions.includes(key.toString())}/>
                       <Form.Check.Label>
                         { this.props.language === 'es' ? this.props.choices.health_conditions[key].esp : this.props.choices.health_conditions[key].eng}
                       </Form.Check.Label> 
@@ -194,7 +196,8 @@ class Screening extends Component {
                                     name="occupation"
                                     value={key}
                                     isInvalid={touched.occupation && !!errors.occupation}
-                                    onChange={handleChange}/>
+                                    onChange={handleChange}
+                                    checked={values.occupation === key}/>
                           <Form.Check.Label>
                             { this.props.language === 'es' ? this.props.choices.occupations[key].esp : this.props.choices.occupations[key].eng}
                           </Form.Check.Label> 
@@ -252,9 +255,9 @@ class Screening extends Component {
 
             <FormikErrorFocus/>
           </Form>
+          </>
         )}
       </Formik>
-
     );
   }
 }

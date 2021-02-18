@@ -24,6 +24,11 @@ class VaccineInterestForm extends Component {
       step: 'start',
       start: null,
       screening: null,
+      educator: null,
+      protective_services: null,
+      essential_workers: null,
+      childcare_providers: null,
+      healthcare_workers: null,
       loading: true,
     }
 
@@ -69,6 +74,7 @@ class VaccineInterestForm extends Component {
 
   prevStep(step, values) {
     this.setState({
+      [this.state.step]: values,
       step: step,
     });
   }
@@ -241,7 +247,8 @@ class VaccineInterestForm extends Component {
                  onCaptchaUpdate={this.onCaptchaUpdate}
                  captcha={this.state.captcha}
                  submitting={this.state.submitting}
-                 prevStep={this.prevStep}>
+                 prevStep={this.prevStep}
+                 screening={this.state.screening}>
       </Screening>
     );
   }
