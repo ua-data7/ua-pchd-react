@@ -51,6 +51,7 @@ class Screening extends Component {
         congregate_housing: "",
         accchs: "",
         health_conditions: [],
+        health_conditions_none: false,
       };
     }
    
@@ -167,13 +168,23 @@ class Screening extends Component {
                       <Form.Check.Label>
                         { this.props.language === 'es' ? this.props.choices.health_conditions[key].esp : this.props.choices.health_conditions[key].eng}
                       </Form.Check.Label> 
-                      { index === Object.keys(this.props.choices.health_conditions).length - 1 && 
-                        <Form.Control.Feedback type="invalid">
-                          {errors.health_conditions}
-                        </Form.Control.Feedback>
-                      } 
                     </Form.Check>            
                   )}
+
+                  <Form.Check type="checkbox"
+                              id="health_conditions_none"
+                              className="mb-2">
+                    <Form.Check.Input 
+                        type="checkbox" 
+                        name="health_conditions_none"
+                        value={true}
+                        onChange={handleChange}
+                        checked={values.health_conditions_none}/>
+                    <Form.Check.Label>
+                      {t('none_of_above')}
+                    </Form.Check.Label>
+                  </Form.Check> 
+                  
                 </div>
               </Form.Group>
             </Form.Row>
