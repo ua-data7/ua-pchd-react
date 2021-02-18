@@ -25,9 +25,10 @@ import { CalendarEvent } from 'react-bootstrap-icons';
  * - Calculate age
  * - Validate if within age range of 16-120
  */
-const BirthdayCheck = () => {
+const BirthdayCheck = (props) => {
 
   const {values, setFieldValue, setStatus} = useFormikContext();
+  const { language } = props;
   
   React.useEffect(() => {
 
@@ -42,16 +43,18 @@ const BirthdayCheck = () => {
         if (date.isValid()) {
           var age = moment().diff(date, 'years');
           if (age < 16) {
-            setStatus({dob_valid: 'Persons under the age of 16 are not eligible for the vaccine.'});
+            setStatus({dob_valid: language === 'en' ?  'Persons under the age of 16 are not eligible for the vaccine.' : 'Personas menores de 16 años de edad no son elegibles para recibir la vacuna.'});
           } else if (age > 120) {
-            setStatus({dob_valid: 'Please check the birthday provided and correct any errors.'});
+            setStatus({
+              dob_valid: language === 'en' ?  'Please check the birthday provided and correct any errors' : 'Favor de verificar la fecha de nacimiento proporcionada y corrija cualquier error.'
+            });
           } else {
             setFieldValue('age',  age);
             setFieldValue('dob',  date);  
             setStatus({dob_valid: ''}); 
           }  
         } else {
-          setStatus({dob_valid: 'Please check the birthday provided and correct any errors.'});
+          setStatus({dob_valid: language === 'en' ?  'Please check the birthday provided and correct any errors' : 'Favor de verificar la fecha de nacimiento proporcionada y corrija cualquier error.'});
           setFieldValue('dob', null);
         }
         
@@ -121,7 +124,7 @@ function Start(props) {
             onClick={props.onClick}
             onBlur={props.onBlur}
             isInvalid={props.isInvalid}
-            placeholder="Select Date"
+            placeholder={t('first_dose_date_placeholder')}
             className="datepicker"
           />
           <Form.Control.Feedback type="invalid">
@@ -152,9 +155,9 @@ function Start(props) {
         .number('Invalid date.')
         .required(requiredMessage)
         .nullable(true)
-        .integer('Invalid date.')
-        .min(1, 'Invalid date.')
-        .max(31, 'Invalid date.'),
+        .integer(language === 'en' ?  'Invalid date.' : 'Fecha no valida.')
+        .min(1, language === 'en' ?  'Invalid date.' : 'Fecha no valida.')
+        .max(31, language === 'en' ?  'Invalid date.' : 'Fecha no valida.'),
       dob_year: yup
         .number('Required.')
         .required(requiredMessage)
@@ -171,7 +174,7 @@ function Start(props) {
         .required(requiredMessage),
       email: yup
         .string()
-        .email()
+        .email(language === 'en' ?  'Please provide a valid email address.' : 'Favor de proporcionar un correo electrónico valido.')
         .required(requiredMessage),
       residential_address: yup
         .string()
@@ -186,17 +189,17 @@ function Start(props) {
         .required(requiredMessage),
       zip: yup
         .string()
-        .matches(/^[0-9]+$/, "Must be only digits.")
+        .matches(/^[0-9]+$/, language === 'en' ?  'Zip code must be 5 digits.' : 'Código postal debe tener 5 dígitos.')
         .required(requiredMessage)
-        .min(5, 'Must be exactly 5 digits.')
-        .max(5, 'Must be exactly 5 digits.'),
+        .min(5, language === 'en' ?  'Zip code must be 5 digits.' : 'Código postal debe tener 5 dígitos.')
+        .max(5, language === 'en' ?  'Zip code must be 5 digits.' : 'Código postal debe tener 5 dígitos.'),
       zip_valid: yup
         .boolean()
-        .oneOf([true], 'Must provide a valid zipcode.'),
+        .oneOf([true]),
       phone: yup
         .string()
         .required(requiredMessage)
-        .min(11, 'Must be exactly 10 digits'),
+        .min(11, language === 'en' ?  'Phone number must be 10 digits.' : 'Número de teléfono debe tener 10 dígitos.'),
       received_first_dose: yup
         .string()
         .required(requiredMessage),
@@ -347,7 +350,6 @@ function Start(props) {
                 <Col lg="4" md="4" sm="6" xs="6">
                   <Form.Control as="select"
                                 custom
-                                placeholder="Month"
                                 defaultValue=""
                                 name="dob_month"
                                 value={values.dob_month}
@@ -355,7 +357,7 @@ function Start(props) {
                                 onBlur={handleBlur}
                                 isInvalid={touched.dob_month && errors.dob_month}
                                 >
-                    <option value="" disabled>Month</option>
+                    <option value="" disabled>{t('month')}</option>
                     {monthOptions.map((option) => <option key={option.value} value={option.value}>{option.display}</option>)}
                   </Form.Control>
                   <Form.Control.Feedback type="invalid">
@@ -365,7 +367,7 @@ function Start(props) {
 
                 <Col lg="2" md="2" sm="3" xs="3">
                   <Form.Control type="text"
-                                placeholder="Day"
+                                placeholder={t('day')}
                                 name="dob_date"
                                 value={values.dob_date}
                                 onChange={event => setFieldValue("dob_date", event.target.value.replace(/\D/g,''))}
@@ -382,7 +384,7 @@ function Start(props) {
                   <Form.Control type="text"
                                 maxLength="4"
                                 name="dob_year"
-                                placeholder="Year"
+                                placeholder={t('year')}
                                 onChange={event => setFieldValue("dob_year", event.target.value.replace(/\D/g,''))}
                                 onBlur={handleBlur}
                                 value={values.dob_year}
@@ -446,7 +448,6 @@ function Start(props) {
                   <span className="question">{t('email')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <Form.Control type="email"
-                              placeholder="Enter email" 
                               name="email"
                               onChange={e => {
                                 setFieldTouched('email');
@@ -714,7 +715,7 @@ function Start(props) {
                   <Form.Row>
                     <Form.Group as={Col} md="4" sm="6" xs="12">
                       <Form.Label>
-                        <span className="question">Please list the location:</span> <span className="pc-color-text-secondary-dark">*</span>
+                        <span className="question">{t('first_does_other_location')}</span> <span className="pc-color-text-secondary-dark">*</span>
                       </Form.Label>
                       <Form.Control name="first_dose_other_loc"
                                     onChange={handleChange}
