@@ -220,7 +220,7 @@ class VaccineInterestForm extends Component {
         this.setState({step: 'confirmation'});
         this.setState({ submitting: false });
       })
-      .then(error => {
+      .catch(error => {
         console.log(error)
         this.setState({ submitting: false });
       });
