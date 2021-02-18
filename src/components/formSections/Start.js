@@ -46,7 +46,7 @@ const BirthdayCheck = (props) => {
             setStatus({dob_valid: language === 'en' ?  'Persons under the age of 16 are not eligible for the vaccine.' : 'Personas menores de 16 años de edad no son elegibles para recibir la vacuna.'});
           } else if (age > 120) {
             setStatus({
-              dob_valid: language === 'en' ?  'Please check the birthday provided and correct any errors' : 'Favor de verificar la fecha de nacimiento proporcionada y corrija cualquier error.'
+              dob_valid: language === 'en' ?  'Please check the birthday provided and correct any errors.' : 'Favor de verificar la fecha de nacimiento proporcionada y corrija cualquier error.'
             });
           } else {
             setFieldValue('age',  age);
@@ -54,7 +54,7 @@ const BirthdayCheck = (props) => {
             setStatus({dob_valid: ''}); 
           }  
         } else {
-          setStatus({dob_valid: language === 'en' ?  'Please check the birthday provided and correct any errors' : 'Favor de verificar la fecha de nacimiento proporcionada y corrija cualquier error.'});
+          setStatus({dob_valid: language === 'en' ?  'Please check the birthday provided and correct any errors.' : 'Favor de verificar la fecha de nacimiento proporcionada y corrija cualquier error.'});
           setFieldValue('dob', null);
         }
         
@@ -738,8 +738,8 @@ function Start(props) {
               {t('next')} <ArrowRight></ArrowRight>
             </Button>
 
-            <BirthdayCheck></BirthdayCheck>
-            <ZipcodeCheck></ZipcodeCheck>
+            <BirthdayCheck language={language}></BirthdayCheck>
+            <ZipcodeCheck language={language}></ZipcodeCheck>
             <FormikErrorFocus />
           </Form>
         )}
