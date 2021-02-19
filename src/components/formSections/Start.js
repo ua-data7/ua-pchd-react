@@ -18,6 +18,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { CalendarEvent, ArrowRight } from 'react-bootstrap-icons';
 
+import {esri_key} from '../../config';
+
 
 /**
  * After user has entered values for all birthday fields:
@@ -102,6 +104,56 @@ const ZipcodeCheck = (props) => {
 
   return null;
 };
+
+/**
+ * After user has entered zip code, check if zip code is valid and require user
+ * confirmation to submit an unvalidated zip code.
+ */
+const AddressCheck = (props) => {
+
+  const {values, setFieldValue, setStatus} = useFormikContext();
+  const { language } = props;
+  
+  React.useEffect(() => {
+
+    if (
+      values &&
+      values.zip.length === 5 && 
+      values.residential_address.trim().length &&
+      values.state.length &
+      values.city.trim().length
+      ) {
+
+      
+      
+      axios.get("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates", {
+        params: {
+          address: values.residential_address,
+          city: values.city,
+          region: values.state,
+          postal: values.zip,
+          outFields: "City,RegionAbbr,Postal,ShortLabel",
+          category: "Street Address",
+          forStorage: true,
+          token: esri_key,
+          f: "json",
+        }
+      })
+        .then(results => {
+          console.log(results.data.candidates)
+        })
+        .catch(error => {
+          console.log(error)
+        });
+    } else {
+      setStatus({zip_error: ''});
+    }
+  }, [values.zip, values.state, values.city, values.residential_address]);
+
+  return null;
+};
+
+
 
 
 function Start(props) {
@@ -556,6 +608,8 @@ function Start(props) {
                         outFields: "City,RegionAbbr,Postal,ShortLabel",
                         magicKey: value.magicKey,
                         SingleLine: value.address,
+                        forStorage: true,
+                        token: esri_key,
                         f: "json",
                       }
                     })
@@ -840,6 +894,7 @@ function Start(props) {
               {t('next')} <ArrowRight></ArrowRight>
             </Button>
 
+            <AddressCheck></AddressCheck>
             <BirthdayCheck language={language}></BirthdayCheck>
             <ZipcodeCheck language={language}></ZipcodeCheck>
             <FormikErrorFocus />
