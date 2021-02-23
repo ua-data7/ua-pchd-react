@@ -88,8 +88,13 @@ class VaccineInterestForm extends Component {
         },
         step: "screening"
       }));
+    } else {
+      this.setState({
+        showModal: false,
+        step: "screening"
+      });
     }
-    this.setState({showModal: false});
+    
   }
 
   closeAddressModal() {
@@ -134,7 +139,7 @@ class VaccineInterestForm extends Component {
           postal: e.zip,
           outFields: "City,RegionAbbr,Postal,ShortLabel",
           category: "Street Address",
-          forStorage: false,
+          forStorage: true,
           token: esri_key,
           f: "json",
         }
@@ -150,7 +155,6 @@ class VaccineInterestForm extends Component {
           } else {
             this.updateStep('screening');
           }
-         
         })
         .catch(error => {
           this.updateStep('screening');
