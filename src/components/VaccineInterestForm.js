@@ -12,6 +12,8 @@ import ProtectiveServices from "./formSections/ProtectiveServices";
 import EssentialServices from "./formSections/EssentialServices";
 import Healthcare from "./formSections/Healthcare";
 import Confirmation from "./formSections/Confirmation";
+import axios from 'axios';
+import {esri_key} from '../config';
 
 
 class VaccineInterestForm extends Component {
@@ -30,6 +32,8 @@ class VaccineInterestForm extends Component {
       childcare_providers: null,
       healthcare_workers: null,
       loading: true,
+      showModal: false,
+      addressCandidates: []
     }
 
     this.updateStep = this.updateStep.bind(this);
@@ -39,6 +43,8 @@ class VaccineInterestForm extends Component {
     this.handleScreeningSubmit = this.handleScreeningSubmit.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.submitPayload = this.submitPayload.bind(this);
+    this.closeAddressModal = this.closeAddressModal.bind(this);
+    this.showAddressModal = this.showAddressModal.bind(this);
   }
 
   async componentDidMount() {
@@ -66,6 +72,16 @@ class VaccineInterestForm extends Component {
     this.setState({captcha: value});
   }
 
+  closeAddressModal() {
+    this.setState({showModal: false});
+  }
+  
+  showAddressModal() {
+    
+    this.setState({showModal: true});
+  }
+
+
   updateStep(value) {
     this.setState({
       step: value,
@@ -81,7 +97,46 @@ class VaccineInterestForm extends Component {
 
   handleStartSubmit(e) {
     this.setState({start: e});
-    this.updateStep('screening');
+    
+    if (e.magic_key) {
+      this.updateStep('screening');
+      
+    } else {
+      console.log('hereeee')
+      axios.get("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates", {
+        params: {
+          address: e.residential_address,
+          city: e.city,
+          region: e.state,
+          postal: e.zip,
+          outFields: "City,RegionAbbr,Postal,ShortLabel",
+          category: "Street Address",
+          forStorage: true,
+          token: esri_key,
+          f: "json",
+        }
+      })
+        .then(results => {
+          console.log('Results')
+
+          console.log(results.data)
+          // console.log(results.data.candidates)
+          if (results.data.candidates) {
+            this.setState({
+              addressCandidates: results.data.candidates
+            }, this.showAddressModal())
+          } else {
+            this.setState({
+              addressCandidates: [], 
+            }, this.showAddressModal())
+          }
+         
+        })
+        .catch(error => {
+          console.log("Error: " + error);
+        });
+    }
+    
   }
 
   handleScreeningSubmit(e) {
@@ -232,7 +287,11 @@ class VaccineInterestForm extends Component {
       <Start language={this.props.language}
              handleStartSubmit={this.handleStartSubmit}
              choices={this.state.choices}
-             start={this.state.start}>            
+             start={this.state.start}
+             showAddressModal={this.showAddressModal}
+             closeAddressModal={this.closeAddressModal}
+             showModal={this.state.showModal}
+             addressCandidates={this.state.addressCandidates}>            
       </Start>
     );
   }

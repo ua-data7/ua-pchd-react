@@ -7,6 +7,8 @@ import { API } from 'aws-amplify';
 import moment from 'moment';
 import axios from 'axios';
 
+import { AddressModal } from  "./AddressModal"
+
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
@@ -105,62 +107,15 @@ const ZipcodeCheck = (props) => {
   return null;
 };
 
-/**
- * After user has entered zip code, check if zip code is valid and require user
- * confirmation to submit an unvalidated zip code.
- */
-const AddressCheck = (props) => {
-
-  const {values, setFieldValue, setStatus} = useFormikContext();
-  const { language } = props;
-  
-  React.useEffect(() => {
-
-    if (
-      values &&
-      values.zip.length === 5 && 
-      values.residential_address.trim().length &&
-      values.state.length &
-      values.city.trim().length
-      ) {
-
-      
-      
-      axios.get("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates", {
-        params: {
-          address: values.residential_address,
-          city: values.city,
-          region: values.state,
-          postal: values.zip,
-          outFields: "City,RegionAbbr,Postal,ShortLabel",
-          category: "Street Address",
-          forStorage: true,
-          token: esri_key,
-          f: "json",
-        }
-      })
-        .then(results => {
-          console.log(results.data.candidates)
-        })
-        .catch(error => {
-          console.log(error)
-        });
-    } else {
-      setStatus({zip_error: ''});
-    }
-  }, [values.zip, values.state, values.city, values.residential_address]);
-
-  return null;
-};
-
-
-
 
 function Start(props) {
 
     const { t, language } = props;
     const [addressLoading, setAddressLoading] = useState(false);
     const [addressOptions, setAddressOptions] = useState([]);
+
+
+  
     const filterAddressBy = () => true;
 
     const CustomDatepickerInput = React.forwardRef((props, ref) => {
@@ -398,6 +353,8 @@ function Start(props) {
 
             
             <Form.Row className="mt-5">
+
+              {props.showModal && <AddressModal handleClose={props.closeAddressModal} show={props.showModal}addressCandidates={props.addressCandidates}></AddressModal>}
               <Form.Group as={Col} md="4" sm="6" xs="12">
                 <Form.Label>
                   <span className="question">{t('first_name')}</span> <span className="pc-color-text-secondary-dark">*</span>
@@ -719,6 +676,12 @@ function Start(props) {
                 </Form.Text>
             </Form.Row>
 
+            <Form.Row>
+              <Button variant="primary" onClick={props.showAddressModal}>
+                Address Check
+              </Button>
+            </Form.Row>
+
           
 
             <Form.Row className="mt-3">
@@ -894,7 +857,6 @@ function Start(props) {
               {t('next')} <ArrowRight></ArrowRight>
             </Button>
 
-            <AddressCheck></AddressCheck>
             <BirthdayCheck language={language}></BirthdayCheck>
             <ZipcodeCheck language={language}></ZipcodeCheck>
             <FormikErrorFocus />
