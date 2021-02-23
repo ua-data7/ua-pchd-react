@@ -111,29 +111,31 @@ class VaccineInterestForm extends Component {
           postal: e.zip,
           outFields: "City,RegionAbbr,Postal,ShortLabel",
           category: "Street Address",
-          forStorage: true,
+          // forStorage: true,
           token: esri_key,
           f: "json",
         }
       })
         .then(results => {
           console.log('Results')
-
           console.log(results.data)
-          // console.log(results.data.candidates)
+
           if (results.data.candidates) {
             this.setState({
               addressCandidates: results.data.candidates
             }, this.showAddressModal())
+          // if esri returns error, abort address verification
+          } else if (results.data.error) {
+            console.log("Error")
+            this.updateStep('screening');
           } else {
-            this.setState({
-              addressCandidates: [], 
-            }, this.showAddressModal())
+            this.updateStep('screening');
           }
          
         })
         .catch(error => {
           console.log("Error: " + error);
+          this.updateStep('screening');
         });
     }
     

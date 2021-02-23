@@ -18,7 +18,7 @@ export function AddressModal(props) {
           {props.addressCandidates.length === 1 &&
             <>
             <p>The following match was found for your address. Is this correct?</p>
-            {props.addressCandidates[0].attributes['Street Address']}
+            {props.addressCandidates[0].address}
             </>
           }
           {props.addressCandidates.length > 1 && 
