@@ -45,6 +45,8 @@ class VaccineInterestForm extends Component {
     this.submitPayload = this.submitPayload.bind(this);
     this.closeAddressModal = this.closeAddressModal.bind(this);
     this.showAddressModal = this.showAddressModal.bind(this);
+    this.selectAddress = this.selectAddress.bind(this);
+    this.continueAddressModal = this.continueAddressModal.bind(this);
   }
 
   async componentDidMount() {
@@ -72,13 +74,34 @@ class VaccineInterestForm extends Component {
     this.setState({captcha: value});
   }
 
+  continueAddressModal(address) {
+    console.log(address)
+    if (address !== undefined) {
+      this.setState(prevState => ({
+        showModal: false,
+        start: {                  
+            ...prevState.start,   
+            residential_address: address.attributes.ShortLabel,
+            city: address.attributes.City,
+            state: address.attributes.RegionAbbr,
+            zip: address.attributes.Postal
+        },
+        step: "screening"
+      }));
+    }
+    this.setState({showModal: false});
+  }
+
   closeAddressModal() {
     this.setState({showModal: false});
   }
   
   showAddressModal() {
-    
     this.setState({showModal: true});
+  }
+
+  selectAddress(address) {
+    console.log(address);
   }
 
 
@@ -111,22 +134,18 @@ class VaccineInterestForm extends Component {
           postal: e.zip,
           outFields: "City,RegionAbbr,Postal,ShortLabel",
           category: "Street Address",
-          // forStorage: true,
+          forStorage: false,
           token: esri_key,
           f: "json",
         }
       })
         .then(results => {
-          console.log('Results')
-          console.log(results.data)
-
           if (results.data.candidates) {
             this.setState({
               addressCandidates: results.data.candidates
             }, this.showAddressModal())
           // if esri returns error, abort address verification
           } else if (results.data.error) {
-            console.log("Error")
             this.updateStep('screening');
           } else {
             this.updateStep('screening');
@@ -134,7 +153,6 @@ class VaccineInterestForm extends Component {
          
         })
         .catch(error => {
-          console.log("Error: " + error);
           this.updateStep('screening');
         });
     }
@@ -292,6 +310,8 @@ class VaccineInterestForm extends Component {
              start={this.state.start}
              showAddressModal={this.showAddressModal}
              closeAddressModal={this.closeAddressModal}
+             continueAddressModal={this.continueAddressModal}
+             selectAddress={this.selectAddress}
              showModal={this.state.showModal}
              addressCandidates={this.state.addressCandidates}>            
       </Start>

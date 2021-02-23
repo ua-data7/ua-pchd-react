@@ -354,7 +354,15 @@ function Start(props) {
             
             <Form.Row className="mt-5">
 
-              {props.showModal && <AddressModal handleClose={props.closeAddressModal} show={props.showModal}addressCandidates={props.addressCandidates}></AddressModal>}
+              { props.showModal && 
+                <AddressModal handleClose={props.closeAddressModal}
+                              continueAddressModal={props.continueAddressModal}
+                              show={props.showModal}
+                              addressCandidates={props.addressCandidates}
+                              selectAddress={props.selectAddress}
+                              start={props.start}>
+                </AddressModal>
+              }
               <Form.Group as={Col} md="4" sm="6" xs="12">
                 <Form.Label>
                   <span className="question">{t('first_name')}</span> <span className="pc-color-text-secondary-dark">*</span>
@@ -675,14 +683,6 @@ function Start(props) {
                   </>}
                 </Form.Text>
             </Form.Row>
-
-            <Form.Row>
-              <Button variant="primary" onClick={props.showAddressModal}>
-                Address Check
-              </Button>
-            </Form.Row>
-
-          
 
             <Form.Row className="mt-3">
               <Form.Group as={Col}>
