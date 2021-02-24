@@ -11,30 +11,12 @@ import pimaCountyLogo from './img/health-department-logo-fade.png';
 import VaccineInterestForm from "./components/VaccineInterestForm";
 import Landing from "./components/Landing";
 
+import { endpoints } from "./config";
+
+
 Amplify.configure({
   API: {
-    endpoints: [
-      {
-        name: "enumValues",
-        endpoint: "https://frruryqr87.execute-api.us-west-2.amazonaws.com/dev",
-        region: "us-west-2"
-      },
-      {
-        name: "regPublish",
-        endpoint: "https://frruryqr87.execute-api.us-west-2.amazonaws.com/dev",
-        region: "us-west-2"
-      },
-      {
-        name: "zipCheck",
-        endpoint: "https://frruryqr87.execute-api.us-west-2.amazonaws.com/dev",
-        region: "us-west-2"
-      },
-      {
-        name: "esri",
-        endpoint: "https://frruryqr87.execute-api.us-west-2.amazonaws.com/dev",
-        region: "us-west-2"
-      },
-    ]
+    endpoints: endpoints
   }
 });
 
