@@ -45,7 +45,6 @@ class VaccineInterestForm extends Component {
     this.submitPayload = this.submitPayload.bind(this);
     this.closeAddressModal = this.closeAddressModal.bind(this);
     this.showAddressModal = this.showAddressModal.bind(this);
-    this.selectAddress = this.selectAddress.bind(this);
     this.continueAddressModal = this.continueAddressModal.bind(this);
   }
 
@@ -75,7 +74,6 @@ class VaccineInterestForm extends Component {
   }
 
   continueAddressModal(address) {
-    console.log(address)
     if (address !== undefined) {
       this.setState(prevState => ({
         showModal: false,
@@ -105,11 +103,6 @@ class VaccineInterestForm extends Component {
     this.setState({showModal: true});
   }
 
-  selectAddress(address) {
-    console.log(address);
-  }
-
-
   updateStep(value) {
     this.setState({
       step: value,
@@ -131,26 +124,30 @@ class VaccineInterestForm extends Component {
       
     } else {
       console.log('hereeee')
-      axios.get("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates", {
-        params: {
-          address: e.residential_address,
-          city: e.city,
-          region: e.state,
-          postal: e.zip,
-          outFields: "City,RegionAbbr,Postal,ShortLabel",
-          category: "Street Address",
-          forStorage: true,
-          token: esri_key,
-          f: "json",
-        }
-      })
+
+      const payload = {
+        address: e.residential_address,
+        city: e.city,
+        region: e.state,
+        postal: e.zip,
+      }
+
+      let submission = {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: payload,
+      }
+  
+      return API.post("esri", "/esri", submission)
+      
         .then(results => {
-          if (results.data.candidates) {
+          if (results.candidates) {
             this.setState({
-              addressCandidates: results.data.candidates
+              addressCandidates: results.candidates
             }, this.showAddressModal())
           // if esri returns error, abort address verification
-          } else if (results.data.error) {
+          } else if (results.error) {
             this.updateStep('screening');
           } else {
             this.updateStep('screening');
@@ -294,15 +291,15 @@ class VaccineInterestForm extends Component {
 
     console.log(payload)
 
-    return API.post("regPublish", "/regPublish", submission)
-      .then(result => {
-        this.setState({step: 'confirmation'});
-        this.setState({ submitting: false });
-      })
-      .catch(error => {
-        console.log(error)
-        this.setState({ submitting: false });
-      });
+    // return API.post("regPublish", "/regPublish", submission)
+    //   .then(result => {
+    //     this.setState({step: 'confirmation'});
+    //     this.setState({ submitting: false });
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //     this.setState({ submitting: false });
+    //   });
 
   }
 
@@ -315,7 +312,6 @@ class VaccineInterestForm extends Component {
              showAddressModal={this.showAddressModal}
              closeAddressModal={this.closeAddressModal}
              continueAddressModal={this.continueAddressModal}
-             selectAddress={this.selectAddress}
              showModal={this.state.showModal}
              addressCandidates={this.state.addressCandidates}>            
       </Start>

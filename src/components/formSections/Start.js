@@ -142,7 +142,6 @@ function Start(props) {
       );
     });
     
-
     const handleSearch = (query) => {
       setAddressLoading(true);
 
@@ -152,13 +151,11 @@ function Start(props) {
           f: "json",
           location: "-111.664,34.293" ,
           maxSuggestions: 5,
-          forStorage: false,
           countryCode: 'USA',
           category: 'Street Address'
         }
       })
         .then(results => {
-          // console.log(results.data.suggestions);
           
           const options = results.data.suggestions.map((result) => ({
             address: result.text,
@@ -171,31 +168,6 @@ function Start(props) {
         .catch(error => {
           console.log(error)
         });
-
-      // axios.get("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates", {
-      //   params: {
-      //     outFields: "City,Country,Postal,ShortLabel",
-      //     address: query,
-      //     f: "json",
-      //     // maxLocations: '10',
-      //     forStorage: false,
-      //     sourceCountry: 'USA',
-      //     category: 'Address'
-      //   }
-      // })
-        // .then(results => {
-        //   console.log(results.data.candidates);
-          
-        //   const options = results.data.candidates.map((result) => ({
-        //     address: result.address,
-        //   }));
-  
-        //   setAddressOptions(options);
-        //   setAddressLoading(false);
-        // })
-        // .catch(error => {
-        //   console.log(error)
-        // });
   
     };
 
@@ -359,7 +331,6 @@ function Start(props) {
                               continueAddressModal={props.continueAddressModal}
                               show={props.showModal}
                               addressCandidates={props.addressCandidates}
-                              selectAddress={props.selectAddress}
                               start={props.start}>
                 </AddressModal>
               }

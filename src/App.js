@@ -29,6 +29,11 @@ Amplify.configure({
         endpoint: "https://frruryqr87.execute-api.us-west-2.amazonaws.com/dev",
         region: "us-west-2"
       },
+      {
+        name: "esri",
+        endpoint: "https://frruryqr87.execute-api.us-west-2.amazonaws.com/dev",
+        region: "us-west-2"
+      },
     ]
   }
 });
