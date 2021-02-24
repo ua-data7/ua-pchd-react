@@ -15,6 +15,11 @@ const prod = {
             endpoint: "https://frruryqr87.execute-api.us-west-2.amazonaws.com/dev",
             region: "us-west-2"
         },
+        {
+            name: "esri",
+            endpoint: "https://frruryqr87.execute-api.us-west-2.amazonaws.com/dev",
+            region: "us-west-2"
+        },
     ]
 };
 
@@ -37,7 +42,7 @@ const nonprod = {
         },
         {
             name: "esri",
-            endpoint: "https://frruryqr87.execute-api.us-west-2.amazonaws.com/dev",
+            endpoint: "https://isgr6ntyzj.execute-api.us-west-2.amazonaws.com/nonprod",
             region: "us-west-2"
         },
     ]
@@ -62,7 +67,7 @@ const dev = {
         },
         {
             name: "esri",
-            endpoint: "https://isgr6ntyzj.execute-api.us-west-2.amazonaws.com/dev",
+            endpoint: "https://isgr6ntyzj.execute-api.us-west-2.amazonaws.com/nonprod",
             region: "us-west-2"
         },
     ]
