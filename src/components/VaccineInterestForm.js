@@ -119,45 +119,37 @@ class VaccineInterestForm extends Component {
   handleStartSubmit(e) {
     this.setState({start: e});
     
-    if (e.magic_key) {
-      this.updateStep('screening');
-      
-    } else {
-      console.log('hereeee')
-
-      const payload = {
-        address: e.residential_address,
-        city: e.city,
-        region: e.state,
-        postal: e.zip,
-      }
-
-      let submission = {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: payload,
-      }
-  
-      return API.post("esri", "/esri", submission)
-      
-        .then(results => {
-          if (results.candidates) {
-            this.setState({
-              addressCandidates: results.candidates
-            }, this.showAddressModal())
-          // if esri returns error, abort address verification
-          } else if (results.error) {
-            this.updateStep('screening');
-          } else {
-            this.updateStep('screening');
-          }
-        })
-        .catch(error => {
-          this.updateStep('screening');
-        });
+    const payload = {
+      address: e.residential_address,
+      city: e.city,
+      region: e.state,
+      postal: e.zip,
     }
+
+    let submission = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: payload,
+    }
+
+    return API.post("esri", "/esri", submission)
     
+      .then(results => {
+        if (results.candidates) {
+          this.setState({
+            addressCandidates: results.candidates
+          }, this.showAddressModal())
+        // if esri returns error, abort address verification
+        } else if (results.error) {
+          this.updateStep('screening');
+        } else {
+          this.updateStep('screening');
+        }
+      })
+      .catch(error => {
+        this.updateStep('screening');
+      });
   }
 
   handleScreeningSubmit(e) {
@@ -191,7 +183,7 @@ class VaccineInterestForm extends Component {
   }
 
   async submitPayload() {
-    console.log(this.state);
+
     this.setState({ submitting: true });
 
     const start = this.state.start;
@@ -289,17 +281,17 @@ class VaccineInterestForm extends Component {
       body: payload,
     }
 
-    console.log(payload)
+    // console.log(payload)
 
-    // return API.post("regPublish", "/regPublish", submission)
-    //   .then(result => {
-    //     this.setState({step: 'confirmation'});
-    //     this.setState({ submitting: false });
-    //   })
-    //   .catch(error => {
-    //     console.log(error)
-    //     this.setState({ submitting: false });
-    //   });
+    return API.post("regPublish", "/regPublish", submission)
+      .then(result => {
+        this.setState({step: 'confirmation'});
+        this.setState({ submitting: false });
+      })
+      .catch(error => {
+        console.log(error)
+        this.setState({ submitting: false });
+      });
 
   }
 
