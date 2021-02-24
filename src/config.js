@@ -1,6 +1,6 @@
 const prod = {
     recaptcha_site_key: '6LeAd1QaAAAAAEkFTsbdFCGMbm0SjNgqMe6LIn6R',
-    age_threshold = 75,
+    age_threshold: 75,
     endpoints: [
         {
           name: "enumValues",
@@ -22,7 +22,7 @@ const prod = {
 
 const nonprod = {
     recaptcha_site_key: '6LeAd1QaAAAAAEkFTsbdFCGMbm0SjNgqMe6LIn6R',
-    age_threshold = 75,
+    age_threshold: 75,
     endpoints: [
         {
           name: "enumValues",
@@ -44,7 +44,7 @@ const nonprod = {
  
 const dev = {
     recaptcha_site_key: '6LeAd1QaAAAAAEkFTsbdFCGMbm0SjNgqMe6LIn6R',
-    age_threshold = 75,
+    age_threshold: 75,
     endpoints: [
         {
           name: "enumValues",
