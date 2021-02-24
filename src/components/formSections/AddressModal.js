@@ -120,24 +120,22 @@ export function AddressModal(props) {
               
               {addressCandidates.map(function(item, key) {
                 return (
-                  <>
-                    <Form.Check type="radio"
-                                id={'address_' + key}
-                                key={key}>
-                      <Form.Check.Input 
-                                type="radio" 
-                                name="address"
-                                value={key}
-                                onChange={(e) => setSelectedAddress(e.target.value)}
-                                />
-                      <Form.Check.Label>
-                      <pre>
-                        { item.attributes.ShortLabel }<br></br>
-                        { item.attributes.City }, { item.attributes.RegionAbbr }, { item.attributes.Postal }
-                      </pre>
-                      </Form.Check.Label>
-                    </Form.Check>
-                  </>
+                  <Form.Check type="radio"
+                              id={'address_' + key}
+                              key={key}>
+                    <Form.Check.Input 
+                              type="radio" 
+                              name="address"
+                              value={key}
+                              onChange={(e) => setSelectedAddress(e.target.value)}
+                              />
+                    <Form.Check.Label>
+                    <pre>
+                      { item.attributes.ShortLabel }<br></br>
+                      { item.attributes.City }, { item.attributes.RegionAbbr }, { item.attributes.Postal }
+                    </pre>
+                    </Form.Check.Label>
+                  </Form.Check>
                 );
               })}
               <Form.Check type="radio"
