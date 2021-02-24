@@ -37,7 +37,10 @@
     "eject": "react-scripts eject",
     "predeploy:prod": "react-scripts build",
     "deploy:prod": "aws s3 sync build/ s3://register.vaccine.pima.gov",
-    "postdeploy:prod": "aws cloudfront create-invalidation --distribution-id E3MA92BZMTBSUX --paths '/*'"
+    "postdeploy:prod": "aws cloudfront create-invalidation --distribution-id E3MA92BZMTBSUX --paths '/*'",
+    "predeploy:nonprod": "react-scripts build",
+    "deploy:nonprod": "aws s3 sync build/ s3://register-nonprod.vaccine.pima.gov",
+    "postdeploy:nonprod": "aws cloudfront create-invalidation --distribution-id EGAGN42IZMTN8 --paths '/*'"
   },
   "eslintConfig": {
     "extends": [
