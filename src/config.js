@@ -1,6 +1,4 @@
 const prod = {
-    recaptcha_site_key: '6LeAd1QaAAAAAEkFTsbdFCGMbm0SjNgqMe6LIn6R',
-    age_threshold: 75,
     endpoints: [
         {
           name: "enumValues",
@@ -21,8 +19,6 @@ const prod = {
 };
 
 const nonprod = {
-    recaptcha_site_key: '6LeAd1QaAAAAAEkFTsbdFCGMbm0SjNgqMe6LIn6R',
-    age_threshold: 75,
     endpoints: [
         {
           name: "enumValues",
@@ -43,8 +39,6 @@ const nonprod = {
 };
  
 const dev = {
-    recaptcha_site_key: '6LeAd1QaAAAAAEkFTsbdFCGMbm0SjNgqMe6LIn6R',
-    age_threshold: 75,
     endpoints: [
         {
           name: "enumValues",
@@ -72,8 +66,6 @@ const configMap = {
   
 const config = configMap[process.env.REACT_APP_STAGE];
   
-export default {
-    endpoints: config.endpoints,
-    recaptcha_site_key: config.recaptcha_site_key,
-    age_threshold: config.age_threshold
-};
+export const recaptcha_site_key = '6LeAd1QaAAAAAEkFTsbdFCGMbm0SjNgqMe6LIn6R';
+export const age_threshold = 75;
+export const endpoints = config.endpoints;
