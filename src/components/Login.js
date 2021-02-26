@@ -1,19 +1,23 @@
 import React, { Component } from "react";
-import { Button, Jumbotron, Container, Row, Col } from "react-bootstrap";
+import { Button, Container, Row, Col, Card, Form } from "react-bootstrap";
 
-import { Formik } from 'formik';
-import * as yup from 'yup';
-// import FormikErrorFocus from "../FormikErrorFocus";
+
 
 class Login extends Component {
   
   constructor(props) {
-    super(props);    
-    // this.startForm = this.startForm.bind(this);
+    super(props);
+    
+    this.state = {
+      username: '',
+      password: '',
+    }
+
+    this.login = this.login.bind(this);
   }
 
-  login(language) {
-    // this.props.startForm(language);
+  login() {
+    
   }
 
   render() {
@@ -21,14 +25,34 @@ class Login extends Component {
     return (
       <>  
         <Container>
-          <Row className="justify-content-md-center">
-              <Col xs lg="2">
-              1 of 3
-              </Col>
-              <Col md="auto">Variable width content</Col>
-              <Col xs lg="2">
-              3 of 3
-              </Col>
+          <Row className="justify-content-center">  
+            <Card style={{ width: '30rem' }}>
+              <Card.Header className="text-center">Staff Login</Card.Header>
+              <Card.Body>
+                <Form.Row>
+                  <Form.Group as={Col} xs="12">
+                    <Form.Label>
+                      <span className="question">Username</span> <span className="pc-color-text-secondary-dark">*</span>
+                    </Form.Label>
+                    <Form.Control placeholder="Username"
+                                  name="username"/>
+                  </Form.Group>
+                  <Form.Group as={Col} xs="12">
+                    <Form.Label>
+                      <span className="question">Password</span> <span className="pc-color-text-secondary-dark">*</span>
+                    </Form.Label>
+                    <Form.Control placeholder="Password"
+                                  name="username"
+                                  type="password"/>
+                  </Form.Group>
+                </Form.Row>
+                <div className="text-center">
+                  <Button variant="primary" className="mt-3 text-center">
+                    Login
+                  </Button>
+                </div>     
+              </Card.Body>
+            </Card>
           </Row>
         </Container>
       </>
