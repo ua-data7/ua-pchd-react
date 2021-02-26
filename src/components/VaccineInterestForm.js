@@ -191,7 +191,6 @@ class VaccineInterestForm extends Component {
     const screening = this.state.screening;
 
     const payload = {
-      recaptcha_token: this.state.captcha,
       first_name: start.first_name,
       last_name: start.last_name,
       dob: start.dob.format('YYYY-MM-DD'),
@@ -209,6 +208,10 @@ class VaccineInterestForm extends Component {
       disability: parseInt(screening.disability),
       leave_home: parseInt(screening.leave_home),
     };
+
+    if (!this.props.authz) {
+      payload['recaptcha_token'] = this.state.captcha;
+    }
 
     if (start.received_first_dose === "true") {
       payload['first_dose_date'] = moment(start.first_dose_date).format("YYYY-MM-DD");

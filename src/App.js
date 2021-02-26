@@ -25,14 +25,21 @@ class App extends Component {
 
     this.state = {
       language: 'en',
+      authz: false,
     }
 
     this.changeLanguage = this.changeLanguage.bind(this);
+    this.setAuthz = this.setAuthz.bind(this);
   }
 
   changeLanguage(language) {
     i18n.changeLanguage(language);
     this.setState({language: language})
+  }
+
+  setAuthz(authz) {
+    this.setState({authz: authz});
+    console.log(authz)
   }
 
   render() {    
@@ -51,7 +58,8 @@ class App extends Component {
         <div className="App container mb-8">
           <Routes childProps={{
             changeLanguage:this.changeLanguage,
-            language:this.state.language
+            language:this.state.language,
+            setAuthz: this.setAuthz
           }}/>
         </div>
 
