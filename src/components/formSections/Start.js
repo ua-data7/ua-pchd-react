@@ -7,7 +7,7 @@ import { API } from 'aws-amplify';
 import moment from 'moment';
 import axios from 'axios';
 
-import { AddressModal } from  "./AddressModal"
+import AddressModal from  "./AddressModal"
 
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
@@ -302,7 +302,8 @@ function Start(props) {
                               continueAddressModal={props.continueAddressModal}
                               show={props.showModal}
                               addressCandidates={props.addressCandidates}
-                              start={props.start}>
+                              start={props.start}
+                              language={props.language}>
                 </AddressModal>
               }
               <Form.Group as={Col} md="4" sm="6" xs="12">

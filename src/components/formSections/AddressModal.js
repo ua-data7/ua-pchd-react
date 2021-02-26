@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, Badge } from "react-bootstrap";
 import { ArrowRight, Check } from 'react-bootstrap-icons';
+import { withTranslation } from 'react-i18next';
 
-export function AddressModal(props) {
+function AddressModal(props) {
 
+  const { t, language } = props;
   const [selectedAddress, setSelectedAddress] = useState([]);
 
   // const testAddresses = [
@@ -26,13 +28,13 @@ export function AddressModal(props) {
       <Modal show={props.show} onHide={props.handleClose}>
         
         <Modal.Header closeButton>
-          <Modal.Title>Verify Address</Modal.Title>
+          <Modal.Title>{t('verify_address')}</Modal.Title>
         </Modal.Header>
         
         { addressCandidates.length === 0 &&
         <>
           <Modal.Body>
-          <p>No matches were found for your address: </p>
+          <p>{t('no_address_matches')}:</p>
           
           <pre className="ml-5">
             { props.start.residential_address}<br></br>
@@ -40,18 +42,18 @@ export function AddressModal(props) {
           </pre>
           
           <p>
-            Please confirm the address you entered is correct or <b>Go Back</b> to update your address.
+            {t('confirm_address')}
           </p>
   
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary"
                     onClick={() => props.handleClose()}>
-              Go Back
+              {t('go_back')}
             </Button>
             <Button variant="success"
                     onClick={() => props.continueAddressModal(addressCandidates[selectedAddress])}>
-              Address is Correct <Check></Check>
+              {t('address_correct')} <Check></Check>
             </Button>
           </Modal.Footer>
         </>
@@ -60,7 +62,7 @@ export function AddressModal(props) {
         {addressCandidates.length === 1 &&
           <>
             <Modal.Body>
-              <p>The following match was found for your address.</p>
+              <p>{t('one_address_match')}:</p>
 
               <Form.Check type="radio"
                           id='address_0'>
@@ -71,9 +73,9 @@ export function AddressModal(props) {
                           onChange={(e) => setSelectedAddress(e.target.value)}
                           />
                 <Form.Check.Label>
-                  Use suggested address
+                  {t('use_suggested_address')}
                   <Badge variant="success" pill className="ml-1">
-                    Recommended
+                    {t('recommended')}
                   </Badge>
                   <pre>
                     { addressCandidates[0].attributes.ShortLabel }<br></br>
@@ -90,9 +92,9 @@ export function AddressModal(props) {
                           value={-1}
                           onChange={(e) => setSelectedAddress(e.target.value)}/>
                 <Form.Check.Label>
-                  Keep address as entered
+                  {t('use_entered_address')}
                   <Badge variant="warning" pill className="ml-1">
-                    Address may be invalid
+                    {t('address_invalid')}
                   </Badge>
                   <pre>
                     { props.start.residential_address}<br></br>{props.start.city}, {props.start.state}, {props.start.zip}
@@ -103,10 +105,10 @@ export function AddressModal(props) {
 
             <Modal.Footer>
               <Button variant="secondary" onClick={() => props.handleClose()}>
-                Go Back
+                {t('go_back')}
               </Button>
               <Button variant="primary" onClick={() => props.continueAddressModal(addressCandidates[selectedAddress])}>
-                Continue <ArrowRight></ArrowRight>
+                {t('Continue')} <ArrowRight></ArrowRight>
               </Button>
             </Modal.Footer>
           </>
@@ -116,7 +118,7 @@ export function AddressModal(props) {
           <>
             <Modal.Body>
 
-              <p>The following matches were found for your address. Please select the correct address.</p>
+              <p>{t('multiple_address_matches')}:</p>
               
               {addressCandidates.map(function(item, key) {
                 return (
@@ -147,9 +149,9 @@ export function AddressModal(props) {
                           onChange={(e) => setSelectedAddress(e.target.value)}
                           />
                 <Form.Check.Label>
-                  Keep address as entered
+                  {t('use_entered_address')}
                   <Badge variant="warning" pill className="ml-1">
-                    Address may be invalid
+                    {t('address_invalid')}
                   </Badge> 
                   <pre>
                     { props.start.residential_address}<br></br>
@@ -162,11 +164,11 @@ export function AddressModal(props) {
             <Modal.Footer>
               <Button variant="secondary"
                       onClick={() => props.handleClose()}>
-                Go Back
+                {t('go_back')}
               </Button>
               <Button variant="primary"
                       onClick={() => props.continueAddressModal(addressCandidates[selectedAddress])}>
-                Continue <ArrowRight></ArrowRight>
+                {t('Continue')} <ArrowRight></ArrowRight>
               </Button>
             </Modal.Footer>
           </>
@@ -177,3 +179,4 @@ export function AddressModal(props) {
   );
 }
   
+export default withTranslation()(AddressModal);
