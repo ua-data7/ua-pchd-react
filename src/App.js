@@ -2,14 +2,12 @@ import i18n from './i18n';
 import React, { Component } from "react";
 import { Navbar } from "react-bootstrap";
 import Amplify from 'aws-amplify';
+import Routes from "./Routes";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./css/pc-main-bs-override.css";
 import "./App.css";
-
 import pimaCountyLogo from './img/health-department-logo-fade.png';
-import VaccineInterestForm from "./components/VaccineInterestForm";
-import Landing from "./components/Landing";
 
 import { endpoints } from "./config";
 
@@ -26,11 +24,9 @@ class App extends Component {
     super(props);
 
     this.state = {
-      step: 'landing',
       language: 'en',
     }
 
-    this.startForm = this.startForm.bind(this);
     this.changeLanguage = this.changeLanguage.bind(this);
   }
 
@@ -39,31 +35,7 @@ class App extends Component {
     this.setState({language: language})
   }
 
-  startForm(language) {
-    this.changeLanguage(language);
-    this.setState({
-      step: 'form',
-    });
-  }
-
-  renderLanding() {
-    return (
-      <Landing startForm={this.startForm}
-               changeLanguage={this.changeLanguage}>
-      </Landing>
-    );
-  }
-
-  renderForm() {
-    return (
-      <VaccineInterestForm changeLanguage={this.changeLanguage} language={this.state.language}>
-      </VaccineInterestForm>
-    );
-  }
-
-  render() {
-
-    const {step} = this.state;
+  render() {    
 
     return (
       <>
@@ -71,15 +43,16 @@ class App extends Component {
           <Navbar.Brand className="mx-auto">
             <img src={pimaCountyLogo}
                 alt="Pima County Government Web Logo"
-                style={{maxWidth: '200px'}}
-                >
+                style={{maxWidth: '200px'}}>
             </img>
           </Navbar.Brand>
         </Navbar>
 
         <div className="App container mb-8">
-          {step === 'landing' &&  this.renderLanding()}
-          {step === 'form' &&  this.renderForm()}
+          <Routes childProps={{
+            changeLanguage:this.changeLanguage,
+            language:this.state.language
+          }}/>
         </div>
 
         <footer className='footer mt-auto py-3 pc-color-gray-lightest'>

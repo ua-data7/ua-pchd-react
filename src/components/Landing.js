@@ -1,19 +1,35 @@
 import React, { Component } from "react";
 import { Button, Jumbotron } from "react-bootstrap";
+import VaccineInterestForm from "./VaccineInterestForm"
 
 class Landing extends Component {
   
   constructor(props) {
-    super(props);    
+    super(props);
+    
+    this.state = {
+      step: 'landing',
+    }
+
     this.startForm = this.startForm.bind(this);
   }
 
   startForm(language) {
-    this.props.startForm(language);
+    this.props.changeLanguage(language);
+    this.setState({
+      step: 'form',
+    });
   }
 
-  render() {
+  renderForm() {
+    return (
+      <VaccineInterestForm changeLanguage={this.props.changeLanguage}
+                           language={this.props.language}>
+      </VaccineInterestForm>
+    );
+  }
 
+  renderLanding() {
     return (
       <>  
         <Jumbotron className="pc-color-gray-lightest">
@@ -39,8 +55,16 @@ class Landing extends Component {
 
         </Jumbotron>
       </>
-
     );
+  }
+
+  render() {
+    return (
+    <>
+      {this.state.step === 'landing' && this.renderLanding()}
+      {this.state.step === 'form' && this.renderForm()}
+    </>
+    )        
   }
 }
 

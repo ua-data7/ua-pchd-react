@@ -1,19 +1,19 @@
 import React, { Component } from "react";
-import { Button, Jumbotron } from "react-bootstrap";
+import { Button, Jumbotron, Container, Row, Col } from "react-bootstrap";
 
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import FormikErrorFocus from "../FormikErrorFocus";
+// import FormikErrorFocus from "../FormikErrorFocus";
 
 class Login extends Component {
   
   constructor(props) {
     super(props);    
-    this.startForm = this.startForm.bind(this);
+    // this.startForm = this.startForm.bind(this);
   }
 
   login(language) {
-    this.props.startForm(language);
+    // this.props.startForm(language);
   }
 
   render() {
@@ -37,4 +37,4 @@ class Login extends Component {
   }
 }
 
-export default Landing;
+export default Login;
