@@ -59,7 +59,8 @@ class App extends Component {
           <Routes childProps={{
             changeLanguage:this.changeLanguage,
             language:this.state.language,
-            setAuthz: this.setAuthz
+            setAuthz: this.setAuthz,
+            authz: this.state.authz
           }}/>
         </div>
 

@@ -355,7 +355,8 @@ class VaccineInterestForm extends Component {
                  captcha={this.state.captcha}
                  submitting={this.state.submitting}
                  prevStep={this.prevStep}
-                 screening={this.state.screening}>
+                 screening={this.state.screening}
+                 authz={this.props.authz}>
       </Screening>
     );
   }
@@ -370,7 +371,8 @@ class VaccineInterestForm extends Component {
                 updateStep={this.updateStep}
                 submitting={this.state.submitting}
                 prevStep={this.prevStep}
-                educators={this.state.educators}>            
+                educators={this.state.educators}
+                authz={this.props.authz}>            
       </Educator>
     );
   }
@@ -385,7 +387,8 @@ class VaccineInterestForm extends Component {
                          updateStep={this.updateStep}
                          submitting={this.state.submitting}
                          prevStep={this.prevStep}
-                         childcare_providers={this.state.childcare_providers}>            
+                         childcare_providers={this.state.childcare_providers}
+                         authz={this.props.authz}>            
       </ChildcareProvider>
     );
   }
@@ -400,7 +403,8 @@ class VaccineInterestForm extends Component {
                           updateStep={this.updateStep}
                           submitting={this.state.submitting}
                           prevStep={this.prevStep}
-                          protective_services={this.state.protective_services}>            
+                          protective_services={this.state.protective_services}
+                          authz={this.props.authz}>            
       </ProtectiveServices>
     );
   }
@@ -415,7 +419,8 @@ class VaccineInterestForm extends Component {
                          updateStep={this.updateStep}
                          submitting={this.state.submitting}
                          prevStep={this.prevStep}
-                         essential_workers={this.state.essential_workers}>            
+                         essential_workers={this.state.essential_workers}
+                         authz={this.props.authz}>            
       </EssentialServices>
     );
   }
@@ -430,7 +435,8 @@ class VaccineInterestForm extends Component {
                   updateStep={this.updateStep}
                   submitting={this.state.submitting}
                   prevStep={this.prevStep}
-                  healthcare_workers={this.state.healthcare_workers}>            
+                  healthcare_workers={this.state.healthcare_workers}
+                  authz={this.props.authz}>            
       </Healthcare>
     );
   }

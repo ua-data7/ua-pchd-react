@@ -24,7 +24,8 @@ class Landing extends Component {
   renderForm() {
     return (
       <VaccineInterestForm changeLanguage={this.props.changeLanguage}
-                           language={this.props.language}>
+                           language={this.props.language}
+                           authz={this.props.authz}>
       </VaccineInterestForm>
     );
   }
