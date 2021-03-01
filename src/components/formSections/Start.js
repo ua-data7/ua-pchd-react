@@ -47,8 +47,10 @@ const BirthdayCheck = (props) => {
         if (date.isValid()) {
           var age = moment().diff(date, 'years');
           if (age < 16) {
+            setFieldValue('dob', null);
             setStatus({dob_valid: language === 'en' ?  'Persons under the age of 16 are not eligible for the vaccine.' : 'Personas menores de 16 años de edad no son elegibles para recibir la vacuna.'});
           } else if (age > 120) {
+            setFieldValue('dob', null);
             setStatus({
               dob_valid: language === 'en' ?  'Please check the birthday provided and correct any errors.' : 'Favor de verificar la fecha de nacimiento proporcionada y corrija cualquier error.'
             });
