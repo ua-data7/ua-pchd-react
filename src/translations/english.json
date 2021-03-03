@@ -79,6 +79,14 @@
     "recommended": "Recommended",
     "use_entered_address": "Use address as entered",
     "address_invalid": "Address may be invalid",
-    "Continue": "Continue"
-
+    "Continue": "Continue",
+    "work_on_site": "If working, are your work-related duties required be performed on-site?",
+    "work_proximity": "If working, does your work involve being in close proximity (<6) to the public or coworkers?",
+    "home_care": "Do you receive long-term care at home (such as from a home health aid or care giver)?",
+    "home_bound": "Are you, or the person you represent, able to leave home to get a COVID-19 vaccine?",
+    "transportation_assistance": "If provided transportation assistance, could you be transported to a drive-through vaccine site?",
+    "caretakers": "Check all that apply: Do you have anyone caring for you in your home?",
+    "has_disability": "Do you have a disability as defined by the Americans with Disabilities Act (ADA), including intellectual/developmental, physical, mental health, and/or sensory disability?",
+    "best_contact_method": "What is the best way for the Pima County Health Department to contact you? (select one)",
+    "representative_contact": "My representative's contact information:"
 }
