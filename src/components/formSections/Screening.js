@@ -115,8 +115,8 @@ class Screening extends Component {
         }),
       occupation: yup
         .string()
-        .when("$age", ($age) => {
-          if(age < age_threshold) {
+        .when(["$age", "leave_home"], ($age, leave_home) => {
+          if (age < age_threshold && leave_home === 1) {
             return yup.string().required(requiredMessage)
           }
         }),
@@ -126,6 +126,9 @@ class Screening extends Component {
 
     if (this.props.screening !== null) {
       initialValues = this.props.screening;
+      if (age >= age_threshold) {
+        initialValues['occupation'] = "";
+      }
     } else {
       initialValues = {
         congregate_housing: "",
@@ -395,7 +398,10 @@ class Screening extends Component {
                                 name="leave_home"
                                 value={key}
                                 isInvalid={touched.leave_home && !!errors.leave_home}
-                                onChange={handleChange}
+                                onChange={e => {
+                                  setFieldValue("leave_home", e.target.value);
+                                  setFieldValue("occupation", "");
+                                }}
                                 checked={values.leave_home === key}/>
                       <Form.Check.Label>
                         { this.props.language === 'es' ? this.props.choices.leave_home[key].esp : this.props.choices.leave_home[key].eng}
@@ -638,7 +644,7 @@ class Screening extends Component {
               </>
             }
             
-            { this.props.age < age_threshold ?
+            { values.leave_home === '1' && this.props.age < age_threshold ?
               <>
                 <Form.Row>
                   <Form.Group as={Col} className="mt-3">
