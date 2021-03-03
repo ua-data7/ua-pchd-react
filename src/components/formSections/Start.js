@@ -195,6 +195,8 @@ function Start(props) {
       zip_valid: yup
         .boolean()
         .oneOf([true]),
+      homeless: yup
+        .boolean(),
       phone: yup
         .string()
         .required(requiredMessage)
@@ -251,6 +253,7 @@ function Start(props) {
           state: "",
           zip: "",
           zip_valid: false,
+          homeless: false,
           phone: "",
           received_first_dose: "",
           vaccine_type: "",
@@ -482,6 +485,24 @@ function Start(props) {
             <Alert variant="info" className="mt-4">
               {t('address_instructions')}
             </Alert>
+
+            <Form.Row>
+              <Form.Group as={Col}>
+                <Form.Check type="checkbox"
+                            id="homeless"
+                            className="mb-2">
+                  <Form.Check.Input 
+                            type="checkbox" 
+                            name="homeless"
+                            value={true}
+                            onChange={handleChange}
+                            checked={values.homeless}/>
+                  <Form.Check.Label>
+                    {t('homeless')}
+                  </Form.Check.Label> 
+                </Form.Check>
+              </Form.Group>  
+            </Form.Row>
 
             <Form.Group>
               <Form.Label>

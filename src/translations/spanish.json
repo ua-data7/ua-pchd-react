@@ -90,5 +90,6 @@
     "disability": "¿Tiene una discapacidad según lo define la Ley de Estadounidenses con Discapacidades (ADA por sus siglas en inglés), incluyendo la discapacidad intelectual/del desarrollo, física, mental y/o sensorial?",
     "pref_contact": "¿Cuál es la mejor manera para que el Departamento de Salud del Condado Pima se comunique con usted? (Seleccione uno)",
     "representative_contact": "Información de contacto de mi representante:",
-    "ltc_documentation": "Se requiere documentación que demuestra elegibilidad, como ALTCS/AHCCCS/SSDI/SSI/seguro de atención a largo plazo/carta del proveedor."
+    "ltc_documentation": "Se requiere documentación que demuestra elegibilidad, como ALTCS/AHCCCS/SSDI/SSI/seguro de atención a largo plazo/carta del proveedor.",
+    "homeless": "Actualmente no tengo hogar o vivo en un albergue"
 }
