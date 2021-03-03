@@ -117,7 +117,7 @@ class Screening extends Component {
         .string()
         .when("$age", ($age) => {
           if(age < age_threshold) {
-            return yup.string().required('Required')
+            return yup.string().required(requiredMessage)
           }
         }),
     });
