@@ -12,8 +12,6 @@ import ProtectiveServices from "./formSections/ProtectiveServices";
 import EssentialServices from "./formSections/EssentialServices";
 import Healthcare from "./formSections/Healthcare";
 import Confirmation from "./formSections/Confirmation";
-import axios from 'axios';
-import {esri_key} from '../config';
 
 
 class VaccineInterestForm extends Component {
@@ -32,6 +30,7 @@ class VaccineInterestForm extends Component {
       childcare_providers: null,
       healthcare_workers: null,
       loading: true,
+      addressLoading: false,
       showModal: false,
       addressCandidates: []
     }
@@ -117,7 +116,7 @@ class VaccineInterestForm extends Component {
   }
 
   handleStartSubmit(e) {
-    this.setState({start: e});
+    this.setState({start: e, addressLoading: true});
     
     const payload = {
       address: e.residential_address,
@@ -136,6 +135,7 @@ class VaccineInterestForm extends Component {
     return API.post("esri", "/esri", submission)
     
       .then(results => {
+        this.setState({addressLoading: false});
         if (results.candidates) {
           this.setState({
             addressCandidates: results.candidates
@@ -148,6 +148,7 @@ class VaccineInterestForm extends Component {
         }
       })
       .catch(error => {
+        this.setState({addressLoading: false});
         this.updateStep('screening');
       });
   }
@@ -305,7 +306,8 @@ class VaccineInterestForm extends Component {
              closeAddressModal={this.closeAddressModal}
              continueAddressModal={this.continueAddressModal}
              showModal={this.state.showModal}
-             addressCandidates={this.state.addressCandidates}>            
+             addressCandidates={this.state.addressCandidates}
+             addressLoading={this.state.addressLoading}>            
       </Start>
     );
   }

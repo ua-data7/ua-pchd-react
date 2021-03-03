@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import { Button, Form, Col, Alert, InputGroup } from "react-bootstrap";
+import { Button, Form, Col, Alert, InputGroup, Spinner } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
 import { stateOptions, monthOptions } from "./Choices";
-import { Typeahead, AsyncTypeahead} from 'react-bootstrap-typeahead';
 import { API } from 'aws-amplify';
 import moment from 'moment';
-import axios from 'axios';
 
 import AddressModal from  "./AddressModal"
 
@@ -19,8 +17,6 @@ import FormikErrorFocus from "../FormikErrorFocus";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { CalendarEvent, ArrowRight } from 'react-bootstrap-icons';
-
-import {esri_key} from '../../config';
 
 
 /**
@@ -113,12 +109,6 @@ const ZipcodeCheck = (props) => {
 function Start(props) {
 
     const { t, language } = props;
-    const [addressLoading, setAddressLoading] = useState(false);
-    const [addressOptions, setAddressOptions] = useState([]);
-
-
-  
-    const filterAddressBy = () => true;
 
     const CustomDatepickerInput = React.forwardRef((props, ref) => {
       return (
@@ -295,7 +285,6 @@ function Start(props) {
             <p>
               <b className="pc-color-text-secondary-dark">{t('form_instructions_2')}</b>
             </p>
-
             
             <Form.Row className="mt-5">
 
@@ -752,8 +741,20 @@ function Start(props) {
             }
 
             <Button className="pc-color-primary-alt-darkest" type="submit" className="mt-5">
-              {t('next')} <ArrowRight></ArrowRight>
+              {t('next')}
+              { !props.addressLoading && 
+                <ArrowRight className="ml-2"></ArrowRight>
+              }
+              { props.addressLoading && 
+                <Spinner
+                  className="ml-2"
+                  as="span"
+                  animation="border"
+                  size="sm"
+                />
+              }
             </Button>
+            
 
             <BirthdayCheck language={language}></BirthdayCheck>
             <ZipcodeCheck language={language}></ZipcodeCheck>
