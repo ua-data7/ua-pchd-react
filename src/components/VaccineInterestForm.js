@@ -206,6 +206,8 @@ class VaccineInterestForm extends Component {
       congregate_housing: parseInt(screening.congregate_housing),
       ahcccs: parseInt(screening.accchs),
       occupation: screening.occupation ? parseInt(screening.occupation) : 0,
+      ltc_home: parseInt(screening.ltc_home),
+      leave_home: parseInt(screening.leave_home),
     };
 
     if (start.received_first_dose === "true") {
@@ -219,6 +221,33 @@ class VaccineInterestForm extends Component {
 
     if (screening.health_conditions.length) {
       payload['health_conditions'] = screening.health_conditions.map(val => parseInt(val, 10))
+    }
+
+    if (screening.work_on_site) {
+      payload['work_on_site'] = parseInt(screening.work_on_site);
+    }
+
+    if (screening.work_proximity) {
+      payload['work_proximity'] = parseInt(screening.work_proximity);
+    }
+
+    if (screening.leave_home === '0') {
+      let homebound = {
+        transportation: parseInt(screening.transportation),
+        caretakers: screening.caretakers.map(val => parseInt(val, 10)),
+        disability: parseInt(screening.disability),
+        pref_contact: parseInt(screening.pref_contact),
+      }
+      
+      if (screening.pref_contact === '5') {
+        homebound['representative'] = {
+          first_name: screening.rep_first_name,
+          last_name: screening.rep_last_name,
+          phone: screening.rep_phone,
+          email: screening.rep_email
+        }
+      }
+      payload['homebound'] = homebound;
     }
 
     if (screening.occupation === '1') {
