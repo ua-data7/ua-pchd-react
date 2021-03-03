@@ -83,11 +83,11 @@
     "Continue": "Continuar",
     "work_on_site": "¿Deben realizarse las tareas relacionadas con su trabajo en el mismo sitio de trabajo?",
     "work_proximity": "¿Su trabajo implica estar cerca (menos de 6 pies/2 metros) del público o compañeros de trabajo?",
-    "home_care": "¿Recibe usted atención a largo plazo en el hogar (por ejemplo, de un asistente de salud en el hogar o un cuidador)?",
-    "home_bound": "¿Puede usted, o la persona a la que representa, salir de su casa para recibir la vacuna contra el COVID-19?",
-    "transportation_assistance": "Si se le proporciona ayuda con el transporte, ¿podría ser transportado a un sitio de vacunación de auto-servicio?",
+    "ltc_home": "¿Recibe usted atención a largo plazo en el hogar (por ejemplo, de un asistente de salud en el hogar o un cuidador)?",
+    "leave_home": "¿Puede usted, o la persona a la que representa, salir de su casa para recibir la vacuna contra el COVID-19?",
+    "transportation": "Si se le proporciona ayuda con el transporte, ¿podría ser transportado a un sitio de vacunación de auto-servicio?",
     "caretakers": "Marque todo lo que corresponda: ¿Tiene alguien que lo cuide en su hogar?",
-    "has_disability": "¿Tiene una discapacidad según lo define la Ley de Estadounidenses con Discapacidades (ADA por sus siglas en inglés), incluyendo la discapacidad intelectual/del desarrollo, física, mental y/o sensorial?",
-    "best_contact_method": "¿Cuál es la mejor manera para que el Departamento de Salud del Condado Pima se comunique con usted? (Seleccione uno)",
+    "disability": "¿Tiene una discapacidad según lo define la Ley de Estadounidenses con Discapacidades (ADA por sus siglas en inglés), incluyendo la discapacidad intelectual/del desarrollo, física, mental y/o sensorial?",
+    "pref_contact": "¿Cuál es la mejor manera para que el Departamento de Salud del Condado Pima se comunique con usted? (Seleccione uno)",
     "representative_contact": "Información de contacto de mi representante:"
 }

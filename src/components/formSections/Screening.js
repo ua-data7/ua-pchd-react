@@ -6,6 +6,8 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import FormikErrorFocus from "../FormikErrorFocus";
 
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/bootstrap.css';
 import ReCAPTCHA from "react-google-recaptcha";
 import { age_threshold, recaptcha_site_key } from "../../config";
 
@@ -24,16 +26,88 @@ class Screening extends Component {
   render() {
 
     const { t, language, age } = this.props;
+    const requiredMessage = (language === 'en' ?  'Required.' : 'Obligatorio.');
 
     const schema = yup.object({
       congregate_housing: yup
         .string()
-        .required('Required.'),
+        .required(requiredMessage),
       accchs: yup
         .string()
-        .required('Required.'),
+        .required(requiredMessage),
+      work_on_site: yup
+        .string(),
+      work_proximity: yup
+        .string(),
       health_conditions: yup
         .array(),
+      ltc_home: yup
+        .string()
+        .required(requiredMessage),
+      leave_home: yup
+        .string()
+        .required(requiredMessage),
+      transportation: yup
+        .string()
+        .when("leave_home", {
+          is: "0",
+          then: yup.string().required(requiredMessage)
+        }),
+      caretakers: yup
+        .array()
+        .min(1, requiredMessage)
+        .required(requiredMessage),
+      disability: yup
+        .string()
+        .when("leave_home", {
+          is: "0",
+          then: yup.string().required(requiredMessage)
+        }),
+      pref_contact: yup
+        .string()
+        .when("leave_home", {
+          is: "0",
+          then: yup.string().required(requiredMessage)
+        }),
+      rep_first_name: yup
+        .string()
+        .when("pref_contact", {
+          is: "0",
+          then: yup
+            .string()
+            .trim()
+            .matches(/^[a-zA-Z ]*$/, 'Name cannot contain any special characters.')
+            .required(requiredMessage)
+        }),
+      rep_last_name: yup
+        .string()
+        .when("pref_contact", {
+          is: "0",
+          then: yup
+            .string()
+            .trim()
+            .matches(/^[a-zA-Z ]*$/, 'Name cannot contain any special characters.')
+            .required(requiredMessage)
+        }),
+      rep_email: yup
+        .string()
+        .email(language === 'en' ?  'Please provide a valid email address.' : 'Favor de proporcionar un correo electrónico valido.')
+        .when("pref_contact", {
+          is: "0",
+          then: yup
+            .string()
+            .email(language === 'en' ?  'Please provide a valid email address.' : 'Favor de proporcionar un correo electrónico valido.')
+            .required(requiredMessage),
+        }),
+      rep_phone: yup
+        .string()
+        .when("pref_contact", {
+          is: "0",
+          then: yup
+            .string()
+            .required(requiredMessage)
+            .min(11, language === 'en' ?  'Phone number must be 10 digits.' : 'Número de teléfono debe tener 10 dígitos.'),
+        }),
       occupation: yup
         .string()
         .when("$age", ($age) => {
@@ -49,11 +123,23 @@ class Screening extends Component {
       initialValues = this.props.screening;
     } else {
       initialValues = {
-        occupation: "",
         congregate_housing: "",
         accchs: "",
+        work_on_site: "",
+        work_proximity: "",
         health_conditions: [],
         health_conditions_none: false,
+        ltc_home: "",
+        leave_home: "",
+        transportation: "",
+        caretakers: [],
+        disability: "",
+        pref_contact: "",
+        rep_first_name: "",
+        rep_last_name: "",
+        rep_email: "",
+        rep_phone: "",
+        occupation: "",
       };
     }
    
@@ -70,6 +156,7 @@ class Screening extends Component {
           handleChange,
           handleBlur,
           setFieldValue,
+          setFieldTouched,
           values,
           touched,
           isValid,
@@ -152,6 +239,70 @@ class Screening extends Component {
             <Form.Row>
               <Form.Group as={Col} className="mt-3">
                 <Form.Label>
+                  <span className="question">{t('work_on_site')}</span>
+                </Form.Label>
+                <div className="mt-2">
+                  {Object.keys(this.props.choices.ahcccs).map((key, index) => 
+                    <Form.Check type="radio"
+                                id={'work_on_site_' + key}
+                                key={key}
+                                className="mb-2">
+                      <Form.Check.Input 
+                                type="radio" 
+                                name="work_on_site"
+                                value={key}
+                                isInvalid={touched.work_on_site && !!errors.work_on_site}
+                                onChange={handleChange}
+                                checked={values.work_on_site === key}/>
+                      <Form.Check.Label>
+                        { this.props.language === 'es' ? this.props.choices.ahcccs[key].esp : this.props.choices.ahcccs[key].eng}
+                      </Form.Check.Label> 
+                      { index === Object.keys(this.props.choices.ahcccs).length - 1 && 
+                        <Form.Control.Feedback type="invalid">
+                          {errors.work_on_site}
+                        </Form.Control.Feedback>
+                      } 
+                    </Form.Check>            
+                  )}
+                </div>  
+              </Form.Group>
+            </Form.Row>
+
+            <Form.Row>
+              <Form.Group as={Col} className="mt-3">
+                <Form.Label>
+                  <span className="question">{t('work_proximity')}</span>
+                </Form.Label>
+                <div className="mt-2">
+                  {Object.keys(this.props.choices.ahcccs).map((key, index) => 
+                    <Form.Check type="radio"
+                                id={'work_proximity_' + key}
+                                key={key}
+                                className="mb-2">
+                      <Form.Check.Input 
+                                type="radio" 
+                                name="work_proximity"
+                                value={key}
+                                isInvalid={touched.work_proximity && !!errors.work_proximity}
+                                onChange={handleChange}
+                                checked={values.work_proximity === key}/>
+                      <Form.Check.Label>
+                        { this.props.language === 'es' ? this.props.choices.ahcccs[key].esp : this.props.choices.ahcccs[key].eng}
+                      </Form.Check.Label> 
+                      { index === Object.keys(this.props.choices.ahcccs).length - 1 && 
+                        <Form.Control.Feedback type="invalid">
+                          {errors.work_proximity}
+                        </Form.Control.Feedback>
+                      } 
+                    </Form.Check>            
+                  )}
+                </div>  
+              </Form.Group>
+            </Form.Row>
+
+            <Form.Row>
+              <Form.Group as={Col} className="mt-3">
+                <Form.Label>
                   <span className="question">{t('health_conditions')}</span>
                 </Form.Label>
                 <div className="mt-2">
@@ -190,6 +341,297 @@ class Screening extends Component {
                 </div>
               </Form.Group>
             </Form.Row>
+
+            <Form.Row>
+              <Form.Group as={Col} className="mt-3">
+                <Form.Label>
+                  <span className="question">{t('ltc_home')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                </Form.Label>
+                <div className="mt-2">
+                  {Object.keys(this.props.choices.ahcccs).map((key, index) => 
+                    <Form.Check type="radio"
+                                id={'ltc_home_' + key}
+                                key={key}
+                                className="mb-2">
+                      <Form.Check.Input 
+                                type="radio" 
+                                name="ltc_home"
+                                value={key}
+                                isInvalid={touched.ltc_home && !!errors.ltc_home}
+                                onChange={handleChange}
+                                checked={values.ltc_home === key}/>
+                      <Form.Check.Label>
+                        { this.props.language === 'es' ? this.props.choices.ahcccs[key].esp : this.props.choices.ahcccs[key].eng}
+                      </Form.Check.Label> 
+                      { index === Object.keys(this.props.choices.ahcccs).length - 1 && 
+                        <Form.Control.Feedback type="invalid">
+                          {errors.ltc_home}
+                        </Form.Control.Feedback>
+                      } 
+                    </Form.Check>            
+                  )}
+                </div>  
+              </Form.Group>
+            </Form.Row>
+
+            <Form.Row>
+              <Form.Group as={Col} className="mt-3">
+                <Form.Label>
+                  <span className="question">{t('leave_home')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                </Form.Label>
+                <div className="mt-2">
+                  {Object.keys(this.props.choices.ahcccs).map((key, index) => 
+                    <Form.Check type="radio"
+                                id={'leave_home_' + key}
+                                key={key}
+                                className="mb-2">
+                      <Form.Check.Input 
+                                type="radio" 
+                                name="leave_home"
+                                value={key}
+                                isInvalid={touched.leave_home && !!errors.leave_home}
+                                onChange={handleChange}
+                                checked={values.leave_home === key}/>
+                      <Form.Check.Label>
+                        { this.props.language === 'es' ? this.props.choices.ahcccs[key].esp : this.props.choices.ahcccs[key].eng}
+                      </Form.Check.Label> 
+                      { index === Object.keys(this.props.choices.ahcccs).length - 1 && 
+                        <Form.Control.Feedback type="invalid">
+                          {errors.leave_home}
+                        </Form.Control.Feedback>
+                      } 
+                    </Form.Check>            
+                  )}
+                </div>  
+              </Form.Group>
+            </Form.Row>
+
+            { values.leave_home === '0' && 
+              <>
+                <Form.Row>
+                  <Form.Group as={Col} className="mt-3">
+                    <Form.Label>
+                      <span className="question">{t('transportation')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                    </Form.Label>
+                    <div className="mt-2">
+                      {Object.keys(this.props.choices.ahcccs).map((key, index) => 
+                        <Form.Check type="radio"
+                                    id={'transportation_' + key}
+                                    key={key}
+                                    className="mb-2">
+                          <Form.Check.Input 
+                                    type="radio" 
+                                    name="transportation"
+                                    value={key}
+                                    isInvalid={touched.transportation && !!errors.transportation}
+                                    onChange={handleChange}
+                                    checked={values.transportation === key}/>
+                          <Form.Check.Label>
+                            { this.props.language === 'es' ? this.props.choices.ahcccs[key].esp : this.props.choices.ahcccs[key].eng}
+                          </Form.Check.Label> 
+                          { index === Object.keys(this.props.choices.ahcccs).length - 1 && 
+                            <Form.Control.Feedback type="invalid">
+                              {errors.transportation}
+                            </Form.Control.Feedback>
+                          } 
+                        </Form.Check>            
+                      )}
+                    </div>  
+                  </Form.Group>
+                </Form.Row>
+
+                <Form.Row>
+                  <Form.Group as={Col} className="mt-3">
+                    <Form.Label>
+                      <span className="question">{t('caretakers')}</span>
+                    </Form.Label>
+                    <div className="mt-2">
+                      {Object.keys(this.props.choices.ahcccs).map((key, index) => 
+                        <Form.Check type="checkbox"
+                                    id={'caretakers_' + key}
+                                    key={key}
+                                    className="mb-2">
+                          <Form.Check.Input 
+                                    type="checkbox" 
+                                    name="caretakers"
+                                    value={key}
+                                    isInvalid={touched.caretakers && !!errors.caretakers}
+                                    onChange={handleChange}
+                                    checked={values.caretakers.includes(key.toString())}/>
+                          <Form.Check.Label>
+                            { this.props.language === 'es' ? this.props.choices.ahcccs[key].esp : this.props.choices.ahcccs[key].eng}
+                          </Form.Check.Label>
+                          { index === Object.keys(this.props.choices.ahcccs).length - 1 && 
+                            <Form.Control.Feedback type="invalid">
+                              {errors.caretakers}
+                            </Form.Control.Feedback>
+                          }  
+                        </Form.Check>            
+                      )}
+                    </div>
+                  </Form.Group>
+                </Form.Row>
+
+                <Form.Row>
+                  <Form.Group as={Col} className="mt-3">
+                    <Form.Label>
+                      <span className="question">{t('disability')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                    </Form.Label>
+                    <div className="mt-2">
+                      {Object.keys(this.props.choices.ahcccs).map((key, index) => 
+                        <Form.Check type="radio"
+                                    id={'disability_' + key}
+                                    key={key}
+                                    className="mb-2">
+                          <Form.Check.Input 
+                                    type="radio" 
+                                    name="disability"
+                                    value={key}
+                                    isInvalid={touched.disability && !!errors.disability}
+                                    onChange={handleChange}
+                                    checked={values.disability === key}/>
+                          <Form.Check.Label>
+                            { this.props.language === 'es' ? this.props.choices.ahcccs[key].esp : this.props.choices.ahcccs[key].eng}
+                          </Form.Check.Label> 
+                          { index === Object.keys(this.props.choices.ahcccs).length - 1 && 
+                            <Form.Control.Feedback type="invalid">
+                              {errors.disability}
+                            </Form.Control.Feedback>
+                          } 
+                        </Form.Check>            
+                      )}
+                    </div>  
+                  </Form.Group>
+                </Form.Row>
+
+                <Form.Row>
+                  <Form.Group as={Col} className="mt-3">
+                    <Form.Label>
+                      <span className="question">{t('pref_contact')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                    </Form.Label>
+                    <div className="mt-2">
+                      {Object.keys(this.props.choices.ahcccs).map((key, index) => 
+                        <Form.Check type="radio"
+                                    id={'pref_contact_' + key}
+                                    key={key}
+                                    className="mb-2">
+                          <Form.Check.Input 
+                                    type="radio" 
+                                    name="pref_contact"
+                                    value={key}
+                                    isInvalid={touched.pref_contact && !!errors.pref_contact}
+                                    onChange={handleChange}
+                                    checked={values.pref_contact === key}/>
+                          <Form.Check.Label>
+                            { this.props.language === 'es' ? this.props.choices.ahcccs[key].esp : this.props.choices.ahcccs[key].eng}
+                          </Form.Check.Label> 
+                          { index === Object.keys(this.props.choices.ahcccs).length - 1 && 
+                            <Form.Control.Feedback type="invalid">
+                              {errors.pref_contact}
+                            </Form.Control.Feedback>
+                          } 
+                        </Form.Check>            
+                      )}
+                    </div>  
+                  </Form.Group>
+                </Form.Row>
+
+                { values.pref_contact === '0' &&
+                  <div className="mt-4">
+                    <b>{t('representative_contact')}</b>
+                    <Form.Row className="mt-3">
+                      <Form.Group as={Col} md="4" sm="6" xs="12">
+                        <Form.Label>
+                          <span className="question">{t('first_name')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                        </Form.Label>
+                        <Form.Control placeholder={t('first_name')}
+                                      name="rep_first_name"
+                                      onChange={event => setFieldValue("rep_first_name", event.target.value.replace(/[^a-zA-Z\s]/g,''))}
+                                      value={values.rep_first_name}
+                                      onBlur={handleBlur}
+                                      isInvalid={touched.rep_first_name && errors.rep_first_name}
+                                      maxLength="50"/>
+                        <Form.Control.Feedback type="invalid">
+                          {errors.rep_first_name}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+
+                      <Form.Group as={Col} md="4" sm="6" xs="12">
+                        <Form.Label>
+                          <span className="question">{t('last_name')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                        </Form.Label>
+                        <Form.Control placeholder={t('last_name')}
+                                      name="rep_last_name"
+                                      onChange={event => setFieldValue("rep_last_name", event.target.value.replace(/[^a-zA-Z\s]/g,''))}
+                                      value={values.rep_last_name}
+                                      onBlur={handleBlur}
+                                      isInvalid={touched.rep_last_name && errors.rep_last_name}
+                                      maxLength="50"/>
+                        <Form.Control.Feedback type="invalid">
+                          {errors.rep_last_name}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </Form.Row>
+
+                    <Form.Row>
+                      <Form.Group as={Col} lg="4" md="8">
+                        <Form.Label>
+                          <span className="question">{t('email')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                        </Form.Label>
+                        <Form.Control type="email"
+                                      name="rep_email"
+                                      onChange={e => {
+                                        setFieldTouched('rep_email');
+                                        setFieldValue("rep_email", e.target.value.replace(/[^\x00-\x7F]/g,''));
+                                      }}
+                                      value={values.rep_email}
+                                      onBlur={handleBlur}
+                                      isInvalid={touched.rep_email && errors.rep_email}
+                                      maxLength="150">
+                        </Form.Control>
+                        <Form.Control.Feedback type="invalid">
+                          {errors.rep_email}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </Form.Row>
+
+                    <Form.Row>
+                      <Form.Group as={Col}>
+                        <Form.Label>
+                          <span className="question">{t('phone_number')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                        </Form.Label>
+
+                        <PhoneInput
+                          country={'us'}
+                          value={values.rep_phone}
+                          onChange={ value => setFieldValue('rep_phone', value)}
+                          onBlur={handleBlur}
+                          countryCodeEditable={false}
+                          disableDropdown={true}
+                          inputProps={{
+                            name: "rep_phone",
+                          }}
+                        />
+
+                        { touched.rep_phone && 
+                          <Form.Text className="pc-color-text-secondary-dark">
+                            {errors.rep_phone}
+                          </Form.Text>
+                        }
+
+                      </Form.Group>
+                    </Form.Row>
+
+                  </div>
+                
+                
+                }
+              
+              
+              
+              
+              </>
+            }
             
             { this.props.age < age_threshold ?
               <>
