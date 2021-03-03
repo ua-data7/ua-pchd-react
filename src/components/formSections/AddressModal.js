@@ -6,7 +6,7 @@ import { withTranslation } from 'react-i18next';
 function AddressModal(props) {
 
   const { t, language } = props;
-  const [selectedAddress, setSelectedAddress] = useState([]);
+  const [selectedAddress, setSelectedAddress] = useState(null);
 
   // const testAddresses = [
   //   { 
@@ -107,7 +107,9 @@ function AddressModal(props) {
               <Button variant="secondary" onClick={() => props.handleClose()}>
                 {t('go_back')}
               </Button>
-              <Button variant="primary" onClick={() => props.continueAddressModal(addressCandidates[selectedAddress])}>
+              <Button variant="primary"
+                      disabled={selectedAddress === null}
+                      onClick={() => props.continueAddressModal(addressCandidates[selectedAddress])}>
                 {t('Continue')} <ArrowRight></ArrowRight>
               </Button>
             </Modal.Footer>
@@ -167,6 +169,7 @@ function AddressModal(props) {
                 {t('go_back')}
               </Button>
               <Button variant="primary"
+                      disabled={selectedAddress === null}
                       onClick={() => props.continueAddressModal(addressCandidates[selectedAddress])}>
                 {t('Continue')} <ArrowRight></ArrowRight>
               </Button>
