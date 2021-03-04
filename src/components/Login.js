@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, Container, Row, Col, Card, Form } from "react-bootstrap";
 import { API } from 'aws-amplify';
+import Cookies from 'js-cookie';
 
 class Login extends Component {
   
@@ -10,13 +11,14 @@ class Login extends Component {
     this.state = {
       username: '',
       password: '',
+      error: '',
     }
 
     this.login = this.login.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
-  login() {
+  async login() {
     
     const payload = {
       username: this.state.username,
@@ -34,15 +36,11 @@ class Login extends Component {
 
     return API.post("authz", "/authz", submission)
       .then(result => {
-        this.props.setAuthz(true);
+        Cookies.set('authz_code', result.authz_code);
         this.props.history.push('/');
       })
       .catch(error => {
-        console.log(error);
-        // REMOVE THIS //
-        this.props.setAuthz(true);
-        this.props.history.push('/')
-        // REMOVE THIS //
+        this.setState({error: "There was an error logging in. Please check your username and password and try again."})
       });
   }
 

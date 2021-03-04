@@ -3,6 +3,7 @@ import { Button, Spinner } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
 import { API } from 'aws-amplify';
 import moment from 'moment';
+import Cookies from 'js-cookie';
 
 import Start from './formSections/Start';
 import Screening from "./formSections/Screening";
@@ -209,7 +210,11 @@ class VaccineInterestForm extends Component {
       leave_home: parseInt(screening.leave_home),
     };
 
-    if (!this.props.authz) {
+    const authz_code = Cookies.get('authz_code');
+
+    if (authz_code) {
+      payload['authz_code'] = authz_code;
+    } else {
       payload['recaptcha_token'] = this.state.captcha;
     }
 
