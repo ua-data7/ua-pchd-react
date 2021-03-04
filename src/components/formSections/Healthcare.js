@@ -167,12 +167,6 @@ class Healthcare extends Component {
               </Form.Group>
             </Form.Row>
             
-            <ReCAPTCHA
-              sitekey={recaptcha_site_key}
-              onChange={this.props.onCaptchaUpdate}
-              className="mt-3"
-            />
-
             { this.props.authz ? 
               <Button variant="primary"
                       type="submit"
@@ -181,12 +175,19 @@ class Healthcare extends Component {
                 {t('submit')} <Check></Check>
               </Button>
             :
-              <Button variant="primary"
-                      type="submit"
-                      className="mt-4 mb-5"
-                      disabled={this.props.captcha === null || this.props.submitting }>
-                {t('submit')} <Check></Check>
-              </Button>
+              <>
+                <ReCAPTCHA
+                  sitekey={recaptcha_site_key}
+                  onChange={this.props.onCaptchaUpdate}
+                  className="mt-3"
+                />
+                <Button variant="primary"
+                        type="submit"
+                        className="mt-4 mb-5"
+                        disabled={this.props.captcha === null || this.props.submitting }>
+                  {t('submit')} <Check></Check>
+                </Button>
+              </>
             }
             
             <FormikErrorFocus/>
