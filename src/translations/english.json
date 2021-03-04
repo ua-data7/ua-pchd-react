@@ -88,5 +88,6 @@
     "caretakers": "Check all that apply: Do you have anyone caring for you in your home?",
     "disability": "Do you have a disability as defined by the Americans with Disabilities Act (ADA), including intellectual/developmental, physical, mental health, and/or sensory disability?",
     "pref_contact": "What is the best way for the Pima County Health Department to contact you? (select one)",
-    "representative_contact": "My representative's contact information:"
+    "representative_contact": "My representative's contact information:",
+    "ltc_documentation": "Documentation showing eligibility required, such as ALTCS/AHCCCS/SSDI/SSI/long term care insurance/provider letter."
 }

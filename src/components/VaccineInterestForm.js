@@ -206,7 +206,7 @@ class VaccineInterestForm extends Component {
       congregate_housing: parseInt(screening.congregate_housing),
       ahcccs: parseInt(screening.accchs),
       occupation: screening.occupation ? parseInt(screening.occupation) : 0,
-      ltc_home: parseInt(screening.ltc_home),
+      disability: parseInt(screening.disability),
       leave_home: parseInt(screening.leave_home),
     };
 
@@ -235,7 +235,6 @@ class VaccineInterestForm extends Component {
       let homebound = {
         transportation: parseInt(screening.transportation),
         caretakers: screening.caretakers.map(val => parseInt(val, 10)),
-        disability: parseInt(screening.disability),
         pref_contact: parseInt(screening.pref_contact),
       }
       
