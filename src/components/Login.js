@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Button, Container, Row, Col, Card, Form } from "react-bootstrap";
+import { Redirect } from 'react-router-dom';
+import { Button, Container, Row, Col, Card, Form, Spinner } from "react-bootstrap";
 import { API } from 'aws-amplify';
 import Cookies from 'js-cookie';
 
@@ -11,7 +12,8 @@ class Login extends Component {
     this.state = {
       username: '',
       password: '',
-      error: '',
+      error: null,
+      loading: false,
     }
 
     this.login = this.login.bind(this);
@@ -19,6 +21,11 @@ class Login extends Component {
   }
 
   async login() {
+
+    this.setState({
+      loading: true,
+      error: null
+    });
     
     const payload = {
       username: this.state.username,
@@ -36,11 +43,15 @@ class Login extends Component {
 
     return API.post("authz", "/authz", submission)
       .then(result => {
+        this.props.setAuthz(true);
         Cookies.set('authz_code', result.authz_code);
         this.props.history.push('/');
       })
       .catch(error => {
-        this.setState({error: "There was an error logging in. Please check your username and password and try again."})
+        this.setState({
+          loading: false,
+          error: "There was an error logging in. Please check your username and password and try again."
+        });
       });
   }
 
@@ -48,9 +59,14 @@ class Login extends Component {
     this.setState({[event.target.name]: event.target.value});
   }
 
-  render() {
-
-    const {username, password} = this.state;
+  renderLogin() {
+    
+    const {
+      username,
+      password,
+      loading,
+      error
+    } = this.state;
 
     return (
       <>  
@@ -78,12 +94,25 @@ class Login extends Component {
                                   onChange={this.handleChange}/>
                   </Form.Group>
                 </Form.Row>
+                { error &&
+                  <Form.Text className="pc-color-text-secondary-dark">
+                    {error}
+                  </Form.Text>
+                }
                 <div className="text-center">
                   <Button variant="primary"
                           className="mt-3"
-                          disabled={username.length === 0 || password.length === 0}
+                          disabled={username.length === 0 || password.length === 0 || loading}
                           onClick={this.login}>
                     Login
+                    { loading && 
+                      <Spinner
+                        className="ml-2"
+                        as="span"
+                        animation="border"
+                        size="sm"
+                      />
+                    }
                   </Button>
                 </div>     
               </Card.Body>
@@ -93,6 +122,26 @@ class Login extends Component {
       </>
 
     );
+  }
+
+  renderRedirect() {
+    return (
+      <Redirect to="/"/>
+    );
+  }
+
+  render() {
+    return (
+      <>
+      { this.props.authz ?
+        this.renderRedirect()
+      :
+        this.renderLogin()
+      }
+      </>
+    )
+    
+    
   }
 }
 

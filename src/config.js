@@ -52,7 +52,7 @@ const nonprod = {
         },
         {
           name: "authz",
-          endpoint: "https://frruryqr87.execute-api.us-west-2.amazonaws.com/nonprod",
+          endpoint: "https://isgr6ntyzj.execute-api.us-west-2.amazonaws.com/nonprod",
           region: "us-west-2"
         },
     ]
@@ -82,7 +82,7 @@ const dev = {
         },
         {
           name: "authz",
-          endpoint: "https://frruryqr87.execute-api.us-west-2.amazonaws.com/dev",
+          endpoint: "https://isgr6ntyzj.execute-api.us-west-2.amazonaws.com/nonprod",
           region: "us-west-2"
         },
     ]

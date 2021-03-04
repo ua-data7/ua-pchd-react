@@ -1,6 +1,6 @@
 import i18n from './i18n';
 import React, { Component } from "react";
-import { Navbar } from "react-bootstrap";
+import { Navbar, Button } from "react-bootstrap";
 import Amplify from 'aws-amplify';
 import Routes from "./Routes";
 
@@ -10,6 +10,7 @@ import "./App.css";
 import pimaCountyLogo from './img/health-department-logo-fade.png';
 
 import { endpoints } from "./config";
+import Cookies from 'js-cookie';
 
 
 Amplify.configure({
@@ -29,7 +30,16 @@ class App extends Component {
     }
 
     this.changeLanguage = this.changeLanguage.bind(this);
+    this.logout = this.logout.bind(this);
     this.setAuthz = this.setAuthz.bind(this);
+  }
+
+  componentDidMount() {
+    window.scrollTo(0, 0);
+    let authz_code = Cookies.get('authz_code');
+    if (authz_code) {
+      this.setState({authz: true});
+    }
   }
 
   changeLanguage(language) {
@@ -37,9 +47,14 @@ class App extends Component {
     this.setState({language: language})
   }
 
+  logout(authz) {
+    window.scrollTo(0, 0);
+    this.setState({authz: false});
+    Cookies.remove('authz_code', { path: '' });
+  }
+
   setAuthz(authz) {
     this.setState({authz: authz});
-    console.log(authz)
   }
 
   render() {    
@@ -69,6 +84,11 @@ class App extends Component {
             <div className="container centered m-4">
               If you need assistance, call&nbsp;<a href="tel:520-222-0119">520-222-0119</a>.
             </div>
+            { this.state.authz && 
+              <div className="container centered mb-4">
+                <Button onClick={this.logout}>Logout</Button>
+              </div>
+            }
           </div>
         </footer>
       </>
