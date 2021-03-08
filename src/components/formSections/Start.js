@@ -175,28 +175,45 @@ function Start(props) {
         .string()
         .email(language === 'en' ?  'Please provide a valid email address.' : 'Favor de proporcionar un correo electrónico valido.')
         .required(requiredMessage),
-      residential_address: yup
-        .string()
-        .trim()
-        .required(requiredMessage),
-      city: yup
-        .string()
-        .trim()
-        .required(requiredMessage),
-      state: yup
-        .string()
-        .required(requiredMessage),
-      zip: yup
-        .string()
-        .matches(/^[0-9]+$/, language === 'en' ?  'Zip code must be 5 digits.' : 'Código postal debe tener 5 dígitos.')
-        .required(requiredMessage)
-        .min(5, language === 'en' ?  'Zip code must be 5 digits.' : 'Código postal debe tener 5 dígitos.')
-        .max(5, language === 'en' ?  'Zip code must be 5 digits.' : 'Código postal debe tener 5 dígitos.'),
-      zip_valid: yup
-        .boolean()
-        .oneOf([true]),
       homeless: yup
         .boolean(),
+      residential_address: yup
+        .string()
+        .when("homeless", {
+          is: false,
+          then: yup.string().trim().required(requiredMessage)
+        }),
+      city: yup
+        .string()
+        .when("homeless", {
+          is: false,
+          then: yup.string().trim().required(requiredMessage)
+        }),
+      state: yup
+        .string()
+        .when("homeless", {
+          is: false,
+          then: yup.string().required(requiredMessage)
+        }),
+      zip: yup
+        .string()
+        .when("homeless", {
+          is: false,
+          then: yup
+            .string()
+            .matches(/^[0-9]+$/, language === 'en' ?  'Zip code must be 5 digits.' : 'Código postal debe tener 5 dígitos.')
+            .required(requiredMessage)
+            .min(5, language === 'en' ?  'Zip code must be 5 digits.' : 'Código postal debe tener 5 dígitos.')
+            .max(5, language === 'en' ?  'Zip code must be 5 digits.' : 'Código postal debe tener 5 dígitos.')
+        }),
+      zip_valid: yup
+        .boolean()
+        .when("homeless", {
+          is: false,
+          then: yup
+            .boolean()
+            .oneOf([true]),
+        }),
       phone: yup
         .string()
         .required(requiredMessage)
@@ -248,12 +265,12 @@ function Start(props) {
           dob: null,
           sex: "",
           email: "",
+          homeless: false,
           residential_address: "",
           city: "",
           state: "",
           zip: "",
           zip_valid: false,
-          homeless: false,
           phone: "",
           received_first_dose: "",
           vaccine_type: "",
@@ -503,94 +520,98 @@ function Start(props) {
                 </Form.Check>
               </Form.Group>  
             </Form.Row>
-
-            <Form.Group>
-              <Form.Label>
-                <span className="question">{t('local_street_address')}</span> <span className="pc-color-text-secondary-dark">*</span>
-              </Form.Label>
-              <Form.Control placeholder="1234 Main St"
-                            name="residential_address"
-                            value={values.residential_address}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            isInvalid={touched.residential_address && errors.residential_address}
-                            maxLength="60">
-              </Form.Control>
-              <Form.Control.Feedback type="invalid">
-                {errors.residential_address}
-              </Form.Control.Feedback>
-            </Form.Group>
-
-            <Form.Row>
-                <Form.Group as={Col} md="6" xs="12">
+            
+            { !values.homeless &&
+              <>
+                <Form.Group>
                   <Form.Label>
-                    <span className="question">{t('city')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                    <span className="question">{t('local_street_address')}</span> <span className="pc-color-text-secondary-dark">*</span>
                   </Form.Label>
-                  <Form.Control name="city"
-                                value={values.city}
+                  <Form.Control placeholder="1234 Main St"
+                                name="residential_address"
+                                value={values.residential_address}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                isInvalid={touched.city && errors.city}
-                                maxLength="40">
+                                isInvalid={touched.residential_address && errors.residential_address}
+                                maxLength="60">
                   </Form.Control>
                   <Form.Control.Feedback type="invalid">
-                    {errors.city}
+                    {errors.residential_address}
                   </Form.Control.Feedback>
                 </Form.Group>
 
-                <Form.Group as={Col} md="3" xs="6">
-                  <Form.Label>
-                    <span className="question">{t('state')}</span> <span className="pc-color-text-secondary-dark">*</span>
-                  </Form.Label>
-                  <Form.Control as="select"
-                                value={values.state}
-                                placeholder="Select state"
-                                name="state"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                isInvalid={touched.state && errors.state}>
-                    {stateOptions.map((option) => <option key={option} value={option}>{option}</option>)}
-                  </Form.Control>
-                  <Form.Control.Feedback type="invalid">
-                    {errors.state}
-                  </Form.Control.Feedback>
-                </Form.Group>
+                <Form.Row>
+                    <Form.Group as={Col} md="6" xs="12">
+                      <Form.Label>
+                        <span className="question">{t('city')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                      </Form.Label>
+                      <Form.Control name="city"
+                                    value={values.city}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    isInvalid={touched.city && errors.city}
+                                    maxLength="40">
+                      </Form.Control>
+                      <Form.Control.Feedback type="invalid">
+                        {errors.city}
+                      </Form.Control.Feedback>
+                    </Form.Group>
 
-                <Form.Group as={Col} md="3" xs="6">
-                  <Form.Label>
-                    <span className="question">{t('zip_code')}</span> <span className="pc-color-text-secondary-dark">*</span>
-                  </Form.Label>
-                  <Form.Control name="zip"
-                                onChange={e => {
-                                  setFieldTouched('zip');
-                                  setFieldValue("zip", e.target.value.replace(/\D/,''))
-                                }}
-                                value={values.zip}
-                                maxLength="5"
-                                onBlur={handleBlur}
-                                isInvalid={touched.zip && (errors.zip || errors.zip_valid)}>
-                  </Form.Control>
-                  <Form.Control.Feedback type="invalid">
-                    {errors.zip}
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Text className="pl-1">
-                  { status.zip_error && <>
-                    <span className="pc-color-text-secondary-dark">
-                      {status.zip_error}
-                      
-                    </span>
-                    <div>
-                      <Button size="sm" 
-                              className="mt-3"
-                              variant="outline-primary"
-                              onClick={() => {setFieldValue("zip_valid", true); setStatus({zip_error: ''}); }}>
-                        Zip Code is Correct
-                      </Button> 
-                    </div>
-                  </>}
-                </Form.Text>
-            </Form.Row>
+                    <Form.Group as={Col} md="3" xs="6">
+                      <Form.Label>
+                        <span className="question">{t('state')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                      </Form.Label>
+                      <Form.Control as="select"
+                                    value={values.state}
+                                    placeholder="Select state"
+                                    name="state"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    isInvalid={touched.state && errors.state}>
+                        {stateOptions.map((option) => <option key={option} value={option}>{option}</option>)}
+                      </Form.Control>
+                      <Form.Control.Feedback type="invalid">
+                        {errors.state}
+                      </Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Form.Group as={Col} md="3" xs="6">
+                      <Form.Label>
+                        <span className="question">{t('zip_code')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                      </Form.Label>
+                      <Form.Control name="zip"
+                                    onChange={e => {
+                                      setFieldTouched('zip');
+                                      setFieldValue("zip", e.target.value.replace(/\D/,''))
+                                    }}
+                                    value={values.zip}
+                                    maxLength="5"
+                                    onBlur={handleBlur}
+                                    isInvalid={touched.zip && (errors.zip || errors.zip_valid)}>
+                      </Form.Control>
+                      <Form.Control.Feedback type="invalid">
+                        {errors.zip}
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Text className="pl-1">
+                      { status.zip_error && <>
+                        <span className="pc-color-text-secondary-dark">
+                          {status.zip_error}
+                          
+                        </span>
+                        <div>
+                          <Button size="sm" 
+                                  className="mt-3"
+                                  variant="outline-primary"
+                                  onClick={() => {setFieldValue("zip_valid", true); setStatus({zip_error: ''}); }}>
+                            Zip Code is Correct
+                          </Button> 
+                        </div>
+                      </>}
+                    </Form.Text>
+                </Form.Row>
+              </>
+            }
 
             <Form.Row className="mt-3">
               <Form.Group as={Col}>
