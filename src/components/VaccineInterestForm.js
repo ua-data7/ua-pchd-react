@@ -205,10 +205,6 @@ class VaccineInterestForm extends Component {
       dob: start.dob.format('YYYY-MM-DD'),
       sex: start.sex,
       email: start.email,
-      residential_address: start.residential_address,
-      city: start.city,
-      state: start.state,
-      zip: start.zip,
       phone: start.phone,
       received_first_dose: start.received_first_dose === 'true' ? true : false,
       congregate_housing: parseInt(screening.congregate_housing),
@@ -224,6 +220,18 @@ class VaccineInterestForm extends Component {
       payload['authz_code'] = authz_code;
     } else {
       payload['recaptcha_token'] = this.state.captcha;
+    }
+
+    if (start.homeless) {
+      payload.residential_address = '702 S 6th Ave';
+      payload.city = 'Tucson';
+      payload.state = 'AZ';
+      payload.zip =  '85701';
+    } else {
+      payload.residential_address = start.residential_address;
+      payload.city = start.city;
+      payload.state = start.state;
+      payload.zip =  start.zip;
     }
 
     if (start.received_first_dose === "true") {
