@@ -205,6 +205,7 @@ class VaccineInterestForm extends Component {
       received_first_dose: start.received_first_dose === 'true' ? true : false,
       congregate_housing: parseInt(screening.congregate_housing),
       ahcccs: parseInt(screening.accchs),
+      ltc: parseInt(screening.ltc),
       occupation: screening.occupation ? parseInt(screening.occupation) : 0,
       disability: parseInt(screening.disability),
       leave_home: parseInt(screening.leave_home),
@@ -239,10 +240,13 @@ class VaccineInterestForm extends Component {
       payload['work_proximity'] = parseInt(screening.work_proximity);
     }
 
+    if (screening.caretakers) {
+      payload['caretakers'] = screening.caretakers.map(val => parseInt(val, 10))
+    }
+
     if (screening.leave_home === '0') {
       let homebound = {
         transportation: parseInt(screening.transportation),
-        caretakers: screening.caretakers.map(val => parseInt(val, 10)),
         pref_contact: parseInt(screening.pref_contact),
       }
       
