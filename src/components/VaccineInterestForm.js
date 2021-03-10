@@ -239,10 +239,13 @@ class VaccineInterestForm extends Component {
       payload['work_proximity'] = parseInt(screening.work_proximity);
     }
 
+    if (screening.caretakers) {
+      payload['caretakers'] = screening.caretakers.map(val => parseInt(val, 10))
+    }
+
     if (screening.leave_home === '0') {
       let homebound = {
         transportation: parseInt(screening.transportation),
-        caretakers: screening.caretakers.map(val => parseInt(val, 10)),
         pref_contact: parseInt(screening.pref_contact),
       }
       

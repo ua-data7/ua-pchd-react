@@ -55,13 +55,8 @@ class Screening extends Component {
         }),
       caretakers: yup
         .array()
-        .when("leave_home", {
-          is: "0",
-          then: yup
-            .array()
-            .min(1, requiredMessage)
-            .required(requiredMessage)
-        }),
+        .min(1, requiredMessage)
+        .required(requiredMessage),
       pref_contact: yup
         .string()
         .when("leave_home", {
@@ -377,6 +372,41 @@ class Screening extends Component {
             <Form.Row>
               <Form.Group as={Col} className="mt-3">
                 <Form.Label>
+                  <span className="question">{t('caretakers')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                </Form.Label>
+                <Form.Text muted>
+                  {t('ltc_documentation')}
+                </Form.Text>
+                <div className="mt-2">
+                  {Object.keys(this.props.choices.caretaker).map((key, index) =>
+                    <Form.Check type="checkbox"
+                      id={'caretakers_' + key}
+                      key={key}
+                      className="mb-2">
+                      <Form.Check.Input
+                        type="checkbox"
+                        name="caretakers"
+                        value={key}
+                        isInvalid={touched.caretakers && !!errors.caretakers}
+                        onChange={handleChange}
+                        checked={values.caretakers.includes(key.toString())} />
+                      <Form.Check.Label>
+                        {this.props.language === 'es' ? this.props.choices.caretaker[key].esp : this.props.choices.caretaker[key].eng}
+                      </Form.Check.Label>
+                      {index === Object.keys(this.props.choices.caretaker).length - 1 &&
+                        <Form.Control.Feedback type="invalid">
+                          {errors.caretakers}
+                        </Form.Control.Feedback>
+                      }
+                    </Form.Check>
+                  )}
+                </div>
+              </Form.Group>
+            </Form.Row>
+
+            <Form.Row>
+              <Form.Group as={Col} className="mt-3">
+                <Form.Label>
                   <span className="question">{t('leave_home')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <div className="mt-2">
@@ -472,41 +502,6 @@ class Screening extends Component {
                         </Form.Check>            
                       )}
                     </div>  
-                  </Form.Group>
-                </Form.Row>
-
-                <Form.Row>
-                  <Form.Group as={Col} className="mt-3">
-                    <Form.Label>
-                      <span className="question">{t('caretakers')}</span> <span className="pc-color-text-secondary-dark">*</span>
-                    </Form.Label>
-                    <Form.Text muted>
-                      {t('ltc_documentation')}
-                    </Form.Text>
-                    <div className="mt-2">
-                      {Object.keys(this.props.choices.caretaker).map((key, index) => 
-                        <Form.Check type="checkbox"
-                                    id={'caretakers_' + key}
-                                    key={key}
-                                    className="mb-2">
-                          <Form.Check.Input 
-                                    type="checkbox" 
-                                    name="caretakers"
-                                    value={key}
-                                    isInvalid={touched.caretakers && !!errors.caretakers}
-                                    onChange={handleChange}
-                                    checked={values.caretakers.includes(key.toString())}/>
-                          <Form.Check.Label>
-                            { this.props.language === 'es' ? this.props.choices.caretaker[key].esp : this.props.choices.caretaker[key].eng}
-                          </Form.Check.Label>
-                          { index === Object.keys(this.props.choices.caretaker).length - 1 && 
-                            <Form.Control.Feedback type="invalid">
-                              {errors.caretakers}
-                            </Form.Control.Feedback>
-                          }  
-                        </Form.Check>            
-                      )}
-                    </div>
                   </Form.Group>
                 </Form.Row>
 
