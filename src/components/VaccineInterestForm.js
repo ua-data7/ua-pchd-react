@@ -205,6 +205,7 @@ class VaccineInterestForm extends Component {
       received_first_dose: start.received_first_dose === 'true' ? true : false,
       congregate_housing: parseInt(screening.congregate_housing),
       ahcccs: parseInt(screening.accchs),
+      ltc: parseInt(screening.ltc),
       occupation: screening.occupation ? parseInt(screening.occupation) : 0,
       disability: parseInt(screening.disability),
       leave_home: parseInt(screening.leave_home),
