@@ -44,7 +44,14 @@ const BirthdayCheck = (props) => {
           var age = moment().diff(date, 'years');
           if (age < 16) {
             setFieldValue('dob', null);
-            setStatus({dob_valid: language === 'en' ?  'Persons under the age of 16 are not eligible for the vaccine.' : 'Personas menores de 16 años de edad no son elegibles para recibir la vacuna.'});
+            setStatus({
+              dob_valid: language === 'en' ?  'Persons under the age of 16 are not eligible for the vaccine.' : 'Personas menores de 16 años de edad no son elegibles para recibir la vacuna.'
+            });
+          } else if (age < 18) {
+            setFieldValue('dob', null);
+            setStatus({
+              dob_valid: language === 'en' ?  'Only Pfizer is approved for those 16+ and is not available at this site at this time. Please go back and register with Banner or a State POD for vaccination.' : 'Solo Pfizer está aprobado para mayores de 16 años y no está disponible en este sitio al momento. Favor de registrarse en Banner o en el sitio de vacuna estatal.'
+            });  
           } else if (age > 120) {
             setFieldValue('dob', null);
             setStatus({
