@@ -18,7 +18,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { CalendarEvent, ArrowRight } from 'react-bootstrap-icons';
 
-
+var pimaLink;
 /**
  * After user has entered values for all birthday fields:
  * - Check if date entered is a valid date
@@ -47,24 +47,29 @@ const BirthdayCheck = (props) => {
             setStatus({
               dob_valid: language === 'en' ?  'Persons under the age of 16 are not eligible for the vaccine.' : 'Personas menores de 16 años de edad no son elegibles para recibir la vacuna.'
             });
+            pimaLink='';
           } else if (age < 18) {
             setFieldValue('dob', null);
             setStatus({
               dob_valid: language === 'en' ?  'Only Pfizer is approved for those 16+ and is not available at this site at this time. Please go back and register with Banner or a State POD for vaccination.' : 'Solo Pfizer está aprobado para mayores de 16 años y no está disponible en este sitio al momento. Favor de registrarse en Banner o en el sitio de vacuna estatal.'
-            });  
+            }); 
+            pimaLink= language === 'en' ? 'Go back to Pima County registration page' : 'Por favor regrese a la pagina de registro del condado de Pima'; 
           } else if (age > 120) {
             setFieldValue('dob', null);
             setStatus({
               dob_valid: language === 'en' ?  'Please check the birthday provided and correct any errors.' : 'Favor de verificar la fecha de nacimiento proporcionada y corrija cualquier error.'
             });
+            pimaLink='';
           } else {
             setFieldValue('age',  age);
             setFieldValue('dob',  date);  
             setStatus({dob_valid: ''}); 
+            pimaLink='';
           }  
         } else {
           setStatus({dob_valid: language === 'en' ?  'Please check the birthday provided and correct any errors.' : 'Favor de verificar la fecha de nacimiento proporcionada y corrija cualquier error.'});
           setFieldValue('dob', null);
+          pimaLink='';
         }
         
       }
@@ -410,14 +415,14 @@ function Start(props) {
                     {errors.dob_year}
                   </Form.Control.Feedback>
                 </Col>
-                <Form.Group as={Col} md="12">
+                <Form.Group as={Col} md="12"> 
                   <Form.Text muted className="pl-1">
                     {t('dob_help_text')}
                   </Form.Text>
                   <Form.Text className="pl-1">
                     { status.dob_valid &&
                       <span className="pc-color-text-secondary-dark">
-                        {status.dob_valid}
+                        {[status.dob_valid, <span>&nbsp;&nbsp;<a href="https://webcms.pima.gov/cms/One.aspx?pageId=669257" className="health-link-decoration">{pimaLink}</a></span>]}
                       </span>
                     }
                   </Form.Text>
