@@ -233,11 +233,11 @@ class VaccineInterestForm extends Component {
     }
 
     if (screening.work_on_site) {
-      payload['work_on_site'] = parseInt(screening.work_on_site);
+      payload['work_on_site'] = '';
     }
 
     if (screening.work_proximity) {
-      payload['work_proximity'] = parseInt(screening.work_proximity);
+     payload['work_proximity'] = '';
     }
 
     if (screening.caretakers) {

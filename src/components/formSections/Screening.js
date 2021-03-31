@@ -38,10 +38,6 @@ class Screening extends Component {
       ltc: yup
         .string()
         .required(requiredMessage),
-      work_on_site: yup
-        .string(),
-      work_proximity: yup
-        .string(),
       health_conditions: yup
         .array(),
       disability: yup
@@ -260,70 +256,6 @@ class Screening extends Component {
                       { index === Object.keys(this.props.choices.ahcccs).length - 1 && 
                         <Form.Control.Feedback type="invalid">
                           {errors.accchs}
-                        </Form.Control.Feedback>
-                      } 
-                    </Form.Check>            
-                  )}
-                </div>  
-              </Form.Group>
-            </Form.Row>
-
-            <Form.Row>
-              <Form.Group as={Col} className="mt-3">
-                <Form.Label>
-                  <span className="question">{t('work_on_site')}</span>
-                </Form.Label>
-                <div className="mt-2">
-                  {Object.keys(this.props.choices.work_on_site).map((key, index) => 
-                    <Form.Check type="radio"
-                                id={'work_on_site_' + key}
-                                key={key}
-                                className="mb-2">
-                      <Form.Check.Input 
-                                type="radio" 
-                                name="work_on_site"
-                                value={key}
-                                isInvalid={touched.work_on_site && !!errors.work_on_site}
-                                onChange={handleChange}
-                                checked={values.work_on_site === key}/>
-                      <Form.Check.Label>
-                        { this.props.language === 'es' ? this.props.choices.work_on_site[key].esp : this.props.choices.work_on_site[key].eng}
-                      </Form.Check.Label> 
-                      { index === Object.keys(this.props.choices.work_on_site).length - 1 && 
-                        <Form.Control.Feedback type="invalid">
-                          {errors.work_on_site}
-                        </Form.Control.Feedback>
-                      } 
-                    </Form.Check>            
-                  )}
-                </div>  
-              </Form.Group>
-            </Form.Row>
-
-            <Form.Row>
-              <Form.Group as={Col} className="mt-3">
-                <Form.Label>
-                  <span className="question">{t('work_proximity')}</span>
-                </Form.Label>
-                <div className="mt-2">
-                  {Object.keys(this.props.choices.work_proximity).map((key, index) => 
-                    <Form.Check type="radio"
-                                id={'work_proximity_' + key}
-                                key={key}
-                                className="mb-2">
-                      <Form.Check.Input 
-                                type="radio" 
-                                name="work_proximity"
-                                value={key}
-                                isInvalid={touched.work_proximity && !!errors.work_proximity}
-                                onChange={handleChange}
-                                checked={values.work_proximity === key}/>
-                      <Form.Check.Label>
-                        { this.props.language === 'es' ? this.props.choices.work_proximity[key].esp : this.props.choices.work_proximity[key].eng}
-                      </Form.Check.Label> 
-                      { index === Object.keys(this.props.choices.work_proximity).length - 1 && 
-                        <Form.Control.Feedback type="invalid">
-                          {errors.work_proximity}
                         </Form.Control.Feedback>
                       } 
                     </Form.Check>            
