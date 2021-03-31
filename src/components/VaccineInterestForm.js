@@ -203,11 +203,11 @@ class VaccineInterestForm extends Component {
       zip: start.zip,
       phone: start.phone,
       received_first_dose: start.received_first_dose === 'true' ? true : false,
-      congregate_housing: parseInt(screening.congregate_housing),
-      ahcccs: parseInt(screening.accchs),
-      ltc: parseInt(screening.ltc),
+      congregate_housing: 9,
+      ahcccs: 0,
+      ltc: 0,
       occupation: screening.occupation ? parseInt(screening.occupation) : 0,
-      disability: parseInt(screening.disability),
+      disability: 0,
       leave_home: parseInt(screening.leave_home),
     };
 
@@ -228,21 +228,23 @@ class VaccineInterestForm extends Component {
       payload['vaccine_type'] = parseInt(start.vaccine_type)
     }
 
-    if (screening.health_conditions.length) {
-      payload['health_conditions'] = screening.health_conditions.map(val => parseInt(val, 10))
-    }
+    // payload['health_conditions'] = 0;
 
-    if (screening.work_on_site) {
-      payload['work_on_site'] = '';
-    }
+    // if (screening.work_on_site) {
+      // payload['work_on_site'] = '';
+    // }
 
-    if (screening.work_proximity) {
-     payload['work_proximity'] = '';
-    }
+    // if (screening.work_proximity) {
+    //  payload['work_proximity'] = '';
+    // }
 
-    if (screening.caretakers) {
-      payload['caretakers'] = screening.caretakers.map(val => parseInt(val, 10))
-    }
+    console.log(screening.caretakers)
+    console.log(screening.caretakers.map(val => parseInt(val, 10)))
+    payload['caretakers'] = [7]
+    
+    // if (screening.caretakers) {
+    //   payload['caretakers'] = screening.caretakers.map(val => parseInt(val, 10))
+    // }
 
     if (screening.leave_home === '0') {
       let homebound = {

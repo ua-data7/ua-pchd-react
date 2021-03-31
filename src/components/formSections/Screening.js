@@ -29,20 +29,20 @@ class Screening extends Component {
     const requiredMessage = (language === 'en' ?  'Required.' : 'Obligatorio.');
 
     const schema = yup.object({
-      congregate_housing: yup
-        .string()
-        .required(requiredMessage),
-      accchs: yup
-        .string()
-        .required(requiredMessage),
-      ltc: yup
-        .string()
-        .required(requiredMessage),
-      health_conditions: yup
-        .array(),
-      disability: yup
-        .string()
-        .required(requiredMessage),
+      // congregate_housing: yup
+      //   .string()
+      //   .required(requiredMessage),
+      // accchs: yup
+      //   .string()
+      //   .required(requiredMessage),
+      // ltc: yup
+      //   .string()
+      //   .required(requiredMessage),
+      // health_conditions: yup
+      //   .array(),
+      // disability: yup
+      //   .string()
+      //   .required(requiredMessage),
       leave_home: yup
         .string()
         .required(requiredMessage),
@@ -119,14 +119,12 @@ class Screening extends Component {
       }
     } else {
       initialValues = {
-        congregate_housing: "",
-        accchs: "",
-        ltc: "",
-        work_on_site: "",
-        work_proximity: "",
-        health_conditions: [],
-        health_conditions_none: false,
-        disability: "",
+        // congregate_housing: "",
+        // accchs: "",
+        // ltc: "",
+        // health_conditions: [],
+        // health_conditions_none: false,
+        // disability: "",
         leave_home: "",
         transportation: "",
         caretakers: [],
@@ -168,7 +166,7 @@ class Screening extends Component {
           <Form noValidate onSubmit={handleSubmit} autoComplete="off" context={ age }>
             {/* <p>All questions with * are required.</p> */}
             
-            <Form.Row className="mt-5">
+            {/* <Form.Row className="mt-5">
               <Form.Group as={Col}>
                 <Form.Label>
                   <span className="question">{t('congregate_housing_status')}</span> <span className="pc-color-text-secondary-dark">*</span>
@@ -198,9 +196,9 @@ class Screening extends Component {
                   )}
                 </div>  
               </Form.Group>
-            </Form.Row>
+            </Form.Row> */}
 
-            <Form.Row>
+            {/* <Form.Row>
               <Form.Group as={Col} className="mt-3">
                 <Form.Label>
                   <span className="question">{t('ltc_status')}</span> <span className="pc-color-text-secondary-dark">*</span>
@@ -230,9 +228,9 @@ class Screening extends Component {
                   )}
                 </div>  
               </Form.Group>
-            </Form.Row>
+            </Form.Row> */}
 
-            <Form.Row>
+            {/* <Form.Row>
               <Form.Group as={Col} className="mt-3">
                 <Form.Label>
                   <span className="question">{t('accchs_status')}</span> <span className="pc-color-text-secondary-dark">*</span>
@@ -262,9 +260,9 @@ class Screening extends Component {
                   )}
                 </div>  
               </Form.Group>
-            </Form.Row>
+            </Form.Row> */}
 
-            <Form.Row>
+            {/* <Form.Row>
               <Form.Group as={Col} className="mt-3">
                 <Form.Label>
                   <span className="question">{t('health_conditions')}</span>
@@ -303,9 +301,9 @@ class Screening extends Component {
                   </Form.Check> 
                 </div>
               </Form.Group>
-            </Form.Row>
+            </Form.Row> */}
 
-            <Form.Row>
+            {/* <Form.Row>
               <Form.Group as={Col} className="mt-3">
                 <Form.Label>
                   <span className="question">{t('disability')}</span> <span className="pc-color-text-secondary-dark">*</span>
@@ -335,7 +333,7 @@ class Screening extends Component {
                   )}
                 </div>  
               </Form.Group>
-            </Form.Row>
+            </Form.Row> */}
 
             <Form.Row>
               <Form.Group as={Col} className="mt-3">
