@@ -29,20 +29,6 @@ class Screening extends Component {
     const requiredMessage = (language === 'en' ?  'Required.' : 'Obligatorio.');
 
     const schema = yup.object({
-      // congregate_housing: yup
-      //   .string()
-      //   .required(requiredMessage),
-      // accchs: yup
-      //   .string()
-      //   .required(requiredMessage),
-      // ltc: yup
-      //   .string()
-      //   .required(requiredMessage),
-      // health_conditions: yup
-      //   .array(),
-      // disability: yup
-      //   .string()
-      //   .required(requiredMessage),
       leave_home: yup
         .string()
         .required(requiredMessage),
@@ -52,10 +38,6 @@ class Screening extends Component {
           is: "0",
           then: yup.string().required(requiredMessage)
         }),
-      caretakers: yup
-        .array()
-        .min(1, requiredMessage)
-        .required(requiredMessage),
       pref_contact: yup
         .string()
         .when("leave_home", {
@@ -119,15 +101,8 @@ class Screening extends Component {
       }
     } else {
       initialValues = {
-        // congregate_housing: "",
-        // accchs: "",
-        // ltc: "",
-        // health_conditions: [],
-        // health_conditions_none: false,
-        // disability: "",
         leave_home: "",
         transportation: "",
-        caretakers: [],
         pref_contact: "",
         rep_first_name: "",
         rep_last_name: "",
@@ -164,212 +139,9 @@ class Screening extends Component {
           </Button>
 
           <Form noValidate onSubmit={handleSubmit} autoComplete="off" context={ age }>
-            {/* <p>All questions with * are required.</p> */}
+            <p>All questions with * are required.</p>
             
-            {/* <Form.Row className="mt-5">
-              <Form.Group as={Col}>
-                <Form.Label>
-                  <span className="question">{t('congregate_housing_status')}</span> <span className="pc-color-text-secondary-dark">*</span>
-                </Form.Label>
-                <div className="mt-3">
-                  {Object.keys(this.props.choices.congregate).map((key, index) => 
-                    <Form.Check type="radio"
-                                id={'congregate_housing_' + key}
-                                key={key}
-                                className="mb-2">
-                      <Form.Check.Input 
-                                type="radio" 
-                                name="congregate_housing"
-                                value={key}
-                                isInvalid={touched.congregate_housing && !!errors.congregate_housing}
-                                onChange={handleChange}
-                                checked={values.congregate_housing === key}/>
-                      <Form.Check.Label>
-                        { this.props.language === 'es' ? this.props.choices.congregate[key].esp : this.props.choices.congregate[key].eng}
-                      </Form.Check.Label> 
-                      { index === Object.keys(this.props.choices.congregate).length - 1 && 
-                        <Form.Control.Feedback type="invalid">
-                          {errors.congregate_housing}
-                        </Form.Control.Feedback>
-                      } 
-                    </Form.Check>            
-                  )}
-                </div>  
-              </Form.Group>
-            </Form.Row> */}
-
-            {/* <Form.Row>
-              <Form.Group as={Col} className="mt-3">
-                <Form.Label>
-                  <span className="question">{t('ltc_status')}</span> <span className="pc-color-text-secondary-dark">*</span>
-                </Form.Label>
-                <div className="mt-2">
-                  {Object.keys(this.props.choices.ltc).map((key, index) => 
-                    <Form.Check type="radio"
-                                id={'ltc_' + key}
-                                key={key}
-                                className="mb-2">
-                      <Form.Check.Input 
-                                type="radio" 
-                                name="ltc"
-                                value={key}
-                                isInvalid={touched.ltc && !!errors.ltc}
-                                onChange={handleChange}
-                                checked={values.ltc === key}/>
-                      <Form.Check.Label>
-                        { this.props.language === 'es' ? this.props.choices.ltc[key].esp : this.props.choices.ltc[key].eng}
-                      </Form.Check.Label> 
-                      { index === Object.keys(this.props.choices.ltc).length - 1 && 
-                        <Form.Control.Feedback type="invalid">
-                          {errors.ltc}
-                        </Form.Control.Feedback>
-                      } 
-                    </Form.Check>            
-                  )}
-                </div>  
-              </Form.Group>
-            </Form.Row> */}
-
-            {/* <Form.Row>
-              <Form.Group as={Col} className="mt-3">
-                <Form.Label>
-                  <span className="question">{t('accchs_status')}</span> <span className="pc-color-text-secondary-dark">*</span>
-                </Form.Label>
-                <div className="mt-2">
-                  {Object.keys(this.props.choices.ahcccs).map((key, index) => 
-                    <Form.Check type="radio"
-                                id={'accchs_' + key}
-                                key={key}
-                                className="mb-2">
-                      <Form.Check.Input 
-                                type="radio" 
-                                name="accchs"
-                                value={key}
-                                isInvalid={touched.accchs && !!errors.accchs}
-                                onChange={handleChange}
-                                checked={values.accchs === key}/>
-                      <Form.Check.Label>
-                        { this.props.language === 'es' ? this.props.choices.ahcccs[key].esp : this.props.choices.ahcccs[key].eng}
-                      </Form.Check.Label> 
-                      { index === Object.keys(this.props.choices.ahcccs).length - 1 && 
-                        <Form.Control.Feedback type="invalid">
-                          {errors.accchs}
-                        </Form.Control.Feedback>
-                      } 
-                    </Form.Check>            
-                  )}
-                </div>  
-              </Form.Group>
-            </Form.Row> */}
-
-            {/* <Form.Row>
-              <Form.Group as={Col} className="mt-3">
-                <Form.Label>
-                  <span className="question">{t('health_conditions')}</span>
-                </Form.Label>
-                <div className="mt-2">
-                  {Object.keys(this.props.choices.health_conditions).map((key, index) => 
-                    <Form.Check type="checkbox"
-                                id={'health_conditions_' + key}
-                                key={key}
-                                className="mb-2">
-                      <Form.Check.Input 
-                                type="checkbox" 
-                                name="health_conditions"
-                                value={key}
-                                isInvalid={touched.health_conditions && !!errors.health_conditions}
-                                onChange={handleChange}
-                                checked={values.health_conditions.includes(key.toString())}/>
-                      <Form.Check.Label>
-                        { this.props.language === 'es' ? this.props.choices.health_conditions[key].esp : this.props.choices.health_conditions[key].eng}
-                      </Form.Check.Label> 
-                    </Form.Check>            
-                  )}
-
-                  <Form.Check type="checkbox"
-                              id="health_conditions_none"
-                              className="mb-2">
-                    <Form.Check.Input 
-                        type="checkbox" 
-                        name="health_conditions_none"
-                        value={true}
-                        onChange={handleChange}
-                        checked={values.health_conditions_none}/>
-                    <Form.Check.Label>
-                      {t('none_of_above')}
-                    </Form.Check.Label>
-                  </Form.Check> 
-                </div>
-              </Form.Group>
-            </Form.Row> */}
-
-            {/* <Form.Row>
-              <Form.Group as={Col} className="mt-3">
-                <Form.Label>
-                  <span className="question">{t('disability')}</span> <span className="pc-color-text-secondary-dark">*</span>
-                </Form.Label>
-                <div className="mt-2">
-                  {Object.keys(this.props.choices.disability).map((key, index) => 
-                    <Form.Check type="radio"
-                                id={'disability_' + key}
-                                key={key}
-                                className="mb-2">
-                      <Form.Check.Input 
-                                type="radio" 
-                                name="disability"
-                                value={key}
-                                isInvalid={touched.disability && !!errors.disability}
-                                onChange={handleChange}
-                                checked={values.disability === key}/>
-                      <Form.Check.Label>
-                        { this.props.language === 'es' ? this.props.choices.disability[key].esp : this.props.choices.disability[key].eng}
-                      </Form.Check.Label> 
-                      { index === Object.keys(this.props.choices.disability).length - 1 && 
-                        <Form.Control.Feedback type="invalid">
-                          {errors.disability}
-                        </Form.Control.Feedback>
-                      } 
-                    </Form.Check>            
-                  )}
-                </div>  
-              </Form.Group>
-            </Form.Row> */}
-
-            <Form.Row>
-              <Form.Group as={Col} className="mt-3">
-                <Form.Label>
-                  <span className="question">{t('caretakers')}</span> <span className="pc-color-text-secondary-dark">*</span>
-                </Form.Label>
-                <Form.Text muted>
-                  {t('ltc_documentation')}
-                </Form.Text>
-                <div className="mt-2">
-                  {Object.keys(this.props.choices.caretaker).map((key, index) =>
-                    <Form.Check type="checkbox"
-                      id={'caretakers_' + key}
-                      key={key}
-                      className="mb-2">
-                      <Form.Check.Input
-                        type="checkbox"
-                        name="caretakers"
-                        value={key}
-                        isInvalid={touched.caretakers && !!errors.caretakers}
-                        onChange={handleChange}
-                        checked={values.caretakers.includes(key.toString())} />
-                      <Form.Check.Label>
-                        {this.props.language === 'es' ? this.props.choices.caretaker[key].esp : this.props.choices.caretaker[key].eng}
-                      </Form.Check.Label>
-                      {index === Object.keys(this.props.choices.caretaker).length - 1 &&
-                        <Form.Control.Feedback type="invalid">
-                          {errors.caretakers}
-                        </Form.Control.Feedback>
-                      }
-                    </Form.Check>
-                  )}
-                </div>
-              </Form.Group>
-            </Form.Row>
-
+ 
             <Form.Row>
               <Form.Group as={Col} className="mt-3">
                 <Form.Label>
@@ -561,107 +333,21 @@ class Screening extends Component {
                 
                 
                 }
-              
-              
-              
-              
-              </>
-            }
-            
-            { values.leave_home === '1' && this.props.age < age_threshold ?
-              <>
-                <Form.Row>
-                  <Form.Group as={Col} className="mt-3">
-                    <Form.Label>
-                      <span className="question">{t('occupation_screening')}</span> <span className="pc-color-text-secondary-dark">*</span>
-                    </Form.Label>
-                    <div className="mt-2">
-                      {Object.keys(this.props.choices.occupations).map((key, index) => 
-                        <Form.Check type="radio"
-                                    id={'occupation_' + key}
-                                    key={key}
-                                    className="mb-2">
-                          <Form.Check.Input 
-                                    type="radio" 
-                                    name="occupation"
-                                    value={key}
-                                    isInvalid={touched.occupation && !!errors.occupation}
-                                    onChange={handleChange}
-                                    checked={values.occupation === key}/>
-                          <Form.Check.Label>
-                            { this.props.language === 'es' ? this.props.choices.occupations[key].esp : this.props.choices.occupations[key].eng}
-                          </Form.Check.Label> 
-                          { index === Object.keys(this.props.choices.occupations).length - 1 && 
-                            <Form.Control.Feedback type="invalid">
-                              {errors.occupation}
-                            </Form.Control.Feedback>
-                          } 
-                        </Form.Check>            
-                      )}
-                    </div>
-                  </Form.Group>
-                </Form.Row>
-                {
-                  values.occupation === '8' ?
-                    <>
-                      { this.props.authz ? 
-                        <Button variant="primary"
-                                type="submit"
-                                className="mt-4 mb-5"
-                                disabled={ this.props.submitting }>
-                          {t('submit')} <Check></Check>
-                        </Button>
-                      :
-                        <>
-                          <ReCAPTCHA
-                            sitekey={recaptcha_site_key}
-                            onChange={this.props.onCaptchaUpdate}
-                            className="mt-3"
-                          />
-                          <Button variant="primary"
-                                  type="submit"
-                                  className="mt-4 mb-5"
-                                  disabled={this.props.captcha === null || this.props.submitting }>
-                            {t('submit')} <Check></Check>
-                          </Button>
-                        </>
-                      }
-                    </>
-                  :
-                    <>
-                      <Button variant="primary" type="submit" className="mt-5 mb-5">
-                        {t('next')} <ArrowRight></ArrowRight>
-                      </Button>
-                    </>
-                }  
-              </>
-              :
-              <>
-                { this.props.authz ? 
-                  <Button variant="primary"
-                          type="submit"
-                          className="mt-4 mb-5"
-                          disabled={ this.props.submitting }>
-                    {t('submit')} <Check></Check>
-                  </Button>
-                :
-                  <>
-                    <ReCAPTCHA
-                      sitekey={recaptcha_site_key}
-                      onChange={this.props.onCaptchaUpdate}
-                      className="mt-3"
-                    />
-                    <Button variant="primary"
-                            type="submit"
-                            className="mt-4 mb-5"
-                            disabled={this.props.captcha === null || this.props.submitting }>
-                      {t('submit')} <Check></Check>
-                    </Button>
-                  </>
-                } 
-              </>
-            }
 
+              </>
+            }
+            <ReCAPTCHA
+              sitekey={recaptcha_site_key}
+              onChange={this.props.onCaptchaUpdate}
+              className="mt-3"
+            />
+            <Button variant="primary"
+                    type="submit"
+                    className="mt-4 mb-5"
+                    disabled={this.props.captcha === null || this.props.submitting }>
+              {t('submit')} <Check></Check>
+            </Button> 
+           
             <FormikErrorFocus/>
           </Form>
           </>
