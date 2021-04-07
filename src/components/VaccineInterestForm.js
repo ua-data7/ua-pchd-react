@@ -7,11 +7,6 @@ import Cookies from 'js-cookie';
 
 import Start from './formSections/Start';
 import Screening from "./formSections/Screening";
-import Educator from "./formSections/Educator";
-import ChildcareProvider from "./formSections/ChildcareProvider";
-import ProtectiveServices from "./formSections/ProtectiveServices";
-import EssentialServices from "./formSections/EssentialServices";
-import Healthcare from "./formSections/Healthcare";
 import Confirmation from "./formSections/Confirmation";
 
 
@@ -300,86 +295,6 @@ class VaccineInterestForm extends Component {
     );
   }
 
-  renderEducator() {
-    return (
-      <Educator language={this.props.language}
-                choices={this.state.choices}
-                handleSubmit={this.handleSubmit}
-                onCaptchaUpdate={this.onCaptchaUpdate}
-                captcha={this.state.captcha}
-                updateStep={this.updateStep}
-                submitting={this.state.submitting}
-                prevStep={this.prevStep}
-                educators={this.state.educators}
-                authz={this.props.authz}>            
-      </Educator>
-    );
-  }
-
-  renderChildcare() {
-    return (
-      <ChildcareProvider language={this.props.language}
-                         choices={this.state.choices}
-                         handleSubmit={this.handleSubmit}
-                         onCaptchaUpdate={this.onCaptchaUpdate}
-                         captcha={this.state.captcha}
-                         updateStep={this.updateStep}
-                         submitting={this.state.submitting}
-                         prevStep={this.prevStep}
-                         childcare_providers={this.state.childcare_providers}
-                         authz={this.props.authz}>            
-      </ChildcareProvider>
-    );
-  }
-
-  renderProtectiveServices() {
-    return (
-      <ProtectiveServices language={this.props.language}
-                          choices={this.state.choices}
-                          handleSubmit={this.handleSubmit}
-                          onCaptchaUpdate={this.onCaptchaUpdate}
-                          captcha={this.state.captcha}
-                          updateStep={this.updateStep}
-                          submitting={this.state.submitting}
-                          prevStep={this.prevStep}
-                          protective_services={this.state.protective_services}
-                          authz={this.props.authz}>            
-      </ProtectiveServices>
-    );
-  }
-
-  renderEssentialServices() {
-    return (
-      <EssentialServices language={this.props.language}
-                         choices={this.state.choices}
-                         handleSubmit={this.handleSubmit}
-                         onCaptchaUpdate={this.onCaptchaUpdate}
-                         captcha={this.state.captcha}
-                         updateStep={this.updateStep}
-                         submitting={this.state.submitting}
-                         prevStep={this.prevStep}
-                         essential_workers={this.state.essential_workers}
-                         authz={this.props.authz}>            
-      </EssentialServices>
-    );
-  }
-
-  renderHealthcare() {
-    return (
-      <Healthcare language={this.props.language}
-                  choices={this.state.choices}
-                  handleSubmit={this.handleSubmit}
-                  onCaptchaUpdate={this.onCaptchaUpdate}
-                  captcha={this.state.captcha}
-                  updateStep={this.updateStep}
-                  submitting={this.state.submitting}
-                  prevStep={this.prevStep}
-                  healthcare_workers={this.state.healthcare_workers}
-                  authz={this.props.authz}>            
-      </Healthcare>
-    );
-  }
-
   renderConfirmation() {
     return (
       <Confirmation></Confirmation>
@@ -422,11 +337,6 @@ class VaccineInterestForm extends Component {
           <>
             {step === 'start' &&  this.renderStart()}
             {step === 'screening' &&  this.renderScreening()}
-            {step === 'educators' &&  this.renderEducator()}
-            {step === 'childcare_providers' &&  this.renderChildcare()}
-            {step === 'protective_services' &&  this.renderProtectiveServices()}
-            {step === 'essential_workers' &&  this.renderEssentialServices()}
-            {step === 'healthcare_workers' &&  this.renderHealthcare()} 
             {step === 'confirmation' &&  this.renderConfirmation()} 
           </>
         }
