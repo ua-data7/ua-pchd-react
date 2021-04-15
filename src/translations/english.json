@@ -90,5 +90,7 @@
     "disability": "Do you have a disability as defined by the Americans with Disabilities Act (ADA), including intellectual/developmental, physical, mental health, and/or sensory disability?",
     "pref_contact": "What is the best way for the Pima County Health Department to contact you? (select one)",
     "representative_contact": "My representative's contact information:",
-    "ltc_documentation": "Documentation showing eligibility required, such as ALTCS/AHCCCS/SSDI/SSI/long term care insurance/provider letter."
+    "ltc_documentation": "Documentation showing eligibility required, such as ALTCS/AHCCCS/SSDI/SSI/long term care insurance/provider letter.",
+    "pima_link" : "Go back to Pima County registration page",
+    "is_homebound": "Please go back and register with Banner or Tucson Medical Center for vaccination."
 }
