@@ -126,6 +126,7 @@ class Screening extends Component {
           handleBlur,
           setFieldValue,
           setFieldTouched,
+          setStatus,
           values,
           touched,
           isValid,
@@ -176,7 +177,14 @@ class Screening extends Component {
                 </div>  
               </Form.Group>
             </Form.Row>
-
+ 
+            {values.leave_home === '1' &&
+              <>
+                <span className="pc-color-text-secondary-dark">{t('is_homebound')}
+                  <span>&nbsp;&nbsp;<a href="https://webcms.pima.gov/cms/One.aspx?pageId=669257" className="health-link-decoration">{t('pima_link')}</a></span>
+                </span>
+              </>
+            }        
             { values.leave_home === '0' && 
               <>
                 <Form.Row>
@@ -333,21 +341,19 @@ class Screening extends Component {
                 
                 
                 }
-
-              </>
+                <ReCAPTCHA
+                  sitekey={recaptcha_site_key}
+                  onChange={this.props.onCaptchaUpdate}
+                  className="mt-3"
+                />
+                <Button variant="primary"
+                        type="submit"
+                        className="mt-4 mb-5"
+                        disabled={this.props.captcha === null || this.props.submitting }>
+                  {t('submit')} <Check></Check>
+                </Button> 
+            </>
             }
-            <ReCAPTCHA
-              sitekey={recaptcha_site_key}
-              onChange={this.props.onCaptchaUpdate}
-              className="mt-3"
-            />
-            <Button variant="primary"
-                    type="submit"
-                    className="mt-4 mb-5"
-                    disabled={this.props.captcha === null || this.props.submitting }>
-              {t('submit')} <Check></Check>
-            </Button> 
-           
             <FormikErrorFocus/>
           </Form>
           </>
