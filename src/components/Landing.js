@@ -39,7 +39,7 @@ class Landing extends Component {
           </h4>
 
           <p>
-            Completing this form will only register your interest to receive the COVID-19 vaccine. <b>You do not have an appointment for the vaccine at this time.</b> After your eligibility has been verified, you will receive a separate email from Pima County with further details on how to schedule an appointment via MyChart to receive the vaccine.
+            Completing this form will only register your interest to receive the COVID-19 vaccine. <b>You do not have an appointment for the vaccine at this time.</b> This interest form is intended for those <b>unable</b> to leave home to receive a vaccine.  This may be due to the taxing effort it would require to leave home, or because your doctor has indicated your health or illness could worsen by leaving home.  If you are able to leave home for vaccination, please go back and register with Banner or Tucson Medical Center. 
           </p>
           <p>      
             Completar este formulario solo registrará su interés en recibir la vacuna para COVID-19. <b>No tiene cita para la vacuna en este momento.</b> Una vez que se verifique su elegibilidad, recibirá un correo electrónico del Condado de Pima con más detalles sobre cómo programar su cita por medio de MyChart para recibir la vacuna.

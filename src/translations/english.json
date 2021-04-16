@@ -2,7 +2,7 @@
     "form_title": "Pima County Vaccine Interest Form",
     "form_instructions": "Complete the questionaire below.",
     "form_instructions_2": "Please do not register more than once.",
-    "form_disclaimer": "Completing this form will only register your interest to receive the COVID-19 vaccine. You do not have an appointment for the vaccine at this time. After your eligibility has been verified, you will receive a separate email from Pima County with further details on how to schedule an appointment via MyChart to receive the vaccine.",
+    "form_disclaimer": "Completing this form will only register your interest to receive the COVID-19 vaccine. You do not have an appointment for the vaccine at this time. The Pima County Health Department will reach out to you directly to coordinate your vaccine appointment.  It may be several weeks until we contact you, so we appreciate your patience. ",
     "first_name": "First Name",
     "middle_name": "Middle Name",
     "last_name": "Last Name",
