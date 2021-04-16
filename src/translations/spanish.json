@@ -1,8 +1,8 @@
 {
-    "form_title": "Pima County Vaccine Interest Form",
-    "form_instructions": "Favor de completar el siguiente cuestionario.",
-    "form_instructions_2": "Por favor no se registre más de una vez.",
-    "form_disclaimer": "Completar este formulario solo registrará su interés en recibir la vacuna para COVID-19. No tiene cita para la vacuna en este momento. Una vez que se verifique su elegibilidad, recibirá un correo electrónico del Condado de Pima con más detalles sobre cómo programar su cita por medio de MyChart para recibir la vacuna.",
+    "form_title": "Formulario de interés en vacunas en el hogar del condado Pima",
+    "form_instructions": "Complete el cuestionario a continuación.",
+    "form_instructions_2": "Favor de no registrarse más de una vez.",
+    "form_disclaimer": "Al completar este formulario, solo indicará su interés en recibir la vacuna contra el COVID-19. Usted no tiene una cita para la vacuna en este momento. El Departamento de Salud del Condado Pima se comunicará con usted directamente para coordinar su cita de vacunación. Pueden pasar varias semanas hasta que nos comuniquemos con usted, por lo que agradecemos su paciencia.",
     "first_name": "Nombre",
     "middle_name": "Segundo Nombre",
     "last_name": "Apellido",
