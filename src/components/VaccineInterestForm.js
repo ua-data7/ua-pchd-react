@@ -289,7 +289,6 @@ class VaccineInterestForm extends Component {
                  captcha={this.state.captcha}
                  submitting={this.state.submitting}
                  prevStep={this.prevStep}
-                 screening={this.state.screening}
                  authz={this.props.authz}>
       </Screening>
     );

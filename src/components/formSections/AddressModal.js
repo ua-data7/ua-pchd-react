@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next';
 
 function AddressModal(props) {
 
-  const { t, language } = props;
+  const { t } = props;
   const [selectedAddress, setSelectedAddress] = useState(null);
 
   // const testAddresses = [

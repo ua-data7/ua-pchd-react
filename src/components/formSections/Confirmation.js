@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Button, Form, Col } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
 
 class Confirmation extends Component {

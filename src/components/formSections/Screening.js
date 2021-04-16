@@ -9,9 +9,9 @@ import FormikErrorFocus from "../FormikErrorFocus";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/bootstrap.css';
 import ReCAPTCHA from "react-google-recaptcha";
-import { age_threshold, recaptcha_site_key } from "../../config";
+import { recaptcha_site_key } from "../../config";
 
-import { ArrowLeft, ArrowRight, Check } from 'react-bootstrap-icons';
+import { ArrowLeft, Check } from 'react-bootstrap-icons';
 
 class Screening extends Component {
 

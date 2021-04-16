@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Form, Col, Alert, InputGroup, Spinner } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
 import { stateOptions, monthOptions } from "./Choices";
@@ -752,7 +752,7 @@ function Start(props) {
               </>
             }
 
-            <Button className="pc-color-primary-alt-darkest" type="submit" className="mt-5">
+            <Button type="submit" className="mt-5">
               {t('next')}
               { !props.addressLoading && 
                 <ArrowRight className="ml-2"></ArrowRight>
