@@ -1,8 +1,8 @@
 {
-    "form_title": "Pima County Vaccine Interest Form",
-    "form_instructions": "Favor de completar el siguiente cuestionario.",
-    "form_instructions_2": "Por favor no se registre más de una vez.",
-    "form_disclaimer": "Completar este formulario solo registrará su interés en recibir la vacuna para COVID-19. No tiene cita para la vacuna en este momento. Una vez que se verifique su elegibilidad, recibirá un correo electrónico del Condado de Pima con más detalles sobre cómo programar su cita por medio de MyChart para recibir la vacuna.",
+    "form_title": "Formulario de interés en vacunas en el hogar del condado Pima",
+    "form_instructions": "Complete el cuestionario a continuación.",
+    "form_instructions_2": "Favor de no registrarse más de una vez.",
+    "form_disclaimer": "Al completar este formulario, solo indicará su interés en recibir la vacuna contra el COVID-19. Usted no tiene una cita para la vacuna en este momento. El Departamento de Salud del Condado Pima se comunicará con usted directamente para coordinar su cita de vacunación. Pueden pasar varias semanas hasta que nos comuniquemos con usted, por lo que agradecemos su paciencia.",
     "first_name": "Nombre",
     "middle_name": "Segundo Nombre",
     "last_name": "Apellido",
@@ -91,5 +91,7 @@
     "disability": "¿Tiene una discapacidad según lo define la Ley de Estadounidenses con Discapacidades (ADA por sus siglas en inglés), incluyendo la discapacidad intelectual/del desarrollo, física, mental y/o sensorial?",
     "pref_contact": "¿Cuál es la mejor manera para que el Departamento de Salud del Condado Pima se comunique con usted? (Seleccione uno)",
     "representative_contact": "Información de contacto de mi representante:",
-    "ltc_documentation": "Se requiere documentación que demuestra elegibilidad, como ALTCS/AHCCCS/SSDI/SSI/seguro de atención a largo plazo/carta del proveedor."
+    "ltc_documentation": "Se requiere documentación que demuestra elegibilidad, como ALTCS/AHCCCS/SSDI/SSI/seguro de atención a largo plazo/carta del proveedor.",
+    "pima_link" : "Por favor regrese a la pagina de registro del condado de Pima",
+    "is_homebound": "Por favor regrese y regístrese en Banner o Tucson Medical Center para recibir su vacuna."
 }

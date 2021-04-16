@@ -9,9 +9,9 @@ import FormikErrorFocus from "../FormikErrorFocus";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/bootstrap.css';
 import ReCAPTCHA from "react-google-recaptcha";
-import { age_threshold, recaptcha_site_key } from "../../config";
+import { recaptcha_site_key } from "../../config";
 
-import { ArrowLeft, ArrowRight, Check } from 'react-bootstrap-icons';
+import { ArrowLeft, Check } from 'react-bootstrap-icons';
 
 class Screening extends Component {
 
@@ -83,22 +83,12 @@ class Screening extends Component {
             .required(requiredMessage)
             .min(11, language === 'en' ?  'Phone number must be 10 digits.' : 'Número de teléfono debe tener 10 dígitos.'),
         }),
-      occupation: yup
-        .string()
-        .when(["$age", "leave_home"], ($age, leave_home) => {
-          if (age < age_threshold && leave_home === 1) {
-            return yup.string().required(requiredMessage)
-          }
-        }),
     });
 
     let initialValues;
 
     if (this.props.screening !== null) {
       initialValues = this.props.screening;
-      if (age >= age_threshold) {
-        initialValues['occupation'] = "";
-      }
     } else {
       initialValues = {
         leave_home: "",
@@ -108,13 +98,10 @@ class Screening extends Component {
         rep_last_name: "",
         rep_email: "",
         rep_phone: "",
-        occupation: "",
       };
     }
    
-    return (
-
-      
+    return (    
       <Formik
         validationSchema={schema}
         onSubmit={this.props.handleScreeningSubmit}
@@ -128,7 +115,6 @@ class Screening extends Component {
           setFieldTouched,
           values,
           touched,
-          isValid,
           errors,
         }) => (
 
@@ -141,7 +127,6 @@ class Screening extends Component {
           <Form noValidate onSubmit={handleSubmit} autoComplete="off" context={ age }>
             <p>All questions with * are required.</p>
             
- 
             <Form.Row>
               <Form.Group as={Col} className="mt-3">
                 <Form.Label>
@@ -160,7 +145,6 @@ class Screening extends Component {
                                 isInvalid={touched.leave_home && !!errors.leave_home}
                                 onChange={e => {
                                   setFieldValue("leave_home", e.target.value);
-                                  setFieldValue("occupation", "");
                                 }}
                                 checked={values.leave_home === key}/>
                       <Form.Check.Label>
@@ -176,7 +160,14 @@ class Screening extends Component {
                 </div>  
               </Form.Group>
             </Form.Row>
-
+ 
+            {values.leave_home === '1' &&
+              <>
+                <span className="pc-color-text-secondary-dark">{t('is_homebound')}
+                  <span>&nbsp;&nbsp;<a href="https://webcms.pima.gov/cms/One.aspx?pageId=669257" className="health-link-decoration">{t('pima_link')}</a></span>
+                </span>
+              </>
+            }        
             { values.leave_home === '0' && 
               <>
                 <Form.Row>
@@ -333,21 +324,19 @@ class Screening extends Component {
                 
                 
                 }
-
-              </>
+                <ReCAPTCHA
+                  sitekey={recaptcha_site_key}
+                  onChange={this.props.onCaptchaUpdate}
+                  className="mt-3"
+                />
+                <Button variant="primary"
+                        type="submit"
+                        className="mt-4 mb-5"
+                        disabled={this.props.captcha === null || this.props.submitting }>
+                  {t('submit')} <Check></Check>
+                </Button> 
+            </>
             }
-            <ReCAPTCHA
-              sitekey={recaptcha_site_key}
-              onChange={this.props.onCaptchaUpdate}
-              className="mt-3"
-            />
-            <Button variant="primary"
-                    type="submit"
-                    className="mt-4 mb-5"
-                    disabled={this.props.captcha === null || this.props.submitting }>
-              {t('submit')} <Check></Check>
-            </Button> 
-           
             <FormikErrorFocus/>
           </Form>
           </>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Form, Col, Alert, InputGroup, Spinner } from "react-bootstrap";
 import { withTranslation } from 'react-i18next';
 import { stateOptions, monthOptions } from "./Choices";
@@ -49,9 +49,9 @@ const BirthdayCheck = (props) => {
             });
             pimaLink='';
           } else if (age < 18) {
-            setFieldValue('dob', null);
+            setFieldValue('dob', null);                                                                                                                                                                                                                                                                       
             setStatus({
-              dob_valid: language === 'en' ?  'Only Pfizer is approved for those 16+ and is not available at this site at this time. Please go back and register with Banner or a State POD for vaccination.' : 'Solo Pfizer está aprobado para mayores de 16 años y no está disponible en este sitio al momento. Favor de registrarse en Banner o en el sitio de vacuna estatal.'
+              dob_valid: language === 'en' ?  'Only Pfizer is approved for those 16+ and is not available at this site at this time. Please go back and register with Banner or a State POD for vaccination.' : 'Solo Pfizer está aprobado para mayores de 16 años y no está disponible en este sitio al momento. Por favor regrese y regístrese en Banner o en un punto de distribución estatal de vacunas para recibir su vacuna.'
             }); 
             pimaLink= language === 'en' ? 'Go back to Pima County registration page' : 'Por favor regrese a la pagina de registro del condado de Pima'; 
           } else if (age > 120) {
@@ -752,7 +752,7 @@ function Start(props) {
               </>
             }
 
-            <Button className="pc-color-primary-alt-darkest" type="submit" className="mt-5">
+            <Button type="submit" className="mt-5">
               {t('next')}
               { !props.addressLoading && 
                 <ArrowRight className="ml-2"></ArrowRight>
