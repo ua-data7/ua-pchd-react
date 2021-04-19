@@ -149,6 +149,9 @@ function Start(props) {
     const requiredMessage = (language === 'en' ?  'Required.' : 'Obligatorio.');
 
     const vaccineInterestSchema = yup.object({
+      leave_home: yup
+        .string()
+        .required(requiredMessage),
       first_name: yup
         .string()
         .trim()
@@ -248,6 +251,7 @@ function Start(props) {
         validationSchema={vaccineInterestSchema}
         onSubmit={props.handleStartSubmit}
         initialValues={props.start !== null ? props.start : {
+          leave_home: "",
           first_name: "",
           last_name: "",
           middle_name: "",
@@ -297,477 +301,521 @@ function Start(props) {
             <p>
               <b className="pc-color-text-secondary-dark">{t('form_instructions_2')}</b>
             </p>
-            
-            <Form.Row className="mt-5">
-
-              { props.showModal && 
-                <AddressModal handleClose={props.closeAddressModal}
-                              continueAddressModal={props.continueAddressModal}
-                              show={props.showModal}
-                              addressCandidates={props.addressCandidates}
-                              start={props.start}
-                              language={props.language}>
-                </AddressModal>
-              }
-              <Form.Group as={Col} md="4" sm="6" xs="12">
-                <Form.Label>
-                  <span className="question">{t('first_name')}</span> <span className="pc-color-text-secondary-dark">*</span>
-                </Form.Label>
-                <Form.Control placeholder={t('first_name')}
-                              name="first_name"
-                              onChange={event => setFieldValue("first_name", event.target.value.replace(/[^a-zA-Z\s]/g,''))}
-                              value={values.first_name}
-                              onBlur={handleBlur}
-                              isInvalid={touched.first_name && errors.first_name}
-                              maxLength="50"/>
-                <Form.Control.Feedback type="invalid">
-                  {errors.first_name}
-                </Form.Control.Feedback>
-              </Form.Group>
-
-              <Form.Group as={Col} md="4" sm="6" xs="12">
-                <Form.Label>
-                  <span className="question">{t('last_name')}</span> <span className="pc-color-text-secondary-dark">*</span>
-                </Form.Label>
-                <Form.Control placeholder={t('last_name')}
-                              name="last_name"
-                              onChange={event => setFieldValue("last_name", event.target.value.replace(/[^a-zA-Z\s]/g,''))}
-                              value={values.last_name}
-                              onBlur={handleBlur}
-                              isInvalid={touched.last_name && errors.last_name}
-                              maxLength="50"/>
-                <Form.Control.Feedback type="invalid">
-                  {errors.last_name}
-                </Form.Control.Feedback>
-              </Form.Group>
-
-              <Form.Group as={Col} md="3" sm="6" xs="6">
-                <Form.Label>
-                  <span className="question">{t('middle_name')}</span>
-                </Form.Label>
-                <Form.Control maxLength="50"
-                              name="middle_name"
-                              onChange={handleChange}
-                              value={values.middle_name}/>
-              </Form.Group>
-
-              <Form.Group as={Col} md="1" sm="6" xs="6">
-                <Form.Label>
-                  <span className="question">{t('suffix')}</span>
-                </Form.Label>
-                <Form.Control maxLength="50"
-                              name="suffix"
-                              onChange={handleChange}
-                              value={values.suffix}/>
-              </Form.Group>
-              
-            </Form.Row>
-            
-            <Form.Label>
-              <span className="question">{t('dob')}</span> <span className="pc-color-text-secondary-dark">*</span>
-            </Form.Label>
-            
-            <Form.Row>   
-                <Col lg="4" md="4" sm="6" xs="6">
-                  <Form.Control as="select"
-                                custom
-                                defaultValue=""
-                                name="dob_month"
-                                value={values.dob_month}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                isInvalid={touched.dob_month && errors.dob_month}
-                                >
-                    <option value="" disabled>{t('month')}</option>
-                    {monthOptions.map((option) => <option key={option.value} value={option.value}>{option.display}</option>)}
-                  </Form.Control>
-                  <Form.Control.Feedback type="invalid">
-                    {errors.dob_month}
-                  </Form.Control.Feedback>
-                </Col>
-
-                <Col lg="2" md="2" sm="3" xs="3">
-                  <Form.Control type="text"
-                                placeholder={t('day')}
-                                name="dob_date"
-                                value={values.dob_date}
-                                onChange={event => setFieldValue("dob_date", event.target.value.replace(/\D/g,''))}
-                                onBlur={handleBlur}
-                                maxLength="2"
-                                isInvalid={touched.dob_date && errors.dob_date}>
-                  </Form.Control>
-                  <Form.Control.Feedback type="invalid">
-                    {errors.dob_date}
-                  </Form.Control.Feedback>
-                </Col>
-
-                <Col lg="2" md="2" sm="3" xs="3">
-                  <Form.Control type="text"
-                                maxLength="4"
-                                name="dob_year"
-                                placeholder={t('year')}
-                                onChange={event => setFieldValue("dob_year", event.target.value.replace(/\D/g,''))}
-                                onBlur={handleBlur}
-                                value={values.dob_year}
-                                isInvalid={touched.dob_year && errors.dob_year}>
-                  </Form.Control>
-                  <Form.Control.Feedback type="invalid">
-                    {errors.dob_year}
-                  </Form.Control.Feedback>
-                </Col>
-                <Form.Group as={Col} md="12"> 
-                  <Form.Text muted className="pl-1">
-                    {t('dob_help_text')}
-                  </Form.Text>
-                  <Form.Text className="pl-1">
-                    { status.dob_valid &&
-                      <span className="pc-color-text-secondary-dark">
-                        {[status.dob_valid, <span>&nbsp;&nbsp;<a href="https://webcms.pima.gov/cms/One.aspx?pageId=669257" className="health-link-decoration">{pimaLink}</a></span>]}
-                      </span>
-                    }
-                  </Form.Text>
-                </Form.Group>
-            </Form.Row>
-
-            <input type="hidden" name="dob"></input>
 
             <Form.Row className="mt-2">
               <Form.Group as={Col}>
                 <Form.Label>
-                  <span className="question">{t('sex')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                  <span className="question">{t('leave_home')}</span> <span className="pc-color-text-secondary-dark">*</span>
                 </Form.Label>
                 <div className="mb-3">
-                  {Object.keys(props.choices.sex).map((key, index) => 
+                  {Object.keys(props.choices.leave_home).map((key, index) => 
                     <Form.Check type="radio"
-                                id={'sex_' + key}
+                                id={'leave_home_' + key}
                                 key={key}>
                       <Form.Check.Input 
                                 type="radio" 
-                                name="sex"
+                                name="leave_home"
                                 value={key}
-                                isInvalid={touched.sex && !!errors.sex}
-                                onChange={handleChange}
-                                checked={values.sex === key}
-                                />
+                                isInvalid={touched.leave_home && !!errors.leave_home}
+                                onChange={e => {
+                                  setFieldValue("leave_home", e.target.value);
+                                }}
+                                checked={values.leave_home === key}/>
                       <Form.Check.Label>
-                        { props.language === 'es' ? props.choices.sex[key].esp : props.choices.sex[key].eng}
-                      </Form.Check.Label>
-                      { index === Object.keys(props.choices.sex).length - 1 && 
+                        { props.language === 'es' ? props.choices.leave_home[key].esp : props.choices.leave_home[key].eng}
+                      </Form.Check.Label> 
+                      { index === Object.keys(props.choices.leave_home).length - 1 && 
                         <Form.Control.Feedback type="invalid">
-                          {errors.sex}
+                          {errors.leave_home}
                         </Form.Control.Feedback>
                       } 
                     </Form.Check>            
                   )}
-                </div>
-              </Form.Group>
-            </Form.Row>
-
-            <Form.Row>
-              <Form.Group as={Col} lg="4" md="6">
-                <Form.Label>
-                  <span className="question">{t('email')}</span> <span className="pc-color-text-secondary-dark">*</span>
-                </Form.Label>
-                <Form.Control type="email"
-                              name="email"
-                              onChange={e => {
-                                setFieldTouched('email');
-                                setFieldValue("email", e.target.value.replace(/[^\x00-\x7F]/g,''));
-                              }}
-                              value={values.email}
-                              onBlur={handleBlur}
-                              isInvalid={touched.email && errors.email}
-                              maxLength="150">
-                </Form.Control>
-                <Form.Control.Feedback type="invalid">
-                  {errors.email}
-                </Form.Control.Feedback>
-                <Form.Text className="text-muted">
-                  {t('email_help_text')}
-                </Form.Text>
-              </Form.Group>
-            </Form.Row>
-            
-
-            <h5>{t('Address')}</h5>
-
-            <Alert variant="info" className="mt-4">
-              {t('address_instructions')}
-            </Alert>
-
-            <Form.Group>
-              <Form.Label>
-                <span className="question">{t('local_street_address')}</span> <span className="pc-color-text-secondary-dark">*</span>
-              </Form.Label>
-              <Form.Control placeholder="1234 Main St"
-                            name="residential_address"
-                            value={values.residential_address}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            isInvalid={touched.residential_address && errors.residential_address}
-                            maxLength="60">
-              </Form.Control>
-              <Form.Control.Feedback type="invalid">
-                {errors.residential_address}
-              </Form.Control.Feedback>
-            </Form.Group>
-
-            <Form.Row>
-                <Form.Group as={Col} md="6" xs="12">
-                  <Form.Label>
-                    <span className="question">{t('city')}</span> <span className="pc-color-text-secondary-dark">*</span>
-                  </Form.Label>
-                  <Form.Control name="city"
-                                value={values.city}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                isInvalid={touched.city && errors.city}
-                                maxLength="40">
-                  </Form.Control>
-                  <Form.Control.Feedback type="invalid">
-                    {errors.city}
-                  </Form.Control.Feedback>
-                </Form.Group>
-
-                <Form.Group as={Col} md="3" xs="6">
-                  <Form.Label>
-                    <span className="question">{t('state')}</span> <span className="pc-color-text-secondary-dark">*</span>
-                  </Form.Label>
-                  <Form.Control as="select"
-                                value={values.state}
-                                placeholder="Select state"
-                                name="state"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                isInvalid={touched.state && errors.state}>
-                    {stateOptions.map((option) => <option key={option} value={option}>{option}</option>)}
-                  </Form.Control>
-                  <Form.Control.Feedback type="invalid">
-                    {errors.state}
-                  </Form.Control.Feedback>
-                </Form.Group>
-
-                <Form.Group as={Col} md="3" xs="6">
-                  <Form.Label>
-                    <span className="question">{t('zip_code')}</span> <span className="pc-color-text-secondary-dark">*</span>
-                  </Form.Label>
-                  <Form.Control name="zip"
-                                onChange={e => {
-                                  setFieldTouched('zip');
-                                  setFieldValue("zip", e.target.value.replace(/\D/,''))
-                                }}
-                                value={values.zip}
-                                maxLength="5"
-                                onBlur={handleBlur}
-                                isInvalid={touched.zip && (errors.zip || errors.zip_valid)}>
-                  </Form.Control>
-                  <Form.Control.Feedback type="invalid">
-                    {errors.zip}
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Text className="pl-1">
-                  { status.zip_error && <>
-                    <span className="pc-color-text-secondary-dark">
-                      {status.zip_error}
-                      
-                    </span>
-                    <div>
-                      <Button size="sm" 
-                              className="mt-3"
-                              variant="outline-primary"
-                              onClick={() => {setFieldValue("zip_valid", true); setStatus({zip_error: ''}); }}>
-                        Zip Code is Correct
-                      </Button> 
-                    </div>
-                  </>}
-                </Form.Text>
-            </Form.Row>
-
-            <Form.Row className="mt-3">
-              <Form.Group as={Col}>
-                <Form.Label>
-                  <span className="question">{t('phone_number')}</span> <span className="pc-color-text-secondary-dark">*</span>
-                </Form.Label>
-
-                <PhoneInput
-                  country={'us'}
-                  value={values.phone}
-                  onChange={ value => setFieldValue('phone', value)}
-                  onBlur={handleBlur}
-                  countryCodeEditable={false}
-                  disableDropdown={true}
-                  inputProps={{
-                    name: "phone",
-                  }}
-                />
-
-                { touched.phone && 
-                  <Form.Text className="pc-color-text-secondary-dark">
-                    {errors.phone}
-                  </Form.Text>
-                }
-
-              </Form.Group>
-            </Form.Row>
-
-            <Form.Row className="mt-3">
-              <Form.Group as={Col}>
-                <Form.Label>
-                  <span className="question">{t('already_recieved')}</span> <span className="pc-color-text-secondary-dark">*</span>
-                </Form.Label>
-                <Form.Text>{t('already_received_yes_help_text')}</Form.Text>
-                <Form.Text>{t('already_received_no_help_text')}</Form.Text>
-                <div className="mb-3 mt-3">
-                  <Form.Check
-                    name="received_first_dose"
-                    id="received_first_dose_no"
-                    type="radio"
-                    label={t('yes_no_answer_0')}
-                    value={false}
-                    checked={values.received_first_dose === 'false'}
-                    isInvalid={touched.received_first_dose && !!errors.received_first_dose}
-                    onChange={handleChange}
-                  />
-                  <Form.Check
-                    name="received_first_dose"
-                    id="received_first_dose_yes"
-                    type="radio"
-                    label={t('yes_no_answer_1')}
-                    value={true}
-                    checked={values.received_first_dose === 'true'}
-                    isInvalid={touched.received_first_dose && !!errors.received_first_dose}
-                    onChange={handleChange}
-                    feedback={errors.received_first_dose}
-                  />
                 </div>  
               </Form.Group>
             </Form.Row>
-
-            { values.received_first_dose === 'true' && 
+ 
+            {values.leave_home === '1' &&
               <>
-                <Form.Row>
-                  <Form.Group as={Col}>
-                    <Form.Label>
-                      <span className="question">{t('which_received')}</span> <span className="pc-color-text-secondary-dark">*</span>
-                    </Form.Label>
-                    <div className="mb-3">
+                <span className="pc-color-text-secondary-dark">{t('is_homebound')}
+                  <span>&nbsp;&nbsp;<a href="https://webcms.pima.gov/cms/One.aspx?pageId=669257" className="health-link-decoration">{t('pima_link')}</a></span>
+                </span>
+              </>
+            }        
 
-                      {Object.keys(props.choices.vaccine_type).map((key, index) => 
-                        <Form.Check type="radio"
-                                    id={'vaccine_type_' + key}
-                                    key={key}>
-                          <Form.Check.Input 
-                                    type="radio" 
-                                    name="vaccine_type"
-                                    value={key}
-                                    checked={values.vaccine_type === key}
-                                    isInvalid={touched.vaccine_type && !!errors.vaccine_type}
-                                    onChange={handleChange}/>
-                          <Form.Check.Label>
-                            { props.language === 'es' ? props.choices.vaccine_type[key].esp : props.choices.vaccine_type[key].eng}
-                          </Form.Check.Label>
-                          { index === Object.keys(props.choices.vaccine_type).length - 1 && 
-                            <Form.Control.Feedback type="invalid">
-                              {errors.vaccine_type}
-                            </Form.Control.Feedback>
-                          } 
-                        </Form.Check>            
-                      )}
-                    </div>
-                  </Form.Group>
-                </Form.Row>
+            {values.leave_home === '0' &&
+              <>
+              <Form.Row className="mt-5">
 
-                <Form.Label>
-                  <span className="question">{t('date_received')}</span>
-                </Form.Label>
-                <Form.Row>
-                  <Form.Group as={Col} md="4" sm="6" xs="12">
-                    <DatePicker
-                      name="first_dose_date"
-                      selected={values.first_dose_date}
-                      onChange={ date => setFieldValue('first_dose_date', date)}
-                      maxDate={new Date()}
-                      minDate={new Date(Date.parse("12-1-2020"))}
-                      onBlur={handleBlur}
-                      customInput={
-                        <CustomDatepickerInput
-                          isInvalid={touched.first_dose_date && errors.first_dose_date}
-                          errors={errors}
-                        />
-                      }
-                    />
-                  </Form.Group>
-                </Form.Row>
+                { props.showModal && 
+                  <AddressModal handleClose={props.closeAddressModal}
+                                continueAddressModal={props.continueAddressModal}
+                                show={props.showModal}
+                                addressCandidates={props.addressCandidates}
+                                start={props.start}
+                                language={props.language}>
+                  </AddressModal>
+                }
+                <Form.Group as={Col} md="4" sm="6" xs="12">
+                  <Form.Label>
+                    <span className="question">{t('first_name')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                  </Form.Label>
+                  <Form.Control placeholder={t('first_name')}
+                                name="first_name"
+                                onChange={event => setFieldValue("first_name", event.target.value.replace(/[^a-zA-Z\s]/g,''))}
+                                value={values.first_name}
+                                onBlur={handleBlur}
+                                isInvalid={touched.first_name && errors.first_name}
+                                maxLength="50"/>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.first_name}
+                  </Form.Control.Feedback>
+                </Form.Group>
 
-                <Form.Row>
-                  <Form.Group as={Col}>
-                    <Form.Label>
-                      <span className="question">{t('where_received')}</span> <span className="pc-color-text-secondary-dark">*</span>
-                    </Form.Label>
-                    <div className="mb-3">
-                      {Object.keys(props.choices.locations).map((key, index) => 
-                        <Form.Check type="radio"
-                                    id={'first_dose_loc_' + key}
-                                    key={key}>
-                          <Form.Check.Input 
-                                    type="radio" 
-                                    name="first_dose_loc"
-                                    value={key}
-                                    checked={values.first_dose_loc === key}
-                                    isInvalid={touched.first_dose_loc && !!errors.first_dose_loc}
-                                    onChange={handleChange}/>
-                          <Form.Check.Label>
-                            { props.language === 'es' ? props.choices.locations[key].esp : props.choices.locations[key].eng}
-                          </Form.Check.Label> 
-                          { index === Object.keys(props.choices.locations).length - 1 && 
-                            <Form.Control.Feedback type="invalid">
-                              {errors.first_dose_loc}
-                            </Form.Control.Feedback>
-                          } 
-                        </Form.Check>            
-                      )}
-                    </div>
-                  </Form.Group>
-                </Form.Row>
+                <Form.Group as={Col} md="4" sm="6" xs="12">
+                  <Form.Label>
+                    <span className="question">{t('last_name')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                  </Form.Label>
+                  <Form.Control placeholder={t('last_name')}
+                                name="last_name"
+                                onChange={event => setFieldValue("last_name", event.target.value.replace(/[^a-zA-Z\s]/g,''))}
+                                value={values.last_name}
+                                onBlur={handleBlur}
+                                isInvalid={touched.last_name && errors.last_name}
+                                maxLength="50"/>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.last_name}
+                  </Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group as={Col} md="3" sm="6" xs="6">
+                  <Form.Label>
+                    <span className="question">{t('middle_name')}</span>
+                  </Form.Label>
+                  <Form.Control maxLength="50"
+                                name="middle_name"
+                                onChange={handleChange}
+                                value={values.middle_name}/>
+                </Form.Group>
+
+                <Form.Group as={Col} md="1" sm="6" xs="6">
+                  <Form.Label>
+                    <span className="question">{t('suffix')}</span>
+                  </Form.Label>
+                  <Form.Control maxLength="50"
+                                name="suffix"
+                                onChange={handleChange}
+                                value={values.suffix}/>
+                </Form.Group>
                 
-                { values.first_dose_loc === '8' &&
+              </Form.Row>
+              
+              <Form.Label>
+                <span className="question">{t('dob')}</span> <span className="pc-color-text-secondary-dark">*</span>
+              </Form.Label>
+              
+              <Form.Row>   
+                  <Col lg="4" md="4" sm="6" xs="6">
+                    <Form.Control as="select"
+                                  custom
+                                  defaultValue=""
+                                  name="dob_month"
+                                  value={values.dob_month}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  isInvalid={touched.dob_month && errors.dob_month}
+                                  >
+                      <option value="" disabled>{t('month')}</option>
+                      {monthOptions.map((option) => <option key={option.value} value={option.value}>{option.display}</option>)}
+                    </Form.Control>
+                    <Form.Control.Feedback type="invalid">
+                      {errors.dob_month}
+                    </Form.Control.Feedback>
+                  </Col>
+
+                  <Col lg="2" md="2" sm="3" xs="3">
+                    <Form.Control type="text"
+                                  placeholder={t('day')}
+                                  name="dob_date"
+                                  value={values.dob_date}
+                                  onChange={event => setFieldValue("dob_date", event.target.value.replace(/\D/g,''))}
+                                  onBlur={handleBlur}
+                                  maxLength="2"
+                                  isInvalid={touched.dob_date && errors.dob_date}>
+                    </Form.Control>
+                    <Form.Control.Feedback type="invalid">
+                      {errors.dob_date}
+                    </Form.Control.Feedback>
+                  </Col>
+
+                  <Col lg="2" md="2" sm="3" xs="3">
+                    <Form.Control type="text"
+                                  maxLength="4"
+                                  name="dob_year"
+                                  placeholder={t('year')}
+                                  onChange={event => setFieldValue("dob_year", event.target.value.replace(/\D/g,''))}
+                                  onBlur={handleBlur}
+                                  value={values.dob_year}
+                                  isInvalid={touched.dob_year && errors.dob_year}>
+                    </Form.Control>
+                    <Form.Control.Feedback type="invalid">
+                      {errors.dob_year}
+                    </Form.Control.Feedback>
+                  </Col>
+                  <Form.Group as={Col} md="12"> 
+                    <Form.Text muted className="pl-1">
+                      {t('dob_help_text')}
+                    </Form.Text>
+                    <Form.Text className="pl-1">
+                      { status.dob_valid &&
+                        <span className="pc-color-text-secondary-dark">
+                          {[status.dob_valid, <span>&nbsp;&nbsp;<a href="https://webcms.pima.gov/cms/One.aspx?pageId=669257" className="health-link-decoration">{pimaLink}</a></span>]}
+                        </span>
+                      }
+                    </Form.Text>
+                  </Form.Group>
+              </Form.Row>
+
+              <input type="hidden" name="dob"></input>
+
+              <Form.Row className="mt-2">
+                <Form.Group as={Col}>
+                  <Form.Label>
+                    <span className="question">{t('sex')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                  </Form.Label>
+                  <div className="mb-3">
+                    {Object.keys(props.choices.sex).map((key, index) => 
+                      <Form.Check type="radio"
+                                  id={'sex_' + key}
+                                  key={key}>
+                        <Form.Check.Input 
+                                  type="radio" 
+                                  name="sex"
+                                  value={key}
+                                  isInvalid={touched.sex && !!errors.sex}
+                                  onChange={handleChange}
+                                  checked={values.sex === key}
+                                  />
+                        <Form.Check.Label>
+                          { props.language === 'es' ? props.choices.sex[key].esp : props.choices.sex[key].eng}
+                        </Form.Check.Label>
+                        { index === Object.keys(props.choices.sex).length - 1 && 
+                          <Form.Control.Feedback type="invalid">
+                            {errors.sex}
+                          </Form.Control.Feedback>
+                        } 
+                      </Form.Check>            
+                    )}
+                  </div>
+                </Form.Group>
+              </Form.Row>
+
+              <Form.Row>
+                <Form.Group as={Col} lg="4" md="6">
+                  <Form.Label>
+                    <span className="question">{t('email')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                  </Form.Label>
+                  <Form.Control type="email"
+                                name="email"
+                                onChange={e => {
+                                  setFieldTouched('email');
+                                  setFieldValue("email", e.target.value.replace(/[^\x00-\x7F]/g,''));
+                                }}
+                                value={values.email}
+                                onBlur={handleBlur}
+                                isInvalid={touched.email && errors.email}
+                                maxLength="150">
+                  </Form.Control>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.email}
+                  </Form.Control.Feedback>
+                  <Form.Text className="text-muted">
+                    {t('email_help_text')}
+                  </Form.Text>
+                </Form.Group>
+              </Form.Row>
+              
+
+              <h5>{t('Address')}</h5>
+
+              <Alert variant="info" className="mt-4">
+                {t('address_instructions')}
+              </Alert>
+
+              <Form.Group>
+                <Form.Label>
+                  <span className="question">{t('local_street_address')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                </Form.Label>
+                <Form.Control placeholder="1234 Main St"
+                              name="residential_address"
+                              value={values.residential_address}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              isInvalid={touched.residential_address && errors.residential_address}
+                              maxLength="60">
+                </Form.Control>
+                <Form.Control.Feedback type="invalid">
+                  {errors.residential_address}
+                </Form.Control.Feedback>
+              </Form.Group>
+
+              <Form.Row>
+                  <Form.Group as={Col} md="6" xs="12">
+                    <Form.Label>
+                      <span className="question">{t('city')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                    </Form.Label>
+                    <Form.Control name="city"
+                                  value={values.city}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  isInvalid={touched.city && errors.city}
+                                  maxLength="40">
+                    </Form.Control>
+                    <Form.Control.Feedback type="invalid">
+                      {errors.city}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+
+                  <Form.Group as={Col} md="3" xs="6">
+                    <Form.Label>
+                      <span className="question">{t('state')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                    </Form.Label>
+                    <Form.Control as="select"
+                                  value={values.state}
+                                  placeholder="Select state"
+                                  name="state"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  isInvalid={touched.state && errors.state}>
+                      {stateOptions.map((option) => <option key={option} value={option}>{option}</option>)}
+                    </Form.Control>
+                    <Form.Control.Feedback type="invalid">
+                      {errors.state}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+
+                  <Form.Group as={Col} md="3" xs="6">
+                    <Form.Label>
+                      <span className="question">{t('zip_code')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                    </Form.Label>
+                    <Form.Control name="zip"
+                                  onChange={e => {
+                                    setFieldTouched('zip');
+                                    setFieldValue("zip", e.target.value.replace(/\D/,''))
+                                  }}
+                                  value={values.zip}
+                                  maxLength="5"
+                                  onBlur={handleBlur}
+                                  isInvalid={touched.zip && (errors.zip || errors.zip_valid)}>
+                    </Form.Control>
+                    <Form.Control.Feedback type="invalid">
+                      {errors.zip}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                  <Form.Text className="pl-1">
+                    { status.zip_error && <>
+                      <span className="pc-color-text-secondary-dark">
+                        {status.zip_error}
+                        
+                      </span>
+                      <div>
+                        <Button size="sm" 
+                                className="mt-3"
+                                variant="outline-primary"
+                                onClick={() => {setFieldValue("zip_valid", true); setStatus({zip_error: ''}); }}>
+                          Zip Code is Correct
+                        </Button> 
+                      </div>
+                    </>}
+                  </Form.Text>
+              </Form.Row>
+
+              <Form.Row className="mt-3">
+                <Form.Group as={Col}>
+                  <Form.Label>
+                    <span className="question">{t('phone_number')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                  </Form.Label>
+
+                  <PhoneInput
+                    country={'us'}
+                    value={values.phone}
+                    onChange={ value => setFieldValue('phone', value)}
+                    onBlur={handleBlur}
+                    countryCodeEditable={false}
+                    disableDropdown={true}
+                    inputProps={{
+                      name: "phone",
+                    }}
+                  />
+
+                  { touched.phone && 
+                    <Form.Text className="pc-color-text-secondary-dark">
+                      {errors.phone}
+                    </Form.Text>
+                  }
+
+                </Form.Group>
+              </Form.Row>
+
+              <Form.Row className="mt-3">
+                <Form.Group as={Col}>
+                  <Form.Label>
+                    <span className="question">{t('already_recieved')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                  </Form.Label>
+                  <Form.Text>{t('already_received_yes_help_text')}</Form.Text>
+                  <Form.Text>{t('already_received_no_help_text')}</Form.Text>
+                  <div className="mb-3 mt-3">
+                    <Form.Check
+                      name="received_first_dose"
+                      id="received_first_dose_no"
+                      type="radio"
+                      label={t('yes_no_answer_0')}
+                      value={false}
+                      checked={values.received_first_dose === 'false'}
+                      isInvalid={touched.received_first_dose && !!errors.received_first_dose}
+                      onChange={handleChange}
+                    />
+                    <Form.Check
+                      name="received_first_dose"
+                      id="received_first_dose_yes"
+                      type="radio"
+                      label={t('yes_no_answer_1')}
+                      value={true}
+                      checked={values.received_first_dose === 'true'}
+                      isInvalid={touched.received_first_dose && !!errors.received_first_dose}
+                      onChange={handleChange}
+                      feedback={errors.received_first_dose}
+                    />
+                  </div>  
+                </Form.Group>
+              </Form.Row>
+
+              { values.received_first_dose === 'true' && 
+                <>
                   <Form.Row>
-                    <Form.Group as={Col} md="4" sm="6" xs="12">
+                    <Form.Group as={Col}>
                       <Form.Label>
-                        <span className="question">{t('first_does_other_location')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                        <span className="question">{t('which_received')}</span> <span className="pc-color-text-secondary-dark">*</span>
                       </Form.Label>
-                      <Form.Control name="first_dose_other_loc"
-                                    onChange={handleChange}
-                                    value={values.first_dose_other_loc}
-                                    onBlur={handleBlur}
-                                    isInvalid={touched.first_dose_other_loc && errors.first_dose_other_loc}
-                                    maxLength="100"/>
-                      <Form.Control.Feedback type="invalid">
-                        {errors.first_dose_other_loc}
-                      </Form.Control.Feedback>
+                      <div className="mb-3">
+
+                        {Object.keys(props.choices.vaccine_type).map((key, index) => 
+                          <Form.Check type="radio"
+                                      id={'vaccine_type_' + key}
+                                      key={key}>
+                            <Form.Check.Input 
+                                      type="radio" 
+                                      name="vaccine_type"
+                                      value={key}
+                                      checked={values.vaccine_type === key}
+                                      isInvalid={touched.vaccine_type && !!errors.vaccine_type}
+                                      onChange={handleChange}/>
+                            <Form.Check.Label>
+                              { props.language === 'es' ? props.choices.vaccine_type[key].esp : props.choices.vaccine_type[key].eng}
+                            </Form.Check.Label>
+                            { index === Object.keys(props.choices.vaccine_type).length - 1 && 
+                              <Form.Control.Feedback type="invalid">
+                                {errors.vaccine_type}
+                              </Form.Control.Feedback>
+                            } 
+                          </Form.Check>            
+                        )}
+                      </div>
                     </Form.Group>
                   </Form.Row>
+
+                  <Form.Label>
+                    <span className="question">{t('date_received')}</span>
+                  </Form.Label>
+                  <Form.Row>
+                    <Form.Group as={Col} md="4" sm="6" xs="12">
+                      <DatePicker
+                        name="first_dose_date"
+                        selected={values.first_dose_date}
+                        onChange={ date => setFieldValue('first_dose_date', date)}
+                        maxDate={new Date()}
+                        minDate={new Date(Date.parse("12-1-2020"))}
+                        onBlur={handleBlur}
+                        customInput={
+                          <CustomDatepickerInput
+                            isInvalid={touched.first_dose_date && errors.first_dose_date}
+                            errors={errors}
+                          />
+                        }
+                      />
+                    </Form.Group>
+                  </Form.Row>
+
+                  <Form.Row>
+                    <Form.Group as={Col}>
+                      <Form.Label>
+                        <span className="question">{t('where_received')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                      </Form.Label>
+                      <div className="mb-3">
+                        {Object.keys(props.choices.locations).map((key, index) => 
+                          <Form.Check type="radio"
+                                      id={'first_dose_loc_' + key}
+                                      key={key}>
+                            <Form.Check.Input 
+                                      type="radio" 
+                                      name="first_dose_loc"
+                                      value={key}
+                                      checked={values.first_dose_loc === key}
+                                      isInvalid={touched.first_dose_loc && !!errors.first_dose_loc}
+                                      onChange={handleChange}/>
+                            <Form.Check.Label>
+                              { props.language === 'es' ? props.choices.locations[key].esp : props.choices.locations[key].eng}
+                            </Form.Check.Label> 
+                            { index === Object.keys(props.choices.locations).length - 1 && 
+                              <Form.Control.Feedback type="invalid">
+                                {errors.first_dose_loc}
+                              </Form.Control.Feedback>
+                            } 
+                          </Form.Check>            
+                        )}
+                      </div>
+                    </Form.Group>
+                  </Form.Row>
+                  
+                  { values.first_dose_loc === '8' &&
+                    <Form.Row>
+                      <Form.Group as={Col} md="4" sm="6" xs="12">
+                        <Form.Label>
+                          <span className="question">{t('first_does_other_location')}</span> <span className="pc-color-text-secondary-dark">*</span>
+                        </Form.Label>
+                        <Form.Control name="first_dose_other_loc"
+                                      onChange={handleChange}
+                                      value={values.first_dose_other_loc}
+                                      onBlur={handleBlur}
+                                      isInvalid={touched.first_dose_other_loc && errors.first_dose_other_loc}
+                                      maxLength="100"/>
+                        <Form.Control.Feedback type="invalid">
+                          {errors.first_dose_other_loc}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </Form.Row>
+                  }
+                  
+                </>
+              }
+
+              <Button type="submit" className="mt-5">
+                {t('next')}
+                { !props.addressLoading && 
+                  <ArrowRight className="ml-2"></ArrowRight>
                 }
-                
-              </>
-            }
-
-            <Button type="submit" className="mt-5">
-              {t('next')}
-              { !props.addressLoading && 
-                <ArrowRight className="ml-2"></ArrowRight>
-              }
-              { props.addressLoading && 
-                <Spinner
-                  className="ml-2"
-                  as="span"
-                  animation="border"
-                  size="sm"
-                />
-              }
-            </Button>
+                { props.addressLoading && 
+                  <Spinner
+                    className="ml-2"
+                    as="span"
+                    animation="border"
+                    size="sm"
+                  />
+                }
+              </Button>
             
-
+            </>
+            }  
             <BirthdayCheck language={language}></BirthdayCheck>
             <ZipcodeCheck language={language}></ZipcodeCheck>
             <FormikErrorFocus />

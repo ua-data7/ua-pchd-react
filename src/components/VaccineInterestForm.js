@@ -203,7 +203,8 @@ class VaccineInterestForm extends Component {
       ltc: 0,
       occupation: screening.occupation ? parseInt(screening.occupation) : 0,
       disability: 0,
-      leave_home: parseInt(screening.leave_home),
+      leave_home: 0,
+      // leave_home: parseInt(screening.leave_home),
     };
 
     const authz_code = Cookies.get('authz_code');
@@ -224,23 +225,22 @@ class VaccineInterestForm extends Component {
     }
 
     payload['caretakers'] = [7]
-    
-    if (screening.leave_home === '0') {
-      let homebound = {
-        transportation: parseInt(screening.transportation),
-        pref_contact: parseInt(screening.pref_contact),
-      }
-      
-      if (screening.pref_contact === '5') {
-        homebound['representative'] = {
-          first_name: screening.rep_first_name,
-          last_name: screening.rep_last_name,
-          phone: screening.rep_phone,
-          email: screening.rep_email
-        }
-      }
-      payload['homebound'] = homebound;
+
+    let homebound = {
+      transportation: parseInt(screening.transportation),
+      pref_contact: parseInt(screening.pref_contact),
     }
+    
+    if (screening.pref_contact === '5') {
+      homebound['representative'] = {
+        first_name: screening.rep_first_name,
+        last_name: screening.rep_last_name,
+        phone: screening.rep_phone,
+        email: screening.rep_email
+      }
+    }
+    payload['homebound'] = homebound;
+
 
     let submission = {
       headers: {
