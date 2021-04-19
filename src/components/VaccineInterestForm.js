@@ -214,7 +214,7 @@ class VaccineInterestForm extends Component {
     } else {
       payload['recaptcha_token'] = this.state.captcha;
     }
-debugger
+
     if (start.received_first_dose === "true") {
       payload['first_dose_date'] = moment(start.first_dose_date).format("YYYY-MM-DD");
       payload['first_dose_loc'] = parseInt(start.first_dose_loc);
